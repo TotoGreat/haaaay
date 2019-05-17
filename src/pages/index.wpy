@@ -1,0 +1,203 @@
+<style lang="less">
+  .v-title{
+    width: 690rpx;
+    margin: 120rpx auto;
+    font-size: 50rpx;
+    font-weight: 600;
+    
+  }
+  .v-line{
+    font-size: 30rpx;
+    display: flex;
+    width: 690rpx;
+    height: 60rpx;
+    margin: 30rpx auto;
+    border-bottom: 1px solid #f1f1f1;
+    justify-content: space-around;
+    image{
+      width: 50rpx;
+      height: 50rpx;
+    }
+    input{
+      width: 400rpx;
+    }
+    view{
+      width: 200rpx;
+      line-height: 50rpx;
+      text-align: center;
+    }
+    button::after{
+      border:none;
+    }
+    .v-goyz{
+      width: 200rpx;
+      color: #FF6702;
+      border: none;
+      background: #fff;
+      margin: 0;
+      padding: 0;
+      font-size: 30rpx;
+      line-height: 50rpx;
+      text-align: center;
+    }
+    .v-yz{
+      color:#808080;
+    }
+  }
+  .v-sub{
+    width: 420rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: 10rpx;
+    margin: 70rpx auto;
+    background: #FF6702;
+    color:#fff;
+    font-size: 30rpx;
+    text-align: center;
+  }
+</style>
+<template>
+    <view>
+      <view class="v-title">您好，请先登录</view>
+      <view class='v-line'>
+          <image src="../img/phone.png" mode="widthFix"/><input placeholder="请输入手机号" bindinput="setphone"/><view></view>
+      </view>
+      <view class='v-line'>
+          <image src="../img/nock.png" mode="widthFix"/><input placeholder="请输入验证码" bindinput="setcode"/><button wx:if="{{goyz}}" open-type="getUserInfo" class="v-goyz" @tap="goyz">获取验证码</button><view class="v-yz" wx:else>({{time}})秒</view>
+      </view>
+      <view class='v-sub' @tap="sub">提交</view>
+    </view>
+</template>
+  
+<script>
+  import wepy from 'wepy'
+  import { sendCode,register } from '../api/api';
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '登录'
+    }
+    components = {
+    }
+    data = {
+      goyz:true,
+      time:60,
+      phone:'',
+      code:'',
+      lx:''
+    }
+
+    computed = {
+      now () {
+        return +new Date()
+      }
+    }
+
+    methods = {
+     async goyz(){
+        if(!(/^1[34578]\d{9}$/.test(this.phone))){ 
+        wx.showToast({
+          title:"请输入正确手机号",
+          icon:"none"
+        });  
+        return false; 
+        }
+        this.goyz=false;
+        let ytime=this.time
+        let yztime=setInterval(() => {
+          ytime = --this.time
+          this.$apply()
+          if(ytime==0){
+            clearInterval(yztime)
+            this.time=60;
+            this.goyz=true;
+            this.$apply()
+          }
+        }, 1000);
+        let code = await this.sendCode()
+        wx.showToast({
+          title:'验证码为'+code.code,
+          icon:"none"
+        });
+        console.log(code)  
+      },
+      async sub(){
+        if(this.code==''||this.phone==''){
+          wx.showToast({
+          title:'请输入完整信息',
+          icon:"none"
+        });
+        }else{
+        let pass= await this.register()
+        if(pass.code=="10001"){
+        if(this.lx=='1'){
+          wx.navigateTo({
+          url:'ayhome'
+        })
+        }
+        }else{
+          console.log(pass)
+          wx.showToast({
+          title:pass.msg,
+          icon:"none"
+        });
+          
+        }
+        }
+      },
+      //更新手机号码
+      setphone(e){
+        this.phone=e.detail.value
+        this.$apply()
+      },
+      //更新验证码
+      setcode(e){
+        this.code=e.detail.value
+        this.$apply()
+      }
+    }
+    async sendCode(){
+      try{
+        wx.showLoading({
+          title:'获取中'
+        });
+        let res= await sendCode({
+          phoneNum:this.phone
+        });
+        if(res.data.code){
+          
+        }
+        setTimeout(function() {
+        wx.hideLoading();
+      }, 500);
+      console.log(res);
+      return res.data.data;
+      }catch(e){
+        console.log(e);
+        
+      }
+    }
+    async register(){
+      try{
+        wx.showLoading({title:"登录中"});
+        let res= await register({
+          phoneNum:this.phone,
+          code:this.code,
+          openid:wx.getStorageSync('openid'),
+          type:this.lx
+        });
+        if(res.data.code){
+
+        }setTimeout(() => {
+          wx.hideLoading()
+        }, 500);
+        console.log(res)
+        return res.data
+      }catch(e){}
+    }
+    onLoad(option){
+      console.log(option)
+      this.lx=option.type
+      this.$apply()
+    }
+  }
+</script>

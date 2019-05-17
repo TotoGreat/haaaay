@@ -1,0 +1,71 @@
+<style lang="less">
+
+</style>
+<template>
+<block>
+    <view class="p-line"  wx:key="index">
+              <view class="p-left">
+                  <image src="../img/a{{type}}.png" />
+              </view>
+              <view class="p-right">
+              <view class="p-info">
+                  <text class="p-type">{{typeName}}</text><text class="p-vil">{{village}}</text>
+                  <text class='p-wag'>{{userWagesLow}}-{{userWagesHigh}}元/月</text>
+              </view>
+                <!-- <view class="p-tag">
+                    <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
+                        <view>{{item}}</view>
+                    </view>
+                    </view> -->
+              </view>
+          </view>
+    <view class='v-box'>阿姨描述</view>
+    <view class='v-line'>
+        <view>谁看过我</view>
+        <view>
+            <view></view>
+            <view>{{}}</view>
+        </view>
+    </view>
+</block>
+</template>
+<script>
+import wepy from 'wepy'
+import {fbdetail} from '../api/api'
+export default class fbpage extends wepy.page{
+config = {
+      navigationBarTitleText: '阿姨详情'
+    }
+    data={
+       type:'',
+       typeName:'',
+       village:'',
+       userWagesLow:'',
+       userWagesHigh:'',
+    }
+    methods={
+      
+    }
+    onLoad(opt){
+        fbdetail({sessionkey:opt.sessionkey,publish_id:opt.id}).then(res=>{
+            if(res.data.code=='10001'){
+            this.info=res.data.data
+            let cont=res.data.data.serviceContent.replace(/\\n/g,"\n")
+            this.serviceContent=cont
+            this.$apply()
+            }else{
+                wx.showModal({
+                content: '网络出问题啦',
+                showCancel: false,
+                success: function(res) {
+                if (res.confirm) {
+              
+            }
+          }
+        })
+            }
+        })
+    }
+
+    }
+</script>

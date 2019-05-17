@@ -1,0 +1,129 @@
+<style lang="less">
+view{
+    width: 750rpx;
+        height: 100%;
+        position: fixed;
+        left: 0;
+        top: 0;
+        image{
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+        button{
+            margin-top: 600rpx;
+            width: 200rpx;
+            height: 200rpx;
+            line-height: 200rpx;
+            border-radius: 300rpx;
+            background: #43FC27;
+            color: #fff;
+            z-index:999;
+
+        }
+}
+</style>
+<template>
+    <view>
+    <button open-type="getUserInfo" class="v-goyz" bindgetuserinfo="onGotUserInfo">点击授权</button>
+    <image src="../img/timg.png"/>
+    </view>
+</template>
+<script>
+import wepy from 'wepy'
+import {logina} from '../api/api'
+export default class loginpage extends wepy.page{
+config = {
+      navigationBarTitleText: '好阿姨'
+    }
+    data={
+        userInfo:'',
+        encryptedData:'',
+        iv:'',
+        signature:'',
+        code:'',
+        openid:''
+        
+    }
+    methods={
+      async onGotUserInfo(e) {
+        var that = this
+        if(e.detail.errMsg=='getUserInfo:ok'){
+        console.log(e)
+        wx.setStorageSync('userInfo', e.detail.userInfo)
+                that.userInfo=e.detail.userInfo
+                that.encryptedData = e.detail.encryptedData
+                that.iv = e.detail.iv
+                that.signature = e.detail.signature
+                wx.login({
+                    success(res){
+                        console.log(res)
+                        that.code=res.code
+                        that.$apply()
+                        that.logina()
+                        setTimeout(() => {
+                        let session_key = wx.getStorageSync('sessionkey')
+                        let openid = wx.getStorageSync('openid')
+                        let userInfo = wx.getStorageSync('userInfo')
+                        wx.reLaunch({
+                        url:'chooseuser?openid='+openid+'&name='+userInfo.nickName+'&sex='+userInfo.gender+'&headimg='+userInfo.avatarUrl+'&sessionkey='+session_key
+                        })
+                        }, 500);
+                        
+                    }
+                })
+                }else{
+
+                }
+        
+      },
+      
+    }
+    async logina(){
+      try{
+        wx.showLoading({
+          title:'登录中'
+        });
+        let res= await logina({
+          code:this.code
+        });
+        setTimeout(function() {
+        wx.hideLoading();
+      }, 500);
+      console.log(res);
+      wx.setStorageSync('openid',res.data.data.openid)
+      wx.setStorageSync('sessionkey',res.data.data.session_key)
+      wx.setStorageSync('userdetails',res.data.data)
+      return res.data.data;
+      }catch(e){
+        console.log(e);
+        
+      }
+    }
+    onLoad(){
+        var that=this;
+        wx.getStorage({
+            key:'userInfo',
+            success:function (res) {
+                wx.login({
+                    success(resq){
+                        console.log(resq)
+                        that.code=resq.code
+                        that.$apply()
+                        that.logina()
+                    }
+                })
+                setTimeout(() => {
+                        let session_key = wx.getStorageSync('sessionkey')
+                        let openid = wx.getStorageSync('openid')
+                        let userInfo = wx.getStorageSync('userInfo')
+                        wx.reLaunch({
+                        url:'chooseuser?openid='+openid+'&name='+userInfo.nickName+'&sex='+userInfo.gender+'&headimg='+userInfo.avatarUrl+'&sessionkey='+session_key
+                        })
+                        }, 500);
+            }
+        })
+    }
+}
+</script>
