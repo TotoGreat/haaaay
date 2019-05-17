@@ -1,0 +1,23 @@
+<template>
+    <view class="ts">
+        开发中，敬请期待...
+    </view>
+</template>
+<style lang="less" scoped>
+    .ts{
+        text-align: center;
+        line-height: 700rpx;
+    }
+</style>
+<script>
+import wepy from 'wepy'
+import {logina} from '../api/api'
+export default class errorpage extends wepy.page{
+config = {
+      navigationBarTitleText: '开发中'
+    }
+    data={
+        
+    }
+    }
+</script>

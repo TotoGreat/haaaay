@@ -1,0 +1,120 @@
+<style lang="less">
+    .v-line{
+        width: 700rpx;
+        margin: 0 auto;
+        overflow: hidden;
+        border-bottom: 1px solid #e9e9e9;
+        font-size: 30rpx;
+        line-height: 90rpx;
+        .line-left{
+            float: left;
+            width: 150rpx;
+        }
+        image{
+            width: 80rpx;
+            height: 80rpx;
+            border-radius: 80rpx;
+            float: right;
+            position:relative;
+            top:20rpx;
+
+        }
+        input{
+            float: right;
+            width: 500rpx;
+            text-align: right;
+            position:relative;
+            top:20rpx;
+        }
+    }
+    .line-one{
+        line-height: 120rpx;
+    }
+    .sub{
+        position: fixed;
+        bottom: 100rpx;
+        width: 400rpx;
+        left:175rpx;
+        background: #FF6702;
+        color: #ffffff;
+        text-align:center;
+        font-size:30rpx;
+        line-height:80rpx;
+        border-radius:27rpx;
+    }
+</style>
+<template>
+<block>
+    <view class="v-line line-one"><view class="line-left">头像</view><image src="{{userInfo.photo}}" /></view>
+    <view class="v-line"><view class="line-left">姓名</view><input type="text" @input="s1" value="{{userInfo.name}}"/></view>
+    <view class="v-line"><view class="line-left">性别</view><input type="text" @input="s2" value="{{userInfo.sex==1?'男':'女'}}"/></view>
+    <view class="v-line"><view class="line-left">手机号</view><input type="number" @input="s3" value="{{userInfo.phone}}"/></view>
+    <view class="v-line"><view class="line-left">服务地址</view><input type="text" @input="s4" value="{{userInfo.village}}"/></view>
+    <view class="sub" @tap="sub">保存</view>
+</block>
+</template>
+<script>
+import wepy from 'wepy'
+import {information} from '../../api/api'
+export default class errorpage extends wepy.page{
+config = {
+      navigationBarTitleText: '个人信息'
+    }
+    data={
+        userInfo:'',
+        name:'',
+        sex:'',
+        contact:'',
+        village:'',
+        area:'南京'
+    }
+    methods={
+        sub(e){
+           information({
+               sessionkey:this.userInfo.sessionkey,
+               name:this.name,
+               sex:this.sex,
+               contact:this.contact,
+               village:this.village,
+               area:''
+           }).then(res=>{
+               console.log(res)
+               if(res.data.code=="10001"){
+                   wx.showToast({
+                     title:'更新成功',
+                     icon: 'none',
+                 })
+            setTimeout(() => {
+                wx.navigateBack({
+            delta: 1 
+ 
+            })
+            }, 1000);
+            
+               }
+           })
+        },
+        s1(e){
+            this.name=e.detail.value
+            this.$apply()
+        },
+        s2(e){
+            this.sex=e.detail.value
+            this.$apply()
+        },
+        s3(e){
+            this.contact=e.detail.value
+            this.$apply()
+        },
+        s4(e){
+            this.village=e.detail.value
+            this.$apply()
+        }
+    }
+    onLoad(opt){
+        let options=JSON.parse(opt.case)
+        this.userInfo=options
+        this.$apply()
+    }
+    }
+</script>

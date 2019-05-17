@@ -1,0 +1,106 @@
+<style lang="less">
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+</style>
+
+<script>
+import wepy from 'wepy'
+import 'wepy-async-function'
+import G from './api/global';
+export default class extends wepy.app {
+  config = {
+    pages: [
+      'pages/loginpage',//用户第一次进入授权页
+      'pages/chooseuser',//选择登录人
+      'pages/index',//登陆页
+      'pages/ayhome',//阿姨端登录中心
+      'pages/gshome',//家政公司中心
+      'pages/yzhome',//业主中心
+      'pages/center/personcenter',//个人信息
+      'pages/errorpage',//跳转失败指向页面
+      'pages/publish',//发布表单
+      'pages/fbdetails',//我的发布详情
+      'pages/zwdetails',//职位详情
+    ],
+    window: {
+      backgroundTextStyle: 'light',
+      navigationBarBackgroundColor: '#fff',
+      navigationBarTitleText: '好阿姨',
+      navigationBarTextStyle: 'black'
+    }
+  }
+
+  globalData = {
+    userInfo: null
+  }
+
+  constructor () {
+    super()
+    this.use('requestfix'),
+    // 使API promise化
+    this.use('promisify');
+    // 拦截request请求
+    this.intercept('request', {
+      // 发出请求时的回调函数
+      config(p) {
+        // 对所有request请求中的OBJECT参数对象统一附加时间戳属性
+        //var timestamp=new Date().getTime();
+        //p.timestamp = new Date(timestamp);
+        //console.log('发起请求： ', p);
+        //console.log('请求开始时间：',p.timestamp)
+        return p;
+      },
+      // 请求成功后的回调函数
+      success(p) {
+        // 可以在这里对收到的响应数据对象进行加工处理
+        //var timestamp=new Date().getTime();
+        //p.endstamp = new Date(timestamp)
+        //console.log('请求成功时间：',p.endstamp)
+        //console.log('返回数据：', p.data);
+        return p;
+      },
+      // 请求失败后的回调函数
+      fail(p) {
+        console.log('请求失败,错误原因： ', p.errMsg);
+        return p;
+      }
+    });
+  }
+
+  onLaunch() {
+    // this.testAsync()
+  }
+
+  sleep (s) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('promise resolved')
+      }, s * 1000)
+    })
+  }
+
+  async testAsync () {
+    const data = await this.sleep(3)
+    console.log(data)
+  }
+
+  getUserInfo(cb) {
+    const that = this
+    if (this.globalData.userInfo) {
+      return this.globalData.userInfo
+    }
+    wepy.getUserInfo({
+      success (res) {
+        that.globalData.userInfo = res.userInfo
+        cb && cb(res.userInfo)
+      }
+    })
+  }
+}
+</script>

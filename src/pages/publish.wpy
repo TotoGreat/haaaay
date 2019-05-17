@@ -1,0 +1,1068 @@
+<template>
+  <view class="container">
+    <view class="title">
+      <view style="color:#FF6702;font-size:32rpx">{{formtitle}}</view>
+      <view style="font-size:24rpx;color:#999;margin-left:16rpx">填写您要发布的应聘信息</view>
+    </view>
+    <view class="content" wx:for="{{contentItem}}">
+      <view class="contentTitle">{{item.title}}</view>
+      <view class="contentBox" wx:if="{{item.checkboxArr}}">
+        <view
+          class="selectitem"
+          @tap="chooseCheckbox({{index}},{{key}})"
+          :class="{'active':items.value}"
+          wx:for="{{item.checkboxArr}}"
+          wx:for-item="items"
+          wx:for-index="key"
+        >{{items.name}}</view>
+      </view>
+      <view class="contentBox" wx:if="{{item.radioArr}}">
+        <view
+          class="selectitem"
+          @tap="chooseRadio({{index}},{{key}})"
+          :class="{'active':items.value}"
+          wx:for="{{item.radioArr}}"
+          wx:for-item="items"
+          wx:for-index="key"
+        >{{items.name}}</view>
+      </view>
+      <view class="contentBox" wx:if="{{item.radioArr2}}">
+        <view
+          class="selectitem selectitem2"
+          @tap="chooseRadio2({{index}},{{key}})"
+          :class="{'active':items.value===true}"
+          wx:for="{{item.radioArr2}}"
+          wx:for-item="items"
+          wx:for-index="key"
+        >{{items.name}}</view>
+        <input
+          type="text"
+          placeholder="{{item.placeholder}}"
+          bindinput="inputRadio"
+          value="{{item.value}}"
+          data-index="{{index}}"
+          class="selectitem selectitem3"
+        >
+      </view>
+      <view class="contentBox" wx:if="{{item.range}}">
+        <view
+          class="selectitem selectitem3"
+          :class="{'active':item.value==true}"
+          @tap="chooseTime({{index}})"
+        >时间可商量</view>
+        <input
+          type="text"
+          placeholder="填写具体时间"
+          class="selectitem selectitem3"
+          bindinput="inputTime"
+          value="{{item.text}}"
+          data-index="{{index}}"
+        >
+      </view>
+    </view>
+    <view class="content">
+      <view class="contentTitle">关于钟点工您还有什么备注要求</view>
+      <view class="contentBox">
+        <textarea
+          class="selectitem selectTextarea"
+          bindinput="inputtip"
+          value="{{tip}}"
+          placeholder="若您对业主的籍贯、性别、地址等有其他要求或您有自我评价请在此填写"
+        ></textarea>
+      </view>
+    </view>
+    <view class="formitem" wx:for="{{formItem}}">
+      <view>{{item.que}}</view>
+      <input
+        type="text"
+        placeholder="请输入"
+        wx:if="{{item.type!=='range'}}"
+        bindinput="inputText"
+        data-index="{{index}}"
+      >
+      <button
+        open-type="getPhoneNumber"
+        wx:if="{{item.type==='tel'}}"
+        bindgetphonenumber="getPhoneNumber"
+        class="phonebtn"
+      >微信获取</button>
+      <input
+        type="text"
+        class="priceinput"
+        wx:if="{{item.type==='range'}}"
+        bindinput="inputPriceLow"
+        data-index="{{index}}"
+      >
+      <view wx:if="{{item.type==='range'}}">-</view>
+      <input
+        type="text"
+        class="priceinput"
+        wx:if="{{item.type==='range'}}"
+        bindinput="inputPriceHigh"
+        data-index="{{index}}"
+      >
+    </view>
+    <!--    <view class="formitem">-->
+    <!--      <view>您期望的月工资待遇</view>-->
+    <!--      <input type="text" class="priceinput">-->
+    <!--      <view>-</view>-->
+    <!--      <input type="text" class="priceinput">-->
+    <!--    </view>-->
+    <view class="accept" @tap="accept">发布</view>
+  </view>
+</template>
+<style lang="less" scoped>
+.container {
+  diaply: flex;
+  flex-direction: column;
+  width: 750rpx;
+  .title {
+    width: 698rpx;
+    padding: 32rpx 26rpx;
+    height: 32rpx;
+    border-bottom: 1px solid #e6e6e6;
+    display: flex;
+    align-items: center;
+  }
+  .content {
+    diaply: flex;
+    border-bottom: 1px solid #e6e6e6;
+    flex-direction: column;
+    .contentTitle {
+      color: #333;
+      width: 698rpx;
+      line-height: 28rpx;
+      padding: 26rpx 26rpx;
+      height: 28rpx;
+      font-size: 28rpx;
+      vertical-align: middle;
+    }
+    .contentBox {
+      display: flex;
+      width: 698;
+      padding: 0 26rpx;
+      flex-wrap: wrap;
+      .selectitem {
+        width: 186rpx;
+        height: 52rpx;
+        margin-bottom: 30rpx;
+        text-align: center;
+        line-height: 52rpx;
+        border: 1rpx #ccc solid;
+        margin-right: 30rpx;
+        border-radius: 10rpx;
+        font-size: 28rpx;
+        &.active {
+          background: #ff6702;
+          color: #fff;
+          border: 1rpx solid transparent;
+        }
+      }
+      .selectitem2 {
+        width: 138rpx;
+      }
+      .selectitem3 {
+        width: 218rpx;
+      }
+      .selectTextarea {
+        width: 680rpx;
+        margin-right: 0;
+        height: 80rpx;
+        text-align: left;
+        padding: 28rpx 10rpx;
+      }
+    }
+  }
+  .formitem {
+    display: flex;
+    align-items: center;
+    height: 88rpx;
+    justify-content: space-between;
+    padding: 0 26rpx;
+    width: 688rpx;
+    border-bottom: 1px solid #e6e6e6;
+    font-size: 28rpx;
+    input {
+      text-align: right;
+    }
+    .phonebtn {
+      padding: 0;
+      width: 160rpx;
+      height: 52rpx;
+      text-align: center;
+      line-height: 52rpx;
+      border: 1rpx solid transparent;
+      border-radius: 10rpx;
+      margin: 0;
+      font-size: 28rpx;
+      background: #ff6702;
+      color: #fff;
+    }
+    .priceinput {
+      padding: 0;
+      width: 160rpx;
+      height: 52rpx;
+      text-align: center;
+      line-height: 52rpx;
+      border: 1px solid #e6e6e6;
+      border-radius: 10rpx;
+      font-size: 28rpx;
+    }
+  }
+  .accept {
+    width: 570rpx;
+    height: 88rpx;
+    background: #ff6702;
+    color: white;
+    line-height: 88rpx;
+    text-align: center;
+    margin-top: 80rpx;
+    margin-bottom: 40rpx;
+  }
+}
+</style>
+<script>
+import wepy from 'wepy';
+import { publishSave } from '../api/api';
+export default class publish extends wepy.page {
+  config = {
+    navigationBarTitleText: '钟点工'
+  };
+  data = {
+    formtitle: '钟点工',
+    tip: '',
+    type: 1,
+    session_key:'',
+    contentItem: [
+      {
+        title: '请选择您会的服务技能',
+        key: 'a',
+        checkboxArr: [
+          {
+            name: '日常保洁',
+            value: false
+          },
+          {
+            name: '洗衣做饭',
+            value: false
+          },
+          {
+            name: '家有萌娃',
+            value: false
+          },
+          {
+            name: '照顾老人',
+            value: false
+          },
+          {
+            name: '其它服务',
+            value: false
+          }
+        ]
+      },
+      {
+        title: '请选择您能够一周服务几次',
+        key: 'b',
+        radioArr: [
+          {
+            name: '一周一次',
+            value: true
+          },
+          {
+            name: '一周二次',
+            value: false
+          },
+          {
+            name: '一周三次',
+            value: false
+          },
+          {
+            name: '一周四次',
+            value: false
+          },
+          {
+            name: '一周五次',
+            value: false
+          },
+          {
+            name: '一周六次',
+            value: false
+          },
+          {
+            name: '一周七次',
+            value: false
+          }
+        ]
+      },
+      {
+        title: '请选择您能够单次服务几个小时',
+
+        key: 'c',
+        radioArr2: [
+          {
+            name: '1小时',
+            value: true
+          },
+          {
+            name: '2小时',
+            value: false
+          },
+          {
+            name: '3小时',
+            value: false
+          },
+          {
+            name: '4小时',
+            value: false
+          }
+        ],
+        placeholder: '请填写具体时间',
+        value: ''
+      },
+      {
+        title: '请选择您能够单次服务的时间段',
+        key: 'd',
+        range: true,
+        value: true,
+        text: ''
+      }
+    ],
+    formItem: [
+      {
+        que: '我们该如何称呼您',
+        key: 'userName',
+        type: 'normal',
+        value: ''
+      },
+      {
+        que: '您的性别',
+        type: 'normal',
+        value: '',
+        key: 'sex'
+      },
+      {
+        que: '您的年龄',
+        type: 'normal',
+        value: '',
+        key: 'age'
+      },
+      {
+        que: '您的籍贯',
+        type: 'normal',
+        value: '',
+        key: 'place'
+      },
+      {
+        que: '您的工作经验',
+        type: 'normal',
+        value: '',
+        key: 'workYear'
+      },
+      {
+        que: '您的联系方式',
+        type: 'tel',
+        value: '',
+        key: 'userPhone'
+      },
+      {
+        que: '获取您所在的小区',
+        type: 'normal',
+        value: '',
+        key: 'village'
+      },
+      {
+        que: '您期望给的工作待遇',
+        type: 'range',
+        value: ['', ''],
+        key: 'userWages'
+      }
+    ]
+  };
+  methods = {
+    inputText(n) {
+      var index = n.currentTarget.dataset.index;
+      console.log(n.currentTarget.dataset.index);
+      this.formItem[index].value = n.detail.value;
+    },
+    inputPriceLow(n) {
+      var index = n.currentTarget.dataset.index;
+      this.formItem[index].value[0] = n.detail.value;
+    },
+    inputPriceHigh(n) {
+      var index = n.currentTarget.dataset.index;
+      this.formItem[index].value[1] = n.detail.value;
+    },
+    chooseCheckbox(n, m) {
+      console.log(n, m);
+      console.log(this.contentItem[n].checkboxArr[m]);
+      this.contentItem[n].checkboxArr[m].value = !this.contentItem[n]
+        .checkboxArr[m].value;
+    },
+    chooseRadio(n, m) {
+      this.contentItem[n].radioArr.map(item => {
+        item.value = false;
+      });
+      console.log(this.contentItem[n].radioArr[m]);
+      this.contentItem[n].radioArr[m].value = true;
+    },
+    chooseRadio2(n, m) {
+      console.log(this.contentItem[n]);
+      this.contentItem[n].radioArr2.map(item => {
+        item.value = false;
+      });
+      this.contentItem[n].value = '';
+      console.log(this.contentItem[n].radioArr2[m]);
+      this.contentItem[n].radioArr2[m].value = true;
+    },
+    inputRadio(n) {
+      var index = n.currentTarget.dataset.index;
+      this.contentItem[index].radioArr2.map(item => {
+        item.value = false;
+      });
+      this.contentItem[index].value = n.detail.value;
+      console.log(n.currentTarget.dataset.index);
+    },
+    chooseTime(n) {
+      this.contentItem[n].value = true;
+      this.contentItem[n].text = '';
+    },
+    inputTime(n) {
+      var index = n.currentTarget.dataset.index;
+      this.contentItem[index].value = false;
+      this.contentItem[index].text = n.detail.value;
+      console.log(n.currentTarget.dataset.index);
+    },
+    inputtip(n) {
+      this.tip = n.detail.value;
+      console.log(this.tip);
+    },
+    accept() {
+      console.log(this.contentItem);
+      console.log(this.formItem);
+      var data = { type: this.type, serviceContent: {} };
+      this.formItem.forEach(item => {
+        if (item.key != 'userWages') {
+          data[item.key] = item.value;
+        } else {
+          data.userWagesLow = item.value[0];
+          data.userWagesHigh = item.value[1];
+        }
+      });
+      this.contentItem.forEach(item => {
+        if (item.checkboxArr) {
+          data.serviceContent[item.key] = item.checkboxArr.filter(item => {
+            return item.value === true;
+          });
+        } else if (item.radioArr) {
+          data.serviceContent[item.key] = item.radioArr.filter(item => {
+            return item.value === true;
+          });
+        } else if (item.radioArr2) {
+          if (item.value) {
+            data.serviceContent[item.key] = item.value;
+          } else {
+            data.serviceContent[item.key] = item.radioArr2.filter(item => {
+              return item.value === true;
+            });
+          }
+        } else {
+          if (item.value) {
+            data.serviceContent[item.key] = true;
+          } else {
+            data.serviceContent[item.key] = item.text;
+          }
+        }
+      });
+      data.sessionkey=this.session_key
+      data.serviceContent= JSON.stringify(data.serviceContent)
+      console.log(JSON.stringify(data));
+      publishSave(data).then(res => {
+        if(res.data.code=="10001"){
+                   wx.showToast({
+                     title:'发布已提交',
+                     icon: 'none',
+                 })
+            setTimeout(() => {
+                wx.navigateBack({
+            delta: 1 
+ 
+            })
+            }, 1000);
+            
+               }
+      });
+    }
+  };
+  onLoad(option) {
+    var that = this;
+    console.log(option.form == 3);
+    wx.getStorage({
+      key: 'session_key',
+      success(ra) {
+        that.session_key = ra.data;
+      }
+    });
+    this.type = option.form;
+    if (option.form == 2) {
+      this.contentItem = [
+        {
+          title: '请选择保洁类型为',
+          key: 'a',
+          radioArr: [
+            {
+              name: '日常打扫',
+              value: true
+            },
+            {
+              name: '深度保洁',
+              value: false
+            },
+            {
+              name: '装修后首次',
+              value: false
+            },
+            {
+              name: '其他',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '您选择的保洁面积',
+          key: 'b',
+          radioArr: [
+            {
+              name: '60平方以内',
+              value: true
+            },
+            {
+              name: '60-100平方',
+              value: false
+            },
+            {
+              name: '100-200平方',
+              value: false
+            },
+            {
+              name: '200平方以上',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '您选择什么时候进行保洁',
+
+          key: 'c',
+          radioArr2: [
+            {
+              name: '越快越好',
+              value: true
+            },
+            {
+              name: '一周以内',
+              value: false
+            }
+          ],
+          value: ''
+        }
+      ];
+      wx.setNavigationBarTitle({
+        title: '单次保洁'
+      });
+      this.formtitle = '单次保洁';
+    } else if (option.form == 3) {
+      this.contentItem = [
+        {
+          title: '请选择照顾几胞胎家庭',
+          key: 'a',
+          checkboxArr: [
+            {
+              name: '二胎家庭',
+              value: false
+            },
+            {
+              name: '双胞胎',
+              value: false
+            },
+            {
+              name: '多胞胎',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '请选择月嫂服务多长时间？',
+          key: 'b',
+          radioArr: [
+            {
+              name: '26天',
+              value: true
+            },
+            {
+              name: '42天',
+              value: false
+            },
+            {
+              name: '52天',
+              value: false
+            }
+          ]
+        }
+      ];
+      wx.setNavigationBarTitle({
+        title: '月嫂'
+      });
+      this.formtitle = '月嫂';
+    } else if (option.form == 4) {
+      this.contentItem = [
+        {
+          title: '请选择您期望照顾多大的宝宝？',
+          key: 'a',
+          radioArr: [
+            {
+              name: '刚满月',
+              value: true
+            },
+            {
+              name: '1-12个月',
+              value: false
+            },
+            {
+              name: '1-3岁',
+              value: false
+            },
+            {
+              name: '3岁',
+              value: false
+            },
+            {
+              name: '特殊情况',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '请选择住家服务还是不住家服务？',
+          key: 'b',
+          radioArr: [
+            {
+              name: '住家',
+              value: true
+            },
+            {
+              name: '不住家',
+              value: false
+            }
+          ]
+        }
+      ];
+      wx.setNavigationBarTitle({
+        title: '育婴师'
+      });
+      this.formtitle = '育婴师';
+    } else if (option.form == 5) {
+      this.contentItem = [
+        {
+          title: '阿姨 您能提供的服务内容是？',
+          key: 'a',
+          checkboxArr: [
+            {
+              name: '日常家务',
+              value: false
+            },
+            {
+              name: '家中有小孩',
+              value: false
+            },
+            {
+              name: '家中有老人',
+              value: false
+            },
+            {
+              name: '其他',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '您希望的作息时间',
+          key: 'b',
+          radioArr: [
+            {
+              name: '一月休息两天',
+              value: true
+            },
+            {
+              name: '一月休息4天',
+              value: false
+            },
+            {
+              name: '一月休息8天',
+              value: false
+            },
+            {
+              name: '双方自行协商',
+              value: false
+            }
+          ]
+        }
+      ];
+      wx.setNavigationBarTitle({
+        title: '住家保姆'
+      });
+      this.formtitle = '住家保姆';
+    } else if (option.form == 6) {
+      this.contentItem = [
+        {
+          title: '老人的年龄是',
+          key: 'a',
+          radioArr: [
+            {
+              name: '61-70',
+              value: true
+            },
+            {
+              name: '71-80',
+              value: false
+            },
+            {
+              name: '81-90',
+              value: false
+            },
+            {
+              name: '90以上',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '您能照顾老人的状况',
+          key: 'b',
+          checkboxArr: [
+            {
+              name: '生活可自理',
+              value: false
+            },
+            {
+              name: '生活不可自理',
+              value: false
+            },
+            {
+              name: '生活半自理',
+              value: false
+            },
+            {
+              name: '独居',
+              value: false
+            },
+            {
+              name: '和家人同住',
+              value: false
+            },
+            {
+              name: '其他',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '请选择住家服务还是不住家服务？',
+          key: 'c',
+          radioArr: [
+            {
+              name: '住家',
+              value: true
+            },
+            {
+              name: '不住家',
+              value: false
+            }
+          ]
+        }
+      ];
+      wx.setNavigationBarTitle({
+        title: '老人陪护'
+      });
+      this.formtitle = '老人陪护';
+    } else if (option.form == 7) {
+      this.contentItem = [
+        {
+          title: '您可以提供的催乳服务是',
+          key: 'a',
+          checkboxArr: [
+            {
+              name: '产后无奶/过少',
+              value: false
+            },
+            {
+              name: '哺乳期乳腺炎',
+              value: false
+            },
+            {
+              name: '乳房胀痛',
+              value: false
+            },
+            {
+              name: '乳腺管堵塞',
+              value: false
+            },
+            {
+              name: '乳汁淤积',
+              value: false
+            },
+            {
+              name: '其他',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '您的年龄是',
+          key: 'b',
+          radioArr: [
+            {
+              name: '25-30岁',
+              value: true
+            },
+            {
+              name: '35-40岁',
+              value: false
+            },
+            {
+              name: '40-45岁',
+              value: false
+            },
+            {
+              name: '其他',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '您能提供的催乳师相关资格证书',
+          key: 'c',
+          checkboxArr: [
+            {
+              name: '健康证',
+              value: false
+            },
+            {
+              name: '催乳资格证',
+              value: false
+            },
+            {
+              name: '健康证',
+              value: false
+            },
+            {
+              name: '无',
+              value: false
+            },
+            {
+              name: '其他',
+              value: false
+            }
+          ]
+        }
+      ];
+      wx.setNavigationBarTitle({
+        title: '催乳师'
+      });
+      this.formtitle = '催乳师';
+    } else if (option.form == 8) {
+      this.contentItem = [
+        {
+          title: '请选择您会服务内容',
+          key: 'a',
+          checkboxArr: [
+            {
+              name: '饮食护理',
+              value: false
+            },
+            {
+              name: '压疮预防',
+              value: false
+            },
+            {
+              name: '康复锻炼',
+              value: false
+            },
+            {
+              name: '排泄护理',
+              value: false
+            },
+            {
+              name: '病情/用药观察',
+              value: false
+            },
+            {
+              name: '病人心理护理',
+              value: false
+            },
+            {
+              name: '入浴日常清洁',
+              value: false
+            },
+            {
+              name: '环境/生活照顾',
+              value: false
+            },
+            {
+              name: '其他',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '请选择您的陪护类型',
+          key: 'b',
+          checkboxArr: [
+            {
+              name: '重症陪护',
+              value: false
+            },
+            {
+              name: '偏瘫照护',
+              value: false
+            },
+            {
+              name: '短期住院陪护',
+              value: false
+            },
+            {
+              name: '术后/康复陪护',
+              value: false
+            },
+            {
+              name: '其他',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '病人的性别是？',
+          key: 'c',
+          radioArr: [
+            {
+              name: '男',
+              value: true
+            },
+            {
+              name: '女',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '病人的年龄是？',
+          key: 'd',
+          radioArr: [
+            {
+              name: '30岁以内',
+              value: true
+            },
+            {
+              name: '31-40岁',
+              value: false
+            },
+            {
+              name: '30岁以内',
+              value: false
+            },
+            {
+              name: '41-50岁',
+              value: false
+            },
+            {
+              name: '60岁以上',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '请选择陪护时间？',
+          key: 'd',
+          radioArr: [
+            {
+              name: '白天',
+              value: true
+            },
+            {
+              name: '夜晚',
+              value: false
+            },
+            {
+              name: '24小时',
+              value: false
+            },
+            {
+              name: '其他',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '请选择您陪护是临时还是长期？',
+          key: 'e',
+          radioArr2: [
+            {
+              name: '长期',
+              value: true
+            },
+            {
+              name: '零时',
+              value: false
+            }
+          ],
+          placeholder: '其他',
+          value: ''
+        },
+        {
+          title: '请选择您有几年工作经验？',
+          key: 'f',
+          radioArr: [
+            {
+              name: '1-3年',
+              value: true
+            },
+            {
+              name: '4-6年',
+              value: false
+            },
+            {
+              name: '7-9年',
+              value: false
+            },
+            {
+              name: '10年以上',
+              value: false
+            }
+          ]
+        },
+        {
+          title: '您是否能提供相关资格证书？',
+          key: 'g',
+          checkboxArr: [
+            {
+              name: '健康证',
+              value: false
+            },
+            {
+              name: '其他',
+              value: false
+            },
+            {
+              name: '无',
+              value: false
+            }
+          ]
+        }
+      ];
+      wx.setNavigationBarTitle({
+        title: '病人维护'
+      });
+      this.formtitle = '病人维护';
+    }
+  }
+}
+</script>
