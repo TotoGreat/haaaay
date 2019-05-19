@@ -70,7 +70,7 @@ config = {
         isyz(){
             console.log('is业主')
             wx.navigateTo({
-                url:'errorpage?type=2'
+                url:'yzhome?type=2'
             })
         },
         isgs(){
@@ -106,7 +106,7 @@ config = {
                 wx.setStorageSync('userdetails',res.data.data.userinfo)
                 console.log(res)
                 if(res.data.code=="10001"){
-                wx.reLaunch({
+                wx.navigateTo({
                 url:'ayhome?type=1'
             })
             }
