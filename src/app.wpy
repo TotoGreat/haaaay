@@ -23,10 +23,12 @@ export default class extends wepy.app {
       'pages/gshome',//家政公司中心
       'pages/yzhome',//业主中心
       'pages/mypub',//我的发布-业主
+      'pages/myfollow',//我的管制-业主
       'pages/ayydetails',//阿姨详情-业主
       'pages/center/personcenter',//个人信息
       'pages/errorpage',//跳转失败指向页面
       'pages/publish',//发布表单
+      'pages/yzpublish',//发布表单-业主
       'pages/fbdetails',//我的发布详情
       'pages/zwdetails',//职位详情
       'pages/jzgsdetails',//家政公司详情
