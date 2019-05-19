@@ -517,8 +517,9 @@ config = {
             })
         }
     }
-   async onLoad(){
+   async onLoad(e){
         var that=this
+        that.type=e.type
         wx.getStorage({
             key:'userInfo',
             success(res) {

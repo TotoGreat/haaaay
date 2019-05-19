@@ -59,11 +59,10 @@
       }
     }
     .p-box{
-      padding:20rpx;
       .p-line{
         display: flex;
+        height:180rpx;
         border-bottom:1px solid #e6e6e6;
-        flex-wrap: wrap;
         .p-left{
           width: 100rpx;
           text-align: center;
@@ -92,19 +91,16 @@
               margin-right: 24rpx;
             }
           }
-          .p-time{
-            font-size:26rpx
-          }
           .p-tag{
-            padding:20rpx 0;
             .tag-box{
-              margin-right: 10rpx;
+              margin-left: 10rpx;
               display: inline-block;
               view{
                 padding: 5rpx 10rpx;
                 font-size: 26rpx;
                 background: #f2f2f2;
                 color: #999999;
+                margin-left: 10rpx;
               }
             }
           }
@@ -117,7 +113,6 @@
       display: flex;
       justify-content: space-around;
       border-bottom: 1px solid #E6E6E6;
-      flex-wrap: wrap;
       .fb-left{
         width: 216rpx;
         text-align: center;
@@ -129,12 +124,13 @@
         }
       }
       .fb-right{
-        width: 500rpx;
+        width: 750rpx;
+        padding:24rpx;
         font-size: 26rpx;
         position: relative;
         .r-one{
           margin-top: 30rpx;
-          display:flex;
+          display: flex;
           align-items: center;
         }
         .fb-type{
@@ -146,35 +142,24 @@
           margin-top: 20rpx;
         }
         .fb-cz{
-          width: 500rpx;
+          width: 710rpx;
           display: flex;
-          margin-top: 20rpx;
           justify-content: space-between;
+          margin-top: 20rpx;
           font-size: 28rpx;
           view{
-            width: 240rpx;
+            width: 340rpx;
             border:1px solid #FF6702;
             color: #FF6702;
             border-radius: 10rpx;
             text-align: center;
-            line-height: 54rpx;
-          }
-        }
-        .fb-cg{
-          width: 500rpx;
-          display: flex;
-          margin-top: 20rpx;
-          font-size: 28rpx;
-          view{
-            padding:0 5rpx;
-            margin-right:10rpx;
-            height:36rpx;background:#F2F2F2;line-height:36rpx;color:#999;font-size:24rpx;
+            line-height: 68rpx;
           }
         }
         .v-watch{
           position:absolute;
           right:30rpx;
-          top:40rpx;
+          top:60rpx;
           color: #FF6702;
           image{
             width: 30rpx;
@@ -198,12 +183,12 @@
       flex-wrap: wrap;
       align-content: flex-start;
       .option{
-        width: 373rpx;
+        width: 374rpx;
         margin: 0;
         display: flex;
         height: 180rpx;
-        border-bottom: 1rpx solid #f1f1f1;
-        border-right: 1rpx solid #f1f1f1;
+        border-bottom: 1px solid #f1f1f1;
+        border-right: 1px solid #f1f1f1;
         .opt-left{
           width: 214rpx;
           padding-left: 26rpx;
@@ -255,15 +240,14 @@
     }
     .v-menu{
       display: flex;
-      flex-wrap: wrap;
+      border-bottom: 1px solid #f1f1f1;
       .v-md{
         text-align: center;
-        width: 373rpx;
+        width: 374rpx;
         height: 204rpx;
         font-size: 26rpx;
         padding-top: 50rpx;
-        border-right: 1rpx solid #f1f1f1;
-        border-bottom: 1rpx solid #f1f1f1;
+        border-left: 1px solid #f1f1f1;
         image{
           width: 110rpx;
           height: 110rpx;
@@ -274,84 +258,19 @@
 </style>
 <template>
   <view>
-    <view class='tabbar'>
-      <view class="{{!noone?'default':'default1'}}" bindtap="selected">
-        <image class="imga" src='../img/tab2-b.png' style="height:40rpx;width:36rpx"  wx:if='{{noone}}' ></image>
-        <image class="imga" src='../img/tab2.png' style="height:40rpx;width:36rpx" wx:if='{{!noone}}' ></image>
-        <text >阿姨</text>
-      </view>
-      <view class="{{!notwo?'default':'default1'}}"  bindtap="selected1">
-        <image class="imgb" src='../img/tab3-b.png' style="height:22px" mode="widthFix" wx:if='{{notwo}}' ></image>
-        <image class="imgb" src='../img/tab3.png' style="height:22px" mode="widthFix" wx:if='{{!notwo}}' ></image>
-        <text >分享</text>
-      </view>
-      <view class="{{!nothree?'default':'default1'}}"  bindtap="selected2">
-        <image class="imgc" src='../img/tabbar-fabu-b.png'  mode="widthFix" wx:if='{{nothree}}' ></image>
-        <image class="imgc" src='../img/tabbar-fabu.png'  mode="widthFix" wx:if='{{!nothree}}' ></image>
-        <text >发布</text>
-      </view>
-      <view class="{{!nofour?'default':'default1'}}"  bindtap="selected3">
-        <image class="imgd" src='../img/tabbar-user-b.png'  mode="widthFix"  wx:if='{{nofour}}'></image>
-        <image class="imgd" src='../img/tabbar-user.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
-        <text>我的</text>
-      </view>
-    </view>
-    <view wx:if="{{notwo}}" class="taba">
-      <view class="p-top">
-        <view class='p-all' bindtap="selected">全部</view>
-        <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
-          <view class="picker">
-            {{array1[index1]}}
-          </view>
-        </picker></view>
-        <view><picker bindchange="changelx" value="{{index2}}" range="{{array2}}">
-          <view class="picker">
-            {{array2[index2]}}
-          </view>
-        </picker></view>
-      </view>
-      <view class="p-box">
-        <view class="p-line" wx:for="{{zwlist}}" wx:key="index" @tap="godetail({{item.publish_id}})">
-
-          <view class="p-right">
-            <view class="p-info">
-              <image src="../img/a{{item.type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
-              <text class="p-type">{{item.typeName}}</text><text class="p-vil">{{item.village}}</text>
-              <text class='p-wag'>{{item.userWagesLow}}-{{item.userWagesHigh}}元/月</text>
-            </view>
-            <view class="p-time">女 | 50岁 | 江苏南京 | 2年经验</view>
-            <view class="p-tag">
-              <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
-                <view>{{item}}</view>
-              </view></view>
-          </view>
-          <view style-="display:flex;margin-bottom:10rpx;margin-left:24rpx">
-            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901">经验丰富技艺超群，热情好客</view>
-            <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2px solid #FE9901;color:#FE9901;border-radius: 12rpx">录用</view>
-          </view>
-        </view>
-      </view>
-      <view style="width:750rpx;height:130rpx;"></view>
-    </view>
-    <view wx:if="{{noone}}" class="tabb">
-      <block wx:for="{{fblist}}">
-        <view  wx:key="index" wx:if="{{item.state!==2}}" class='fb-list' @tap="godetail({{item.publish_id}})">
-          <view class="fb-left"><image src="{{item.headimg}}" /></view>
+    <view class="tabb">
+      <block >
+        <view  wx:key="index"  class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-right">
             <view class='r-one'>
-              <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
-              <text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text>
+              <image src="/img/a6.png" style="width:50rpx;height:50rpx"/>
+              <text class="fb-type">老人陪护</text><text>南京市龙乡小区</text></view>
+            <view class="fb-time">发布时间:123123123</view>
+            <view class='fb-cz'>
+              <view>编辑</view>
+              <view @tap="resetPublish({{item.publish_id}})">刷新</view>
             </view>
-            <view class="fb-time">女 | 50岁 | 江苏南京 | 2年经验</view>
-            <view class='fb-cg'>
-              <view>洗衣做饭</view>
-              <view>洗衣做饭</view>
-            </view>
-            <view class="v-watch">4500元/月</view>
-          </view>
-          <view style-="display:flex;margin-bottom:10rpx">
-            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901">经验丰富技艺超群，热情好客</view>
-            <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2px solid #FE9901;color:#FE9901;border-radius: 12rpx">录用</view>
+            <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>12</text></view>
           </view>
         </view>
         <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
@@ -368,45 +287,6 @@
       </block>
       <view style="width:750rpx;height:130rpx;"></view>
     </view>
-    <view wx:if="{{nothree}}" class="tabc">
-      <view class='topbanner'>
-        <image src="../img/banner1.png" mode="widthFix"/>
-      </view>
-      <view class="menu">
-        <view class="option" @tap="goform(1)"><view class="opt-left"><view class="optname">钟点工</view><view class="optnote">优秀阿姨定期上门</view></view><view><image src="../img/c1.png" mode="widthFix"/></view></view>
-        <view class="option" @tap="goform(2)"><view class="opt-left"><view class="optname">单次保洁</view><view class="optnote">一站式保洁服务</view></view><view><image src="../img/c2.png" mode="widthFix"/></view></view>
-        <view class="option" @tap="goform(3)"><view class="opt-left"><view class="optname">月嫂</view><view class="optnote">金牌认证母婴呵护</view></view><view><image src="../img/c3.png" mode="widthFix"/></view></view>
-        <view class="option" @tap="goform(4)"><view class="opt-left"><view class="optname">育婴师</view><view class="optnote">营养护理科学早教</view></view><view><image src="../img/c4.png" mode="widthFix"/></view></view>
-        <view class="option" @tap="goform(5)"><view class="opt-left"><view class="optname">住家保姆</view><view class="optnote">烦心家务轻松解决</view></view><view><image src="../img/c5.png" mode="widthFix"/></view></view>
-        <view class="option" @tap="goform(6)"><view class="opt-left"><view class="optname">老人陪护</view><view class="optnote">居家陪伴生活照料</view></view><view><image src="../img/c6.png" mode="widthFix"/></view></view>
-        <view class="option" @tap="goform(7)"><view class="opt-left"><view class="optname">催乳师</view><view class="optnote">科学催乳上门服务</view></view><view><image src="../img/c7.png" mode="widthFix"/></view></view>
-        <view class="option" @tap="goform(8)"><view class="opt-left"><view class="optname">病人陪护</view><view class="optnote">健康护理陪同医疗</view></view><view><image src="../img/c8.png" mode="widthFix"/></view></view>
-      </view>
-    </view>
-    <view wx:if="{{nofour}}" class="tabd">
-      <view class="v-top">
-        <image class="v-img" src="../img/banner2.png" mode="widthFix"/>
-        <view class="v-center">
-          <view><image src="{{userinfo.headimg?userinfo.headimg:userthings.avatarUrl}}"/></view>
-          <view class="v-name">{{userinfo.name?userinfo.name:userthings.nickName}}</view>
-          <view class="v-phone">{{userinfo.phone}}</view>
-        </view>
-      </view>
-      <view class="v-menu">
-        <view class="v-md" @tap="goMypub">
-          <image src="../img/gsc02.png" />
-          <view>我的发布</view>
-        </view>
-        <view class="v-md" @tap="gocenter">
-          <image src="../img/gsc04.png" />
-          <view>基本信息</view>
-        </view>
-        <view class="v-md" @tap="isgs">
-          <image src="../img/gsc05.png" />
-          <view>我的关注</view>
-        </view>
-      </view>
-    </view>
   </view>
 </template>
 <script>
@@ -414,28 +294,10 @@
   import {auntList,myList,resetPublish} from '../api/api'
   export default class chooseuer extends wepy.page{
     config = {
-      navigationBarTitleText: '业主需求',
+      navigationBarTitleText: '我的发布',
       onReachBottomDistance: 50
     }
     data={
-      noone:true,
-      notwo:false,
-      nothree:false,
-      nofour:false,
-      array1:['南京','玄武区','秦淮区','鼓楼区','建邺区','栖霞区','雨花台区','浦口区','江宁区','六合区','溧水区','高淳区'],
-      array2:['全部','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
-      area:'',
-      type:'',
-      index1:0,
-      index2:0,
-      session_key:'',
-      userthings:'',
-      identification:'',
-      page1:1,
-      page2:1,
-      fblist:'',
-      zwlist:"",
-      userinfo:''
     }
     methods={
       async selected(){
@@ -445,11 +307,11 @@
           this.nofour=false,
           this.page1=1,
           wx.setNavigationBarTitle({
-            title: '阿姨'
+            title: '职位'
           })
         this.area='',
           this.type=0,
-          this.fblist= await this.myList()
+          this.zwlist= await this.auntList(),
           console.log(this.zwlist);
         this.$apply()
       },
@@ -460,9 +322,9 @@
           this.nofour=false,
           this.page2=1,
           wx.setNavigationBarTitle({
-            title: '分享'
+            title: '我的发布'
           })
-        this.zwlist= await this.auntList(),
+        this.fblist= await this.myList()
         this.$apply()
       },
       async selected2(){
@@ -487,25 +349,22 @@
       },
       godetail(e){
         console.log(e)
-        // if(this.identification==1){
-        //   if(this.noone==true){
-        //     wx.navigateTo({
-        //       url:'zwdetails?id='+e+'&sessionkey='+this.session_key
-        //     })
-        //   }else{
-        //     wx.navigateTo({
-        //       url:'errorpage?type=1'
-        //       //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
-        //     })
-        //   }
-        // }else{
-        //   wx.navigateTo({
-        //     url:'index?type=1'
-        //   })
-        // }
-        wx.navigateTo({
-          url:'ayydetails'
-        })
+        if(this.identification==1){
+          if(this.noone==true){
+            wx.navigateTo({
+              url:'zwdetails?id='+e+'&sessionkey='+this.session_key
+            })
+          }else{
+            wx.navigateTo({
+              url:'errorpage?type=1'
+              //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
+            })
+          }
+        }else{
+          wx.navigateTo({
+            url:'index?type=1'
+          })
+        }
       },
       isgs(){
         console.log('is公司');
@@ -516,11 +375,6 @@
       gocenter(){
         wx.navigateTo({
           url:'center/personcenter?case='+JSON.stringify(this.userinfo)
-        })
-      },
-      goMypub() {
-        wx.navigateTo({
-          url:'mypub'
         })
       },
       async resetPublish(e){
@@ -559,8 +413,9 @@
         })
       }
     }
-    async onLoad(){
+    async onLoad(e){
       var that=this
+      that.type=e.type
       wx.getStorage({
         key:'userInfo',
         success(res) {
@@ -575,7 +430,7 @@
               wx.getStorage({
                 key:'session_key',
                 success(ra){
-                  that.session_key='ob2ZrTtLx9zst0Eg1198lQ'
+                  that.session_key=ra.data
                 }
               })
               that.$apply()
@@ -584,7 +439,7 @@
         }
       })
       if(that.noone){
-        that.fblist= await that.myList()
+        that.zwlist= await that.auntList()
         that.$apply()
       }
     }
@@ -649,7 +504,7 @@
           title:'加载中'
         });
         let res= await myList({
-          sessionkey:'ob2ZrTtLx9zst0Eg1198lQ',
+          sessionkey:this.session_key,
           pagenum:'9',
           pages:this.page2
         });

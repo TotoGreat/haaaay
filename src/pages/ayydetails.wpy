@@ -1,0 +1,136 @@
+<style lang="less">
+  .p-line{
+    display: flex;
+    border-bottom:1px solid #e6e6e6;
+    .p-left{
+      width: 100rpx;
+      text-align: center;
+      image{
+        width: 56rpx;
+        height: 56rpx;
+        position: relative;
+        top: 20rpx;
+      }
+    }
+    .p-right{
+      width: 650rpx;
+      .p-info{
+        line-height: 100rpx;
+        .p-type{
+          font-size: 34rpx;
+        }
+        .p-vil{
+          font-size: 26rpx;
+          color: #666666;
+        }
+        .p-wag{
+          font-size: 30rpx;
+          color: #FF6702;
+          float: right;
+          margin-right: 24rpx;
+        }
+      }
+      .p-tag{
+        .tag-box{
+          margin-left: 10rpx;
+          display: inline-block;
+          view{
+            padding: 5rpx 10rpx;
+            font-size: 26rpx;
+            background: #f2f2f2;
+            color: #999999;
+            margin-left: 10rpx;
+          }
+        }
+      }
+    }
+  }
+  .v-box{
+    width: 680rpx;
+    padding: 20rpx 35rpx;
+    margin: 10rpx auto;
+    border-bottom: 1px solid #f1f1f1;
+    .v-tit{
+      font-size: 34rpx;
+      margin: 20rpx 0;
+    }
+    .v-det{
+      font-size: 28rpx;
+      color: #666666;
+    }
+    .v-gdt{
+      position: absolute;
+      right: 50rpx;
+      color: #666666;
+      font-size: 26rpx;
+      margin-top:-60rpx;
+      image{
+        width: 10rpx;
+        height: 18rpx;
+      }
+    }
+  }
+  button{
+    width: 600rpx;
+    position: fixed;
+    bottom: 100rpx;
+    left: 75rpx;
+    background: #FF6702;
+    color: #fff;
+    image{
+      width: 28rpx;
+      height: 28rpx;
+      margin-right:20rpx;
+    }
+  }
+</style>
+<template>
+  <block>
+    <view class="p-line"  wx:key="index">
+      <view class="p-left">
+        <image src="../img/a1.png" />
+      </view>
+      <view class="p-right">
+        <view class="p-info">
+          <text class="p-type">{{typeName}}</text><text class="p-vil">{{village}}</text>
+          <text class='p-wag'>{{userWagesLow}}-{{userWagesHigh}}元/月</text>
+        </view>
+        <!-- <view class="p-tag">
+            <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
+                <view>{{item}}</view>
+            </view>
+            </view> -->
+      </view>
+    </view>
+    <view class='v-box'>阿姨描述</view>
+    <view class='v-line'>
+      <view>谁看过我</view>
+      <view>
+        <view></view>
+        <view>{{}}</view>
+      </view>
+    </view>
+  </block>
+</template>
+<script>
+  import wepy from 'wepy'
+  import {fbdetail} from '../api/api'
+  export default class fbpage extends wepy.page{
+    config = {
+      navigationBarTitleText: '阿姨详情'
+    }
+    data={
+      type:'',
+      typeName:'',
+      village:'',
+      userWagesLow:'',
+      userWagesHigh:'',
+    }
+    methods={
+
+    }
+    onLoad(opt){
+    }
+
+  }
+</script>

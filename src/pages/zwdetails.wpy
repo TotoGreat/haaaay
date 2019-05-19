@@ -77,6 +77,11 @@
                 left: 75rpx;
                 background: #FF6702;
                 color: #fff;
+                image{
+                    width: 28rpx;
+                    height: 28rpx;
+                    margin-right:20rpx;
+                }
             }
 </style>
 <template>
@@ -103,14 +108,14 @@
     </view>
     <view class='v-box'>
         <view class='v-tit'>家政公司</view>
-        <view class="v-gdt"> 查看详情
+        <view class="v-gdt" @tap="gogsdetail({{company_id}})"> 查看详情
             <image src="../img/gr.png" />
         </view>
         <view class="v-det"><text>公司名称: \t</text><text>{{company_name}}</text></view>
         <view class="v-det"><text>公司电话: \t</text><text>{{company_telephone}}</text></view>
         <view class="v-det"><text>公司地址: \t</text><text>{{company_address}}</text></view>
     </view>
-    <button @tap="makecall({{company_telephone}})">拨打</button>
+    <button @tap="makecall({{company_telephone}})"><image src="../img/call.png" />拨打</button>
 </block>
 </template>
 <script>
@@ -132,17 +137,24 @@ config = {
        company_name:'',
        company_telephone:'',
        company_id:'',
+       sessionkey:''
     }
     methods={
       makecall(e){
           wx.makePhoneCall({
             phoneNumber: e
         })
+      },
+      gogsdetail(e){
+          wx.navigateTo({
+                    url:'jzgsdetails?id='+e+'&sessionkey='+this.sessionkey
+                    })
       }
     }
     onLoad(opt){
         
         auntdetails({sessionkey:opt.sessionkey,publish_id:opt.id}).then(res=>{
+            this.sessionkey=opt.sessionkey
             if(res.data.code=='10001'){
             this.info=res.data.data
             let a=res.data.data
