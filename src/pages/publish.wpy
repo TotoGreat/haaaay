@@ -218,6 +218,7 @@
     text-align: center;
     margin-top: 80rpx;
     margin-bottom: 40rpx;
+    border-radius: 10rpx;
   }
 }
 </style>

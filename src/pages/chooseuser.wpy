@@ -74,13 +74,6 @@ config = {
             })
         },
         isgs(){
-            console.log('is公司');
-            wx.navigateTo({
-                url:'errorpage?type=3'
-            })
-        },
-        isay(){
-            console.log('is阿姨');
             loginb({
                 openid:this.openid,
                 type:1,
@@ -92,10 +85,33 @@ config = {
                 console.log(res.data)
                 wx.setStorageSync('session_key',res.data.data.userinfo.sessionkey)
                 wx.setStorageSync('userdetails',res.data.data.userinfo)
+                if(res.data.code=="10001"){
+                wx.navigateTo({
+                url:'gshome?type=3'
             })
-            wx.navigateTo({
+            }
+            })
+        },
+        isay(){
+            loginb({
+                openid:this.openid,
+                type:1,
+                name:this.name,
+                sex:this.sex,
+                headimg:this.headimg,
+                sessionkey:this.sessionkey
+            }).then(res=>{
+                console.log(res.data)
+                wx.setStorageSync('session_key',res.data.data.userinfo.sessionkey)
+                wx.setStorageSync('userdetails',res.data.data.userinfo)
+                console.log(res)
+                if(res.data.code=="10001"){
+                wx.navigateTo({
                 url:'ayhome?type=1'
             })
+            }
+            })
+            
         }
     }
     onLoad(opt){

@@ -1,11 +1,672 @@
 <style lang="less">
+    .tabbar{
+        position: fixed;
+        bottom: -22rpx;
+        left: 0;
+        display: flex;
+        width: 750rpx;
+        border-top: 1px solid #f1f1f1;
+        background: #fff;
+        z-index:999;
 
+        .imga{
+            width: 23rpx;
+            height: 40rpx;
+        }
+        .imgb{
+            width: 33rpx;
+            height: 40rpx;
+        }
+        .imgc{
+            width: 40rpx;
+            height: 40rpx;
+        }
+        .imgd{
+            width: 40rpx;
+            height: 40rpx;
+        }
+        .default {
+            font-size: 36rpx;
+            line-height: 100rpx;
+            text-align: center;
+            flex: 1;
+            text {
+                display: block;
+                font-size: 0.6rem;
+                margin-top: -70rpx;
+                }
+            }
+            .default1{
+                font-size: 36rpx;
+            line-height: 100rpx;
+            text-align: center;
+            flex: 1;
+            text {
+                display: block;
+                font-size: 0.6rem;
+                margin-top: -70rpx;
+                color: #FF6702;
+                }
+            }
+    }
+    .taba{
+        .p-top{
+            display:flex;
+            justify-content:space-around;
+            font-size: 34rpx;
+            .p-all{
+                color: #FF6702
+            }
+        }
+        .p-box{
+            .p-line{
+                display: flex;
+                height:180rpx;
+                border-bottom:1px solid #e6e6e6;
+                .p-left{
+                    width: 100rpx;
+                    text-align: center;
+                    image{
+                        width: 56rpx;
+                        height: 56rpx;
+                        position: relative;
+                        top: 20rpx;
+                    }
+                }
+                .p-right{
+                    width: 650rpx;
+                    .p-info{
+                        line-height: 100rpx;
+                        .p-type{
+                            font-size: 34rpx;
+                        }
+                        .p-vil{
+                            font-size: 26rpx;
+                            color: #666666;
+                        }
+                        .p-wag{
+                            font-size: 30rpx;
+                            color: #FF6702;
+                            float: right;
+                            margin-right: 24rpx;
+                        }
+                    }
+                    .p-tag{
+                        .tag-box{
+                            margin-right: 10rpx;
+                            display: inline-block;
+                        view{ 
+                            padding: 5rpx 10rpx;
+                            font-size: 26rpx;
+                            background: #f2f2f2;
+                            color: #999999;
+                            margin-right: 10rpx;
+                        }
+                        }
+                    }
+                    .p-btn{
+                        border: 1px solid #FF6702;
+                        color: #FF6702;
+                        font-size: 28rpx;
+                        width: 148rpx;
+                        height: 50rpx;
+                        line-height: 50rpx;
+                        text-align: center;
+                        position:absolute;
+                        right:50rpx;
+                        margin-top:-50rpx;
+                        border-radius:10rpx;
+                    }
+                }
+            }
+        }
+    }
+    .tabb{
+        .fb-list{
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 1px solid #E6E6E6;
+            .fb-left{
+                width: 216rpx;
+                text-align: center;
+                image{
+                    width: 168rpx;
+                    height: 194rpx;
+                    margin-top: 12rpx;
+                    border-radius: 10rpx;
+                }
+            }
+            .fb-right{
+                width: 500rpx;
+                font-size: 26rpx;
+                position: relative;
+                .r-one{
+                    margin-top: 30rpx;
+                }
+                .fb-type{
+                    font-size: 34rpx;
+                    display: inline-block;
+                    margin-right: 6rpx;
+                }
+                .fb-time{
+                    margin-top: 20rpx;
+                }
+                .fb-cz{
+                    width: 500rpx;
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 20rpx;
+                    font-size: 28rpx;
+                    view{
+                        width: 240rpx;
+                        border:1px solid #FF6702;
+                        color: #FF6702;
+                        border-radius: 10rpx;
+                        text-align: center;
+                        line-height: 54rpx;
+                    }
+                }
+                .v-watch{
+                    position:absolute;
+                    right:30rpx;
+                    top:40rpx;
+                    color: #FF6702;
+                    image{
+                        width: 30rpx;
+                        height: 30rpx;
+                        margin-right: 6rpx;
+                    }
+                }
+            }
+        }
+    }
+    .tabc{
+        .topbanner{
+            width: 750rpx;
+            image{
+                width: 100%;
+                height: 276rpx;
+            }
+        }
+        .menu{
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            .option{
+                width: 374rpx;
+                margin: 0;
+                display: flex;
+                height: 180rpx;
+                border-bottom: 1px solid #f1f1f1;
+                border-right: 1px solid #f1f1f1;
+                .opt-left{
+                    width: 214rpx;
+                    padding-left: 26rpx;
+                }
+                .optname{
+                    font-size: 28rpx;
+                    line-height: 90rpx;
+                }
+                .optnote{
+                    font-size: 22rpx;
+                    line-height: 60rpx;
+                }
+                image{
+                    width: 80rpx;
+                    height: 80rpx;
+                    margin-top: 50rpx;
+                }
+            }
+        }
+    }
+    .tabd{
+        .v-top{
+            width: 750rpx;
+            height: 354rpx;
+            .v-img{
+                width:100%;
+                height:276rpx;
+                position:absolute;
+                z-index:-1;
+            }
+            .v-center{
+                width: 300rpx;
+                margin: 0rpx auto;
+                text-align: center;
+                color: #fff;
+                padding-top: 50rpx;
+                image{
+                width: 160rpx;
+                height: 160rpx;
+                border-radius: 160rpx;
+            }
+                .v-name{
+                    font-size: 36rpx;
+                }
+                .v-phone{
+                    font-size: 26rpx;
+                }
+            }
+        }
+        .v-menu{
+                display: flex;
+                border-bottom: 1px solid #f1f1f1;
+                .v-md{
+                    text-align: center;
+                    width: 374rpx;
+                    height: 204rpx;
+                    font-size: 26rpx;
+                    padding-top: 50rpx;
+                    border-left: 1px solid #f1f1f1;
+                    image{
+                        width: 110rpx;
+                        height: 110rpx;
+                    }
+                }
+            }
+    }
 </style>
 <template>
-    
+    <view>
+    <view class='tabbar'>
+    <view class="{{!noone?'default':'default1'}}" bindtap="selected">
+         <image class="imga" src='../img/tabbar-zhiwei-b.png'  mode="widthFix"  wx:if='{{noone}}' ></image>
+         <image class="imga" src='../img/tabbar-zhiwei.png'  mode="widthFix" wx:if='{{!noone}}' ></image>
+          <text >业主需求</text>
+    </view>
+    <view class="{{!notwo?'default':'default1'}}"  bindtap="selected1">
+        <image class="imgb" src='../img/tabbar-myfb-b.png'  mode="widthFix" wx:if='{{notwo}}' ></image>
+        <image class="imgb" src='../img/tabbar-myfb.png'  mode="widthFix" wx:if='{{!notwo}}' ></image>
+      <text >阿姨求职</text>
+    </view>
+     <view class="{{!nothree?'default':'default1'}}"  bindtap="selected2">
+        <image class="imgc" src='../img/tabbar-fabu-b.png'  mode="widthFix" wx:if='{{nothree}}' ></image>
+        <image class="imgc" src='../img/tabbar-fabu.png'  mode="widthFix" wx:if='{{!nothree}}' ></image>
+      <text >共享业务</text>
+    </view>
+    <view class="{{!notfive?'default':'default1'}}"  bindtap="selected4">
+        <image class="imgc" src='../img/tabbar-fabu-b.png'  mode="widthFix" wx:if='{{notfive}}' ></image>
+        <image class="imgc" src='../img/tabbar-fabu.png'  mode="widthFix" wx:if='{{!nofive}}' ></image>
+      <text >发布招聘</text>
+    </view>
+     <view class="{{!nofour?'default':'default1'}}"  bindtap="selected3">
+     <image class="imgd" src='../img/tabbar-user-b.png'  mode="widthFix"  wx:if='{{nofour}}'></image>
+    <image class="imgd" src='../img/tabbar-user.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
+    <text>我的主页</text>
+    </view>
+  </view>
+  <view wx:if="{{noone}}" class="taba">
+      <view class="p-top">
+          <view class='p-all' bindtap="selected">全部</view>
+          <!-- <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
+        <view class="picker">
+      {{array1[index1]}}
+    </view>
+  </picker></view> -->
+         <view><picker bindchange="changelx" value="{{index2}}" range="{{array2}}">
+        <view class="picker">
+      {{array2[index2]}}
+    </view>
+  </picker></view>
+      </view>
+      <view class="p-box">
+          <view class="p-line" wx:for="{{zwlist}}" wx:key="index" @tap="godetail({{item.publish_id}})">
+              <view class="p-left">
+                  <image src="../img/a{{item.type}}.png" />
+              </view>
+              <view class="p-right">
+              <view class="p-info">
+                  <text class="p-type">{{item.typeName}}</text><text class="p-vil">{{item.village}}</text>
+                  <text class='p-wag'>{{item.userWagesLow}}-{{item.userWagesHigh}}元/月</text>
+              </view>
+                <view class="p-tag">
+                    <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
+                        <view>{{item}}</view>
+                    </view>
+                </view>
+                <view class="p-btn">接单</view>
+              </view>
+          </view>
+      </view>
+      <view style="width:750rpx;height:130rpx;"></view>
+  </view>
+  <view wx:if="{{notwo}}" class="tabb">
+      <block wx:for="{{fblist}}">
+      <view  wx:key="index" wx:if="{{item.state!==2}}" class='fb-list' @tap="godetail({{item.publish_id}})">
+          <view class="fb-left"><image src="{{item.headimg}}" /></view>
+          <view class="fb-right">
+              <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
+              <view class="fb-time">发布时间:{{item.publish_time}}</view>
+              <view class='fb-cz'>
+                  <view>编辑</view>
+                  <view @tap="resetPublish({{item.publish_id}})">刷新</view>
+              </view>
+              <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>{{item.readCount}}</text></view>
+          </view>
+      </view>
+      <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
+          <view class="fb-left"><image src="{{item.headimg}}" /></view>
+          <view class="fb-right">
+              <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
+              <view class="fb-time">发布时间:{{item.publish_time}}</view>
+              <view class='fb-cz'>
+                  <view>编辑</view>
+                  <view>刷新</view>
+              </view>
+          </view>
+      </view>
+      </block>
+      <view style="width:750rpx;height:130rpx;"></view>
+  </view>
+  <view wx:if="{{nothree}}" class="tabc">
+      <view class='topbanner'>
+          <image src="../img/banner1.png" mode="widthFix"/>
+      </view>
+      <view class="menu">
+          <view class="option" @tap="goform(1)"><view class="opt-left"><view class="optname">钟点工</view><view class="optnote">优秀阿姨定期上门</view></view><view><image src="../img/c1.png" mode="widthFix"/></view></view>
+          <view class="option" @tap="goform(2)"><view class="opt-left"><view class="optname">单次保洁</view><view class="optnote">一站式保洁服务</view></view><view><image src="../img/c2.png" mode="widthFix"/></view></view>
+          <view class="option" @tap="goform(3)"><view class="opt-left"><view class="optname">月嫂</view><view class="optnote">金牌认证母婴呵护</view></view><view><image src="../img/c3.png" mode="widthFix"/></view></view>
+          <view class="option" @tap="goform(4)"><view class="opt-left"><view class="optname">育婴师</view><view class="optnote">营养护理科学早教</view></view><view><image src="../img/c4.png" mode="widthFix"/></view></view>
+          <view class="option" @tap="goform(5)"><view class="opt-left"><view class="optname">住家保姆</view><view class="optnote">烦心家务轻松解决</view></view><view><image src="../img/c5.png" mode="widthFix"/></view></view>
+          <view class="option" @tap="goform(6)"><view class="opt-left"><view class="optname">老人陪护</view><view class="optnote">居家陪伴生活照料</view></view><view><image src="../img/c6.png" mode="widthFix"/></view></view>
+          <view class="option" @tap="goform(7)"><view class="opt-left"><view class="optname">催乳师</view><view class="optnote">科学催乳上门服务</view></view><view><image src="../img/c7.png" mode="widthFix"/></view></view>
+          <view class="option" @tap="goform(8)"><view class="opt-left"><view class="optname">病人陪护</view><view class="optnote">健康护理陪同医疗</view></view><view><image src="../img/c8.png" mode="widthFix"/></view></view>
+      </view>
+  </view>
+  <view wx:if="{{nofour}}" class="tabd">
+     <view class="v-top">
+         <image class="v-img" src="../img/banner2.png" mode="widthFix"/>
+         <view class="v-center">
+         <view><image src="{{userinfo.headimg?userinfo.headimg:userthings.avatarUrl}}"/></view>
+         <view class="v-name">{{userinfo.name?userinfo.name:userthings.nickName}}</view>
+         <view class="v-phone">{{userinfo.phone}}</view>
+         </view>
+     </view>
+    <view class="v-menu">
+        <view class="v-md" @tap="gocenter">
+            <image src="../img/gsc01.png" />
+            <view>我的接单</view>
+        </view>
+        <view class="v-md" @tap="isgs">
+            <image src="../img/gsc02.png" />
+            <view>我的招聘发布</view>
+        </view>
+    </view>
+    <view class="v-menu">
+        <view class="v-md" @tap="gocenter">
+            <image src="../img/gsc03.png" />
+            <view>我的录用</view>
+        </view>
+        <view class="v-md" @tap="isgs">
+            <image src="../img/gsc04.png" />
+            <view>基本信息</view>
+        </view>
+    </view>
+    <view class="v-menu">
+        <view class="v-md" @tap="gocenter">
+            <image src="../img/gsc05.png" />
+            <view>资质证明</view>
+        </view>
+        <view class="v-md">
+           
+        </view>
+    </view>
+  </view>
+    </view>
 </template>
 <script>
-export default {
-    
-}
+import wepy from 'wepy'
+import {auntList,myList,resetPublish} from '../api/api'
+export default class chooseuer extends wepy.page{
+config = {
+      navigationBarTitleText: '职位',
+      onReachBottomDistance: 50
+    }
+    data={
+        noone:true,
+        notwo:false,
+        nothree:false,
+        nofour:false,
+        array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
+        area:'',
+        type:'',
+        index1:0,
+        index2:0,
+        session_key:'',
+        userthings:'',
+        identification:'',
+        page1:1,
+        page2:1,
+        fblist:'',
+        zwlist:"",
+        userinfo:''
+    }
+    methods={
+       async selected(){
+            this.noone=true,
+            this.notwo=false,
+            this.nothree=false,
+            this.nofour=false,
+            this.page1=1,
+            wx.setNavigationBarTitle({
+      title: '职位' 
+    })
+            this.area='',
+            this.type=0,
+            this.zwlist= await this.auntList(),
+            console.log(this.zwlist);
+            this.$apply()
+        },
+       async selected1(){
+            this.noone=false,
+            this.notwo=true,
+            this.nothree=false,
+            this.nofour=false,
+            this.page2=1,
+            wx.setNavigationBarTitle({
+      title: '我的发布' 
+    })
+            this.fblist= await this.myList()
+            this.$apply()
+        },
+       async selected2(){
+            this.noone=false,
+            this.notwo=false,
+            this.nothree=true,
+            this.nofour=false,
+            wx.setNavigationBarTitle({
+      title: '发布' 
+    })
+            this.$apply()
+        },
+        async selected3(){
+            this.noone=false,
+            this.notwo=false,
+            this.nothree=false,
+            this.nofour=true,
+            wx.setNavigationBarTitle({
+      title: '我的' 
+    })
+            this.$apply()
+        },
+        godetail(e){
+            console.log(e)
+            if(this.identification==1){
+                if(this.noone==true){
+                    wx.navigateTo({
+                    url:'zwdetails?id='+e+'&sessionkey='+this.session_key
+                    })
+                }else{
+                    wx.navigateTo({
+                        url:'errorpage?type=1'
+                    //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
+                    })
+                }
+            }else{
+                wx.navigateTo({
+                url:'index?type=1'
+            })
+            }
+        },
+        isgs(){
+            console.log('is公司');
+            wx.navigateTo({
+                url:'errorpage?type=3'
+            })
+        },
+        gocenter(){
+            wx.navigateTo({
+                url:'center/personcenter?case='+JSON.stringify(this.userinfo)
+            })
+        },
+         async resetPublish(e){
+             let resetPub=await this.resetPublish(e)
+             console.log(resetPub)
+             if(resetPub.code=="10001"){
+                 wx.showToast({
+                     title:'刷新成功',
+                     icon: 'none',
+                 })
+             }
+         },
+         async changeqy(e) {
+            console.log( this.array1[e.detail.value])
+            if(e.detail.value==0){
+                this.area=''
+            }else{
+            this.area=this.array1[e.detail.value]
+            }
+            this.index1=e.detail.value
+            this.zwlist= await this.auntList(),
+            this.$apply()
+            },
+          async changelx(e) {
+            console.log( this.array2[e.detail.value])
+            this.lx= e.detail.value
+            this.index2= e.detail.value
+            this.type=e.detail.value
+            this.zwlist= await this.auntList(),
+            this.$apply()
+            },
+        goform(e){
+            console.log(e);
+            wx.navigateTo({
+              url:`publish?form=${e}`
+            })
+        }
+    }
+   async onLoad(){
+        var that=this
+        wx.getStorage({
+            key:'userInfo',
+            success(res) {
+                that.userthings=res.data;
+                that.$apply()
+                wx.getStorage({
+                    key:'userdetails',
+                    success(rq) {
+                        that.userinfo=rq.data;
+                        console.log(rq.data,111)
+                        that.identification=rq.data.identification
+                        wx.getStorage({
+                            key:'session_key',
+                            success(ra){
+                                that.session_key=ra.data
+                            }
+                        })
+                        that.$apply()
+        }
+        })
+        }
+        })
+        if(that.noone){
+            that.zwlist= await that.auntList()
+            that.$apply()
+        }
+    }
+    async onReachBottom(){
+        if(this.noone){
+            ++ this.page1 
+            let result = await this.auntList()
+            if(result==''){
+                this.page1--
+                wx.showToast({
+                title: '没有更多数据了',
+                icon: 'none',
+            })
+            }else{
+                let c = this.zwlist;
+                let b = result;
+                this.zwlist= c.concat(b)
+                console.log(c.concat(b),111)
+                this.$apply()
+            }
+            
+        }else if(this.notwo){
+            ++ this.page2
+            let result = await this.myList()
+            if(result==''){
+                this.page2--
+                wx.showToast({
+                title: '没有更多数据了',
+                icon: 'none',
+            })
+            }else{
+                let c = this.fblist;
+                let b = result;
+                this.fblist= c.concat(b)
+                console.log(c.concat(b),111)
+                this.$apply()
+            }
+        }
+    }
+    async auntList(){
+        try {
+        wx.showLoading({
+          title:'加载中'
+        });
+        let res= await auntList({
+          sessionkey:this.session_key,
+        //   sessionkey:'cewbEHuWrMeA4WdcQ/AnVg==',
+          area:this.area,
+          type:this.type,
+          pagenum:'9',
+          pages:this.page1
+        });
+      console.log(res);
+      return res.data.data;
+        } catch (error) {
+            
+        }
+    }
+    async myList(){
+        try{
+        wx.showLoading({
+          title:'加载中'
+        });
+        let res= await myList({
+          sessionkey:this.session_key,
+          pagenum:'9',
+          pages:this.page2
+        });
+      return res.data.data;
+        }catch(e){
+            console.log(e)
+        }
+    }
+    async resetPublish(e){
+        try{
+            wx.showLoading({
+          title:'加载中'
+        });
+        let res = await resetPublish({
+            sessionkey:this.session_key,
+            publish_id:e
+        })
+        return res.data;
+        }catch(el){
+            console.log(el)
+        }
+    }
+    }
 </script>

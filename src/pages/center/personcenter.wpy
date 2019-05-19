@@ -33,19 +33,19 @@
     .sub{
         position: fixed;
         bottom: 100rpx;
-        width: 400rpx;
-        left:175rpx;
+        width: 570rpx;
+        left:90rpx;
         background: #FF6702;
         color: #ffffff;
         text-align:center;
         font-size:30rpx;
-        line-height:80rpx;
-        border-radius:27rpx;
+        line-height:88rpx;
+        border-radius:10rpx;
     }
 </style>
 <template>
 <block>
-    <view class="v-line line-one"><view class="line-left">头像</view><image src="{{userInfo.photo}}" /></view>
+    <view class="v-line line-one"><view class="line-left">头像</view><image src="{{userInfo.photo}}" /><image class='line-gr' src="../img/gr.png" /></view>
     <view class="v-line"><view class="line-left">姓名</view><input type="text" @input="s1" value="{{userInfo.name}}"/></view>
     <view class="v-line"><view class="line-left">性别</view><input type="text" @input="s2" value="{{userInfo.sex==1?'男':'女'}}"/></view>
     <view class="v-line"><view class="line-left">手机号</view><input type="number" @input="s3" value="{{userInfo.phone}}"/></view>

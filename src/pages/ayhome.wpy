@@ -114,15 +114,19 @@
             justify-content: space-around;
             border-bottom: 1px solid #E6E6E6;
             .fb-left{
-                width: 200rpx;
+                width: 216rpx;
+                text-align: center;
                 image{
-                    width: 200rpx;
-                    height: 230rpx;
+                    width: 168rpx;
+                    height: 194rpx;
+                    margin-top: 12rpx;
+                    border-radius: 10rpx;
                 }
             }
             .fb-right{
                 width: 500rpx;
                 font-size: 26rpx;
+                position: relative;
                 .r-one{
                     margin-top: 30rpx;
                 }
@@ -147,6 +151,17 @@
                         border-radius: 10rpx;
                         text-align: center;
                         line-height: 54rpx;
+                    }
+                }
+                .v-watch{
+                    position:absolute;
+                    right:30rpx;
+                    top:40rpx;
+                    color: #FF6702;
+                    image{
+                        width: 30rpx;
+                        height: 30rpx;
+                        margin-right: 6rpx;
                     }
                 }
             }
@@ -194,8 +209,13 @@
     .tabd{
         .v-top{
             width: 750rpx;
-            background: #FF6702;
             height: 354rpx;
+            .v-img{
+                width:100%;
+                height:276rpx;
+                position:absolute;
+                z-index:-1;
+            }
             .v-center{
                 width: 300rpx;
                 margin: 0rpx auto;
@@ -301,6 +321,7 @@
                   <view>编辑</view>
                   <view @tap="resetPublish({{item.publish_id}})">刷新</view>
               </view>
+              <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>{{item.readCount}}</text></view>
           </view>
       </view>
       <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
@@ -334,6 +355,7 @@
   </view>
   <view wx:if="{{nofour}}" class="tabd">
      <view class="v-top">
+         <image class="v-img" src="../img/banner2.png" mode="widthFix"/>
          <view class="v-center">
          <view><image src="{{userinfo.headimg?userinfo.headimg:userthings.avatarUrl}}"/></view>
          <view class="v-name">{{userinfo.name?userinfo.name:userthings.nickName}}</view>
@@ -358,7 +380,7 @@ import wepy from 'wepy'
 import {auntList,myList,resetPublish} from '../api/api'
 export default class chooseuer extends wepy.page{
 config = {
-      navigationBarTitleText: '好阿姨',
+      navigationBarTitleText: '职位',
       onReachBottomDistance: 50
     }
     data={
@@ -388,6 +410,9 @@ config = {
             this.nothree=false,
             this.nofour=false,
             this.page1=1,
+            wx.setNavigationBarTitle({
+      title: '职位' 
+    })
             this.area='',
             this.type=0,
             this.zwlist= await this.auntList(),
@@ -400,6 +425,9 @@ config = {
             this.nothree=false,
             this.nofour=false,
             this.page2=1,
+            wx.setNavigationBarTitle({
+      title: '我的发布' 
+    })
             this.fblist= await this.myList()
             this.$apply()
         },
@@ -408,6 +436,9 @@ config = {
             this.notwo=false,
             this.nothree=true,
             this.nofour=false,
+            wx.setNavigationBarTitle({
+      title: '发布' 
+    })
             this.$apply()
         },
         async selected3(){
@@ -415,6 +446,9 @@ config = {
             this.notwo=false,
             this.nothree=false,
             this.nofour=true,
+            wx.setNavigationBarTitle({
+      title: '我的' 
+    })
             this.$apply()
         },
         godetail(e){

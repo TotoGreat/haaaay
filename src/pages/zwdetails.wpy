@@ -58,6 +58,17 @@
                     font-size: 28rpx;
                     color: #666666;
                 }
+                .v-gdt{
+                    position: absolute;
+                    right: 50rpx;
+                    color: #666666;
+                    font-size: 26rpx;
+                    margin-top:-60rpx;
+                    image{
+                        width: 10rpx;
+                        height: 18rpx;
+                    }
+                }
             }
             button{
                 width: 600rpx;
@@ -92,6 +103,9 @@
     </view>
     <view class='v-box'>
         <view class='v-tit'>家政公司</view>
+        <view class="v-gdt"> 查看详情
+            <image src="../img/gr.png" />
+        </view>
         <view class="v-det"><text>公司名称: \t</text><text>{{company_name}}</text></view>
         <view class="v-det"><text>公司电话: \t</text><text>{{company_telephone}}</text></view>
         <view class="v-det"><text>公司地址: \t</text><text>{{company_address}}</text></view>
