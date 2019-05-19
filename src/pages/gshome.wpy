@@ -10,11 +10,11 @@
         z-index:999;
 
         .imga{
-            width: 23rpx;
+            width: 40rpx;
             height: 40rpx;
         }
         .imgb{
-            width: 33rpx;
+            width: 38rpx;
             height: 40rpx;
         }
         .imgc{
@@ -22,7 +22,7 @@
             height: 40rpx;
         }
         .imgd{
-            width: 40rpx;
+            width: 36rpx;
             height: 40rpx;
         }
         .default {
@@ -141,13 +141,26 @@
                 font-size: 26rpx;
                 position: relative;
                 .r-one{
-                    margin-top: 30rpx;
-                }
-                .fb-type{
+                    margin-top: 10rpx;
+                    image{
+                        width: 52rpx;
+                        height: 52rpx;
+                        position: relative;
+                        top: 10rpx;
+                        margin-right: 10rpx;
+                    }
+                    text{
+                        color: #666666;
+                    }
+                    .fb-type{
                     font-size: 34rpx;
                     display: inline-block;
                     margin-right: 6rpx;
+                    margin-right: 10rpx;
+                    color: #333333;
                 }
+                }
+                
                 .fb-time{
                     margin-top: 20rpx;
                 }
@@ -270,23 +283,23 @@
     <view>
     <view class='tabbar'>
     <view class="{{!noone?'default':'default1'}}" bindtap="selected">
-         <image class="imga" src='../img/tabbar-zhiwei-b.png'  mode="widthFix"  wx:if='{{noone}}' ></image>
-         <image class="imga" src='../img/tabbar-zhiwei.png'  mode="widthFix" wx:if='{{!noone}}' ></image>
+         <image class="imga" src='../img/tab1.png'  mode="widthFix"  wx:if='{{noone}}' ></image>
+         <image class="imga" src='../img/tab1.png'  mode="widthFix" wx:if='{{!noone}}' ></image>
           <text >业主需求</text>
     </view>
     <view class="{{!notwo?'default':'default1'}}"  bindtap="selected1">
-        <image class="imgb" src='../img/tabbar-myfb-b.png'  mode="widthFix" wx:if='{{notwo}}' ></image>
-        <image class="imgb" src='../img/tabbar-myfb.png'  mode="widthFix" wx:if='{{!notwo}}' ></image>
+        <image class="imgb" src='../img/tab2-b.png'  mode="widthFix" wx:if='{{notwo}}' ></image>
+        <image class="imgb" src='../img/tab2.png'  mode="widthFix" wx:if='{{!notwo}}' ></image>
       <text >阿姨求职</text>
     </view>
      <view class="{{!nothree?'default':'default1'}}"  bindtap="selected2">
-        <image class="imgc" src='../img/tabbar-fabu-b.png'  mode="widthFix" wx:if='{{nothree}}' ></image>
-        <image class="imgc" src='../img/tabbar-fabu.png'  mode="widthFix" wx:if='{{!nothree}}' ></image>
+        <image class="imgc" src='../img/tab3-b.png'  mode="widthFix" wx:if='{{nothree}}' ></image>
+        <image class="imgc" src='../img/tab3.png'  mode="widthFix" wx:if='{{!nothree}}' ></image>
       <text >共享业务</text>
     </view>
     <view class="{{!notfive?'default':'default1'}}"  bindtap="selected4">
-        <image class="imgc" src='../img/tabbar-fabu-b.png'  mode="widthFix" wx:if='{{notfive}}' ></image>
-        <image class="imgc" src='../img/tabbar-fabu.png'  mode="widthFix" wx:if='{{!nofive}}' ></image>
+        <image class="imgc" src='../img/tab4.png'  mode="widthFix" wx:if='{{nofive}}' ></image>
+        <image class="imgc" src='../img/tab4.png'  mode="widthFix" wx:if='{{!nofive}}' ></image>
       <text >发布招聘</text>
     </view>
      <view class="{{!nofour?'default':'default1'}}"  bindtap="selected3">
@@ -335,19 +348,19 @@
       <view  wx:key="index" wx:if="{{item.state!==2}}" class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
-              <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
+              <view class='r-one'>
+                  <image src="../img/a{{item.type}}.png" /><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
               <view class="fb-time">发布时间:{{item.publish_time}}</view>
               <view class='fb-cz'>
-                  <view>编辑</view>
-                  <view @tap="resetPublish({{item.publish_id}})">刷新</view>
+                  
               </view>
-              <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>{{item.readCount}}</text></view>
+              <view class="v-watch"><text>{{item.userWagesHigh}}元/月</text></view>
           </view>
       </view>
       <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
-              <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
+              <view class='r-one'><image src="../img/a{{item.type}}.png" /><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
               <view class="fb-time">发布时间:{{item.publish_time}}</view>
               <view class='fb-cz'>
                   <view>编辑</view>
@@ -358,7 +371,8 @@
       </block>
       <view style="width:750rpx;height:130rpx;"></view>
   </view>
-  <view wx:if="{{nothree}}" class="tabc">
+  <view wx:if="{{nothree}}" class="tabe"></view>
+  <view wx:if="{{nofive}}" class="tabc">
       <view class='topbanner'>
           <image src="../img/banner1.png" mode="widthFix"/>
       </view>
@@ -427,6 +441,7 @@ config = {
         notwo:false,
         nothree:false,
         nofour:false,
+        nofive:false,
         array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
         area:'',
         type:'',
@@ -447,12 +462,13 @@ config = {
             this.notwo=false,
             this.nothree=false,
             this.nofour=false,
+            this.nofive=false,
             this.page1=1,
             wx.setNavigationBarTitle({
-      title: '职位' 
+      title: '业主需求' 
     })
             this.area='',
-            this.type=0,
+            // this.type=0,
             this.zwlist= await this.auntList(),
             console.log(this.zwlist);
             this.$apply()
@@ -462,9 +478,10 @@ config = {
             this.notwo=true,
             this.nothree=false,
             this.nofour=false,
+            this.nofive=false,
             this.page2=1,
             wx.setNavigationBarTitle({
-      title: '我的发布' 
+      title: '阿姨求职' 
     })
             this.fblist= await this.myList()
             this.$apply()
@@ -474,8 +491,9 @@ config = {
             this.notwo=false,
             this.nothree=true,
             this.nofour=false,
+            this.nofive=false,
             wx.setNavigationBarTitle({
-      title: '发布' 
+      title: '共享业务' 
     })
             this.$apply()
         },
@@ -484,6 +502,18 @@ config = {
             this.notwo=false,
             this.nothree=false,
             this.nofour=true,
+            this.nofive=false,
+            wx.setNavigationBarTitle({
+      title: '发布招聘' 
+    })
+            this.$apply()
+        },
+        async selected4(){
+            this.noone=false,
+            this.notwo=false,
+            this.nothree=false,
+            this.nofour=false,
+            this.nofive=true,
             wx.setNavigationBarTitle({
       title: '我的' 
     })
@@ -555,8 +585,10 @@ config = {
             })
         }
     }
-   async onLoad(){
+   async onLoad(e){
         var that=this
+        that.type=e.type
+        that.$apply()
         wx.getStorage({
             key:'userInfo',
             success(res) {

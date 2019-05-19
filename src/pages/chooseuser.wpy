@@ -86,7 +86,7 @@ config = {
                 wx.setStorageSync('session_key',res.data.data.userinfo.sessionkey)
                 wx.setStorageSync('userdetails',res.data.data.userinfo)
                 if(res.data.code=="10001"){
-                wx.navigateTo({
+                wx.reLaunch({
                 url:'gshome?type=3'
             })
             }
@@ -106,7 +106,7 @@ config = {
                 wx.setStorageSync('userdetails',res.data.data.userinfo)
                 console.log(res)
                 if(res.data.code=="10001"){
-                wx.navigateTo({
+                wx.reLaunch({
                 url:'ayhome?type=1'
             })
             }

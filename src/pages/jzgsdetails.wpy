@@ -1,0 +1,172 @@
+<style lang="less">
+    .p-line{
+                display: flex;
+                border-bottom:1px solid #e6e6e6;
+                .p-left{
+                    width: 100rpx;
+                    text-align: center;
+                    image{
+                        width: 56rpx;
+                        height: 56rpx;
+                        position: relative;
+                        top: 20rpx;
+                    }
+                }
+                .p-right{
+                    width: 650rpx;
+                    .p-info{
+                        line-height: 100rpx;
+                        .p-type{
+                            font-size: 34rpx;
+                        }
+                        .p-vil{
+                            font-size: 26rpx;
+                            color: #666666;
+                        }
+                        .p-wag{
+                            font-size: 30rpx;
+                            color: #FF6702;
+                            float: right;
+                            margin-right: 24rpx;
+                        }
+                    }
+                    .p-tag{
+                        .tag-box{
+                            margin-left: 10rpx;
+                            display: inline-block;
+                        view{ 
+                            padding: 5rpx 10rpx;
+                            font-size: 26rpx;
+                            background: #f2f2f2;
+                            color: #999999;
+                            margin-left: 10rpx;
+                        }
+                        }
+                    }
+                }
+            }
+            .v-box{
+                width: 680rpx;
+                padding: 20rpx 35rpx;
+                margin: 10rpx auto;
+                border-bottom: 1px solid #f1f1f1;
+                .v-tit{
+                    font-size: 34rpx;
+                    margin:0 auto 20rpx auto;
+                }
+                .v-det{
+                    font-size: 28rpx;
+                    color: #666666;
+                    
+                }
+                .v-det-img{
+                    text-align:center;
+                }
+                .v-gdt{
+                    position: absolute;
+                    right: 50rpx;
+                    color: #666666;
+                    font-size: 26rpx;
+                    margin-top:-60rpx;
+                    image{
+                        width: 10rpx;
+                        height: 18rpx;
+                    }
+                }
+            }
+            button{
+                width: 600rpx;
+                position: fixed;
+                bottom: 100rpx;
+                left: 75rpx;
+                background: #FF6702;
+                color: #fff;
+                image{
+                    width: 28rpx;
+                    height: 28rpx;
+                    margin-right:20rpx;
+                }
+            }
+</style>
+<template>
+<block>
+    <view class='v-box'>
+        <view class='v-tit'>家政公司</view>
+        <view class="v-det">
+            <view class="v-det"><text>公司名称: \t</text><text>{{company_name}}</text></view>
+            <view class="v-det"><text>公司电话: \t</text><text>{{company_telephone}}</text></view>
+            <view class="v-det"><text>公司地址: \t</text><text>{{company_address}}</text></view>
+        </view>
+    </view>
+    <view class='v-box'>
+        <view class='v-tit'>资质证明</view>
+        <view class="v-det v-det-img">
+            <image src="{{image}}" mode="widthFix" />
+        </view>
+        
+    </view>
+ 
+</block>
+</template>
+<script>
+import wepy from 'wepy'
+import {companyQuery} from '../api/api'
+export default class zwpage extends wepy.page{
+config = {
+      navigationBarTitleText: '家政公司'
+    }
+    data={
+       info:'',
+       serviceContent:'',
+       type:'',
+       typeName:'',
+       village:'',
+       image:'',
+       company_address:'',
+       company_name:'',
+       company_telephone:'',
+       company_introduce:'',
+       sessionkey:''
+    }
+    methods={
+      makecall(e){
+          wx.makePhoneCall({
+            phoneNumber: e
+        })
+      },
+      gogsdetail(e){
+          wx.navigateTo({
+                    url:'jzgsdetails?id='+e+'&sessionkey='+this.sessionkey
+                    })
+      }
+    }
+    onLoad(opt){
+        
+        companyQuery({sessionkey:opt.sessionkey,company_id:opt.id}).then(res=>{
+            this.sessionkey=opt.sessionkey
+            if(res.data.code=='10001'){
+                console.log(res.data);
+            this.info=res.data.data
+            let a=res.data.data
+            this.image=a.image
+            this.company_address=a.company_address
+            this.company_name=a.company_name
+            this.company_telephone=a.company_telephone
+            this.company_introduce=a.company_introduce
+            this.$apply()
+            }else{
+                wx.showModal({
+                content: '网络出问题啦',
+                showCancel: false,
+                success: function(res) {
+                if (res.confirm) {
+              
+            }
+          }
+        })
+            }
+        })
+    }
+    
+    }
+</script>

@@ -96,6 +96,18 @@ export function auntdetails(data){
   }
   return request(req)
 }
+//获取公司详情
+export function companyQuery(data){
+  let req={
+      url:G.apiUrl+'/company/companyQuery',
+      method:'POST',
+      header:{
+          'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+      },
+      data:data
+  }
+  return request(req)
+}
 //获取发布列表- 阿姨端
 export function myList(data){
   let req={

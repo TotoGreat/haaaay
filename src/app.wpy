@@ -27,6 +27,7 @@ export default class extends wepy.app {
       'pages/publish',//发布表单
       'pages/fbdetails',//我的发布详情
       'pages/zwdetails',//职位详情
+      'pages/jzgsdetails',//家政公司详情
     ],
     window: {
       backgroundTextStyle: 'light',
