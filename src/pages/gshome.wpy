@@ -54,6 +54,9 @@
             display:flex;
             justify-content:space-around;
             font-size: 34rpx;
+            line-height:80rpx;
+            border-bottom:1px solid #f1f1f1;
+
             .p-all{
                 color: #FF6702
             }
@@ -132,7 +135,7 @@
                 image{
                     width: 168rpx;
                     height: 194rpx;
-                    margin-top: 12rpx;
+                    margin-top: 22rpx;
                     border-radius: 10rpx;
                 }
             }
@@ -190,6 +193,29 @@
                         margin-right: 6rpx;
                     }
                 }
+                .v-down{
+                    border:1rpx solid #ff6702;
+                    color: #FF6702;
+                    width:150rpx;
+                    line-height:52rpx;
+                    text-align:center;
+                    border-radius:10rpx;
+                    float:right;
+                    margin:10rpx 0;
+                }
+                .p-tag{
+                        .tag-box{
+                            margin-right: 10rpx;
+                            display: inline-block;
+                        view{ 
+                            padding: 5rpx 10rpx;
+                            font-size: 26rpx;
+                            background: #f2f2f2;
+                            color: #999999;
+                            margin-right: 10rpx;
+                        }
+                        }
+                    }
             }
         }
     }
@@ -350,11 +376,23 @@
           <view class="fb-right">
               <view class='r-one'>
                   <image src="../img/a{{item.type}}.png" /><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
-              <view class="fb-time">发布时间:{{item.publish_time}}</view>
-              <view class='fb-cz'>
-                  
+              <view class="fb-time"><text>{{item.sex}}</text>|<text>{{item.age}}岁</text>|<text>{{item.village}}</text>|<text>{{item.workYear}}经验</text></view>
+              <view class='p-tag'>
+                    <!-- <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
+                        <view>{{item}}</view>
+                    </view> -->
+                    <view class='tag-box' wx:key="index">
+                        <view>洗衣做饭</view>
+                    </view>
+                    <view class='tag-box'  wx:key="index">
+                        <view>照顾小孩</view>
+                    </view>
+                    <view class='tag-box' wx:key="index">
+                        <view>照顾宠物</view>
+                    </view>
               </view>
               <view class="v-watch"><text>{{item.userWagesHigh}}元/月</text></view>
+              <view class="v-down" @tap="gofollow({{item.publish_id}})"><text>关注</text></view>
           </view>
       </view>
       <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
