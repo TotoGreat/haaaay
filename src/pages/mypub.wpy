@@ -260,7 +260,7 @@
   <view>
     <view class="tabb">
       <block >
-        <view  wx:key="index"  class='fb-list' @tap="godetail({{item.publish_id}})">
+        <view  wx:key="index" wx:for="{{zwlist}}" class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-right">
             <view class='r-one'>
               <image src="/img/a6.png" style="width:50rpx;height:50rpx"/>
@@ -291,62 +291,17 @@
 </template>
 <script>
   import wepy from 'wepy'
-  import {auntList,myList,resetPublish} from '../api/api'
+  import {fbmyList,myList,resetPublish} from '../api/api'
   export default class chooseuer extends wepy.page{
     config = {
       navigationBarTitleText: '我的发布',
       onReachBottomDistance: 50
     }
     data={
+      zwlist:'',
+      page1:1
     }
     methods={
-      async selected(){
-        this.noone=true,
-          this.notwo=false,
-          this.nothree=false,
-          this.nofour=false,
-          this.page1=1,
-          wx.setNavigationBarTitle({
-            title: '职位'
-          })
-        this.area='',
-          this.type=0,
-          this.zwlist= await this.auntList(),
-          console.log(this.zwlist);
-        this.$apply()
-      },
-      async selected1(){
-        this.noone=false,
-          this.notwo=true,
-          this.nothree=false,
-          this.nofour=false,
-          this.page2=1,
-          wx.setNavigationBarTitle({
-            title: '我的发布'
-          })
-        this.fblist= await this.myList()
-        this.$apply()
-      },
-      async selected2(){
-        this.noone=false,
-          this.notwo=false,
-          this.nothree=true,
-          this.nofour=false,
-          wx.setNavigationBarTitle({
-            title: '发布'
-          })
-        this.$apply()
-      },
-      async selected3(){
-        this.noone=false,
-          this.notwo=false,
-          this.nothree=false,
-          this.nofour=true,
-          wx.setNavigationBarTitle({
-            title: '我的'
-          })
-        this.$apply()
-      },
       godetail(e){
         console.log(e)
         if(this.identification==1){
@@ -366,17 +321,6 @@
           })
         }
       },
-      isgs(){
-        console.log('is公司');
-        wx.navigateTo({
-          url:'errorpage?type=3'
-        })
-      },
-      gocenter(){
-        wx.navigateTo({
-          url:'center/personcenter?case='+JSON.stringify(this.userinfo)
-        })
-      },
       async resetPublish(e){
         let resetPub=await this.resetPublish(e)
         console.log(resetPub)
@@ -387,25 +331,6 @@
           })
         }
       },
-      async changeqy(e) {
-        console.log( this.array1[e.detail.value])
-        if(e.detail.value==0){
-          this.area=''
-        }else{
-          this.area=this.array1[e.detail.value]
-        }
-        this.index1=e.detail.value
-        this.zwlist= await this.auntList(),
-          this.$apply()
-      },
-      async changelx(e) {
-        console.log( this.array2[e.detail.value])
-        this.lx= e.detail.value
-        this.index2= e.detail.value
-        this.type=e.detail.value
-        this.zwlist= await this.auntList(),
-          this.$apply()
-      },
       goform(e){
         console.log(e);
         wx.navigateTo({
@@ -415,38 +340,14 @@
     }
     async onLoad(e){
       var that=this
-      that.type=e.type
-      wx.getStorage({
-        key:'userInfo',
-        success(res) {
-          that.userthings=res.data;
-          that.$apply()
-          wx.getStorage({
-            key:'userdetails',
-            success(rq) {
-              that.userinfo=rq.data;
-              console.log(rq.data,111)
-              that.identification=rq.data.identification
-              wx.getStorage({
-                key:'session_key',
-                success(ra){
-                  that.session_key=ra.data
-                }
-              })
-              that.$apply()
-            }
-          })
-        }
-      })
-      if(that.noone){
-        that.zwlist= await that.auntList()
+      let ses= e.sessionkey
+        that.zwlist= await that.fbmyList(ses)
         that.$apply()
-      }
     }
     async onReachBottom(){
       if(this.noone){
         ++ this.page1
-        let result = await this.auntList()
+        let result = await this.fbmyList()
         if(result==''){
           this.page1--
           wx.showToast({
@@ -461,70 +362,21 @@
           this.$apply()
         }
 
-      }else if(this.notwo){
-        ++ this.page2
-        let result = await this.myList()
-        if(result==''){
-          this.page2--
-          wx.showToast({
-            title: '没有更多数据了',
-            icon: 'none',
-          })
-        }else{
-          let c = this.fblist;
-          let b = result;
-          this.fblist= c.concat(b)
-          console.log(c.concat(b),111)
-          this.$apply()
-        }
       }
     }
-    async auntList(){
-      try {
-        wx.showLoading({
-          title:'加载中'
-        });
-        let res= await auntList({
-          sessionkey:this.session_key,
-          //   sessionkey:'cewbEHuWrMeA4WdcQ/AnVg==',
-          area:this.area,
-          type:this.type,
-          pagenum:'9',
-          pages:this.page1
-        });
-        console.log(res);
-        return res.data.data;
-      } catch (error) {
-
-      }
-    }
-    async myList(){
+    async fbmyList(e){
       try{
         wx.showLoading({
           title:'加载中'
-        });
-        let res= await myList({
-          sessionkey:this.session_key,
-          pagenum:'9',
-          pages:this.page2
-        });
-        return res.data.data;
-      }catch(e){
-        console.log(e)
-      }
-    }
-    async resetPublish(e){
-      try{
-        wx.showLoading({
-          title:'加载中'
-        });
-        let res = await resetPublish({
-          sessionkey:this.session_key,
-          publish_id:e
         })
-        return res.data;
-      }catch(el){
-        console.log(el)
+      let res= await fbmyList({
+        sessionkey:e,
+        pagenum:"9",
+        page:this.page1
+      });
+      return res.data.data;
+      }catch(error){
+        
       }
     }
   }

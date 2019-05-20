@@ -431,7 +431,7 @@
           this.$apply()
         }
     }
-    async auntList(
+    
     async myList(){
       try{
         wx.showLoading({

@@ -168,3 +168,63 @@ export function resetPublish(data){
   }
   return request(req)
 }
+//业主 阿姨列表
+export function ownerList(data){
+  let req={
+    url:G.apiUrl+'/owner/ownerList  ',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//业主 阿姨详情
+export function ownerDetail(data){
+  let req={
+    url:G.apiUrl+'/owner/ownerDetail  ',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//业主 关注/取消关注
+export function follow(data){
+  let req={
+    url:G.apiUrl+'/owner/follow  ',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//业主 我的关注列表
+export function followList(data){
+  let req={
+    url:G.apiUrl+'/owner/followList',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//我的发布 列表
+export function fbmyList(data){
+  let req={
+    url:G.apiUrl+'/aunt/mine/myList',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}

@@ -194,7 +194,7 @@
                     }
                 }
                 .v-down{
-                    border:1rpx solid #ff6702;
+                    border:2rpx solid #ff6702;
                     color: #FF6702;
                     width:150rpx;
                     line-height:52rpx;

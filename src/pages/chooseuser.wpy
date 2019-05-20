@@ -68,15 +68,28 @@ config = {
     }
     methods={
         isyz(){
-            console.log('is业主')
-            wx.navigateTo({
+           loginb({
+                openid:this.openid,
+                type:2,
+                name:this.name,
+                sex:this.sex,
+                headimg:this.headimg,
+                sessionkey:this.sessionkey
+            }).then(res=>{
+                console.log(res.data)
+                wx.setStorageSync('session_key',res.data.data.userinfo.sessionkey)
+                wx.setStorageSync('userdetails',res.data.data.userinfo)
+                if(res.data.code=="10001"){
+                wx.reLaunch({
                 url:'yzhome?type=2'
+            })
+            }
             })
         },
         isgs(){
             loginb({
                 openid:this.openid,
-                type:1,
+                type:3,
                 name:this.name,
                 sex:this.sex,
                 headimg:this.headimg,

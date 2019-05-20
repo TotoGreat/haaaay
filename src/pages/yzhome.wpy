@@ -67,7 +67,7 @@
           }
         }
         .p-right{
-          width: 650rpx;
+          width: 100%;
           .p-info{
             line-height: 100rpx;
             .p-type{
@@ -199,7 +199,7 @@
       flex-wrap: wrap;
       align-content: flex-start;
       .option{
-        width: 373rpx;
+        width: 374rpx;
         margin: 0;
         display: flex;
         height: 180rpx;
@@ -259,7 +259,7 @@
       flex-wrap: wrap;
       .v-md{
         text-align: center;
-        width: 373rpx;
+        width: 374rpx;
         height: 204rpx;
         font-size: 26rpx;
         padding-top: 50rpx;
@@ -319,7 +319,7 @@
           </view>
           <view style-="display:flex;margin-bottom:10rpx;">
             <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901">经验丰富技艺超群，热情好客</view>
-            <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2px solid #FE9901;color:#FE9901;border-radius: 12rpx">取消关注</view>
+            <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="call({{item.userPhone}})">拨打</view>
           </view>
         </view>
       </view>
@@ -357,7 +357,7 @@
           </view>
           <view style-="display:flex;margin-bottom:10rpx">
             <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901">经验丰富技艺超群，热情好客</view>
-            <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2px solid #FE9901;color:#FE9901;border-radius: 12rpx">录用</view>
+            <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">关注</view>
           </view>
         </view>
         <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
@@ -411,13 +411,16 @@
           <image src="../img/gsc05.png" />
           <view>我的关注</view>
         </view>
+        <view class="v-md" >
+         
+        </view>
       </view>
     </view>
   </view>
 </template>
 <script>
   import wepy from 'wepy'
-  import {auntList,myList,resetPublish} from '../api/api'
+  import {fbmyList,ownerList,resetPublish,follow} from '../api/api'
   export default class chooseuer extends wepy.page{
     config = {
       navigationBarTitleText: '业主需求',
@@ -455,7 +458,7 @@
           })
         this.area='',
           this.type=0,
-          this.fblist= await this.myList()
+          this.fblist= await this.ownerList()
           console.log(this.zwlist);
         this.$apply()
       },
@@ -468,7 +471,7 @@
           wx.setNavigationBarTitle({
             title: '分享'
           })
-        this.zwlist= await this.auntList(),
+        this.zwlist= await this.fbmyList(),
         this.$apply()
       },
       async selected2(){
@@ -490,6 +493,11 @@
             title: '我的'
           })
         this.$apply()
+      },
+      call(e){
+        wx.makePhoneCall({
+            phoneNumber: e
+        })
       },
       godetail(e){
         console.log(e)
@@ -513,6 +521,19 @@
           url:'ayydetails'
         })
       },
+      async follows(e){
+        var that =this
+        let fow = await that.follow(e)
+        console.log(fow)
+        if(fow.data.code="10001"){
+          wx.showToast({
+            title:'已关注',
+          })
+          that.fblist= await that.ownerList()
+        }
+        
+        that.$apply()
+      },
       gofollow(){
         console.log('is公司');
         wx.navigateTo({
@@ -526,7 +547,7 @@
       },
       goMypub() {
         wx.navigateTo({
-          url:'mypub'
+          url:'mypub?sessionkey='+this.session_key
         })
       },
       async resetPublish(e){
@@ -547,7 +568,7 @@
           this.area=this.array1[e.detail.value]
         }
         this.index1=e.detail.value
-        this.zwlist= await this.auntList(),
+        this.fblist= await this.ownerList(),
           this.$apply()
       },
       async changelx(e) {
@@ -555,7 +576,7 @@
         this.lx= e.detail.value
         this.index2= e.detail.value
         this.type=e.detail.value
-        this.zwlist= await this.auntList(),
+        this.fblist= await this.ownerList(),
           this.$apply()
       },
       goform(e){
@@ -581,7 +602,8 @@
               wx.getStorage({
                 key:'session_key',
                 success(ra){
-                  that.session_key='ob2ZrTtLx9zst0Eg1198lQ'
+                  that.session_key=ra.data
+                  
                 }
               })
               that.$apply()
@@ -590,14 +612,14 @@
         }
       })
       if(that.noone){
-        that.fblist= await that.myList()
+        that.fblist= await that.ownerList()
         that.$apply()
       }
     }
     async onReachBottom(){
       if(this.notwo){
         ++ this.page1
-        let result = await this.auntList()
+        let result = await this.fbmyList()
         if(result==''){
           this.page1--
           wx.showToast({
@@ -614,7 +636,7 @@
 
       }else if(this.noone){
         ++ this.page2
-        let result = await this.myList()
+        let result = await this.ownerList()
         if(result==''){
           this.page2--
           wx.showToast({
@@ -630,16 +652,15 @@
         }
       }
     }
-    async auntList(){
+    async fbmyList(){
       try {
         wx.showLoading({
           title:'加载中'
         });
-        let res= await auntList({
+        let res= await fbmyList({
           sessionkey:this.session_key,
           //   sessionkey:'cewbEHuWrMeA4WdcQ/AnVg==',
           area:this.area,
-          type:this.type,
           pagenum:'9',
           pages:this.page1
         });
@@ -649,17 +670,33 @@
 
       }
     }
-    async myList(){
+    async ownerList(){
       try{
         wx.showLoading({
           title:'加载中'
         });
-        let res= await myList({
-          sessionkey:'ob2ZrTtLx9zst0Eg1198lQ',
+        let res= await ownerList({
+          sessionkey:this.session_key,
           pagenum:'9',
+          area:this.area,
+          type:this.type,
           pages:this.page2
         });
         return res.data.data;
+      }catch(e){
+        console.log(e)
+      }
+    }
+    async follow(e){
+      try{
+        wx.showLoading({
+          title:'加载中'
+        });
+        let res= await follow({
+          sessionkey:this.session_key,
+          publish_id:e
+        });
+        return res.data;
       }catch(e){
         console.log(e)
       }
