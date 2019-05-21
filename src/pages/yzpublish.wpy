@@ -102,6 +102,7 @@
         open-type="getPhoneNumber"
         wx:if="{{item.type==='tel'}}"
         bindgetphonenumber="getPhoneNumber"
+        data-index="{{index}}"
         class="phonebtn"
       >微信获取</button>
       <input
@@ -372,12 +373,6 @@
           key: 'place'
         },
         {
-          que: '您的工作经验',
-          type: 'normal',
-          value: '',
-          key: 'workYear'
-        },
-        {
           que: '您的联系方式',
           type: 'tel',
           value: '',
@@ -390,7 +385,7 @@
           key: 'village'
         },
         {
-          que: '您期望给的工作待遇',
+          que: '您的心理价位',
           type: 'range',
           value: ['', ''],
           key: 'userWages'
@@ -398,6 +393,11 @@
       ]
     };
     methods = {
+      getPhoneNumber(e){
+        var index = n.currentTarget.dataset.index;
+        console.log(n.currentTarget.dataset.index);
+        this.formItem[index].value = n.detail.value;
+      },
       inputText(n) {
         var index = n.currentTarget.dataset.index;
         console.log(n.currentTarget.dataset.index);

@@ -199,7 +199,7 @@
       flex-wrap: wrap;
       align-content: flex-start;
       .option{
-        width: 374rpx;
+        width: 373rpx;
         margin: 0;
         display: flex;
         height: 180rpx;
@@ -259,7 +259,7 @@
       flex-wrap: wrap;
       .v-md{
         text-align: center;
-        width: 374rpx;
+        width: 373rpx;
         height: 204rpx;
         font-size: 26rpx;
         padding-top: 50rpx;
@@ -303,7 +303,7 @@
         <view style="width:375rpx;border-bottom:1px solid #E6E6E6;color:#999999">我的分享</view>
       </view>
       <view class="p-box">
-        <view class="p-line" wx:for="{{zwlist}}" wx:key="index" @tap="godetail({{item.publish_id}})">
+        <view class="p-line" wx:for="{{zwlist}}" wx:key="index" @tap="gopub">
 
           <view class="p-right">
             <view class="p-info">
@@ -550,6 +550,12 @@
           url:'mypub?sessionkey='+this.session_key
         })
       },
+      gopub(){
+        wx.navigateTo({
+          url:'yzpublish'
+        })
+      },
+
       async resetPublish(e){
         let resetPub=await this.resetPublish(e)
         console.log(resetPub)

@@ -84,6 +84,7 @@
         open-type="getPhoneNumber"
         wx:if="{{item.type==='tel'}}"
         bindgetphonenumber="getPhoneNumber"
+        data-index="{{index}}"
         class="phonebtn"
       >微信获取</button>
       <input
@@ -380,6 +381,11 @@ export default class publish extends wepy.page {
     ]
   };
   methods = {
+    getPhoneNumber(e){
+      var index = n.currentTarget.dataset.index;
+      console.log(n.currentTarget.dataset.index);
+      this.formItem[index].value = n.detail.value;
+    },
     inputText(n) {
       var index = n.currentTarget.dataset.index;
       console.log(n.currentTarget.dataset.index);
