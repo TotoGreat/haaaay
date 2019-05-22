@@ -53,7 +53,7 @@
   <block>
     <view class="v-line line-one">
       <view class="line-left">头像</view>
-      <image src="{{userInfo.photo?uerInfo.photo:userInfo.headimg}}" />
+      <image src="{{userInfo.photo?userInfo.photo:userInfo.headimg}}" @tap="upload"/>
       <image class="line-gr" src="../../img/gr.png" />
     </view>
     <view class="v-line">
@@ -70,14 +70,18 @@
     </view>
     <view class="v-line">
       <view class="line-left">服务地址</view>
-      <input type="text" @input="s4" value="{{userInfo.village}}" />
+      <picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
+        <view class="picker">
+      {{array1[index1]}}
+    </view>
+  </picker>
     </view>
     <view class="sub" @tap="sub">保存</view>
   </block>
 </template>
 <script>
 import wepy from 'wepy';
-import { information } from '../../api/api';
+import { information,uploadimg,getarea} from '../../api/api';
 export default class errorpage extends wepy.page {
   config = {
     navigationBarTitleText: '个人信息'
@@ -88,7 +92,8 @@ export default class errorpage extends wepy.page {
     sex: '',
     contact: '',
     village: '',
-    area: '南京'
+    area: '南京',
+    arealist:''
   };
   methods = {
     sub(e) {
@@ -98,7 +103,8 @@ export default class errorpage extends wepy.page {
         sex: this.sex,
         contact: this.contact,
         village: this.village,
-        area: ''
+        area: '',
+        headimg:this.userInfo.photo
       }).then(res => {
         console.log(res);
         if (res.data.code == '10001') {
@@ -129,12 +135,63 @@ export default class errorpage extends wepy.page {
     s4(e) {
       this.village = e.detail.value;
       this.$apply();
+    },
+    upload(){
+      var that=this
+      wx.showActionSheet({
+          itemList:['拍照','上传图片'],
+          success: function(res) {
+            console.log(res.tapIndex)
+            if(res.tapIndex === 1) {
+              wx.chooseImage({
+                count: 1,
+                sizeType: ['compressed'],
+                sourceType: ['album'],
+                success: function (res) {
+                  var tempFilePath = res.tempFilePaths[0];
+                  uploadimg(tempFilePath).then(res2 => {
+                    // console.log(res2.data)
+                    let imginfo=JSON.parse(res2.data)
+                    console.log(imginfo.data.url)
+                    that.userInfo.photo=imginfo.data.url
+                    that.$apply()
+                  })
+                },
+                fail: function (res) { },
+                complete: function (res) { },
+              })
+            } else if (res.tapIndex === 0){
+              wx.chooseImage({
+                count: 1,
+                sizeType: ['compressed'],
+                sourceType: ['camera'],
+                success: function (res) {
+                 var tempFilePath = res.tempFilePaths[0];
+                  uploadimg(tempFilePath).then(res2 => {
+                    let imginfo=JSON.parse(res2.data)
+                    console.log(imginfo.data.url)
+                    that.userInfo.photo=imginfo.data.url
+                    that.$apply()
+                  })
+                },
+                fail: function (res) { },
+                complete: function (res) { },
+              })
+            }
+          },
+          fail: function(res) {
+            console.log(res.errMsg)
+          }
+        })
     }
   };
   onLoad(opt) {
     console.log(opt);
     let options = JSON.parse(opt.case);
     this.userInfo = options;
+    getarea().then(res=>{
+      this.arealist=res.data
+    })
     this.$apply();
   }
 }

@@ -284,27 +284,15 @@
               <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
               <text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text>
             </view>
-            <view class="fb-time">女 | 50岁 | 江苏南京 | 2年经验</view>
-            <view class='fb-cg'>
-              <view>洗衣做饭</view>
-              <view>洗衣做饭</view>
+            <view class="fb-time">{{item.sex}} | {{item.age}}岁 | {{item.place}} | {{item.workYear}}经验</view>
+            <view class='fb-cg' >
+              <view wx:for="{{item.tips}}">{{item}}</view>
             </view>
-            <view class="v-watch">4500元/月</view>
+            <view class="v-watch">{{item.userWagesHigh}}元/月</view>
           </view>
           <view style-="display:flex;margin-bottom:10rpx">
             <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901">经验丰富技艺超群，热情好客</view>
-            <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2px solid #FE9901;color:#FE9901;border-radius: 12rpx">录用</view>
-          </view>
-        </view>
-        <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
-          <view class="fb-left"><image src="{{item.headimg}}" /></view>
-          <view class="fb-right">
-            <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
-            <view class="fb-time">发布时间:{{item.publish_time}}</view>
-            <view class='fb-cz'>
-              <view>编辑</view>
-              <view>刷新</view>
-            </view>
+            <view @tap.stop="delfollow({{item.publish_id}})" style="margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2px solid #FE9901;color:#FE9901;border-radius: 12rpx;padding:0 20rpx;">取消关注</view>
           </view>
         </view>
       </block>
@@ -314,15 +302,13 @@
 </template>
 <script>
   import wepy from 'wepy'
-  import {auntList,myList,resetPublish} from '../api/api'
-  export default class chooseuer extends wepy.page{
+  import {followList,follow} from '../api/api'
+  export default class myfollow extends wepy.page{
     config = {
-      navigationBarTitleText: '业主需求',
+      navigationBarTitleText: '我的关注',
       onReachBottomDistance: 50
     }
     data={
-      array1:['南京','玄武区','秦淮区','鼓楼区','建邺区','栖霞区','雨花台区','浦口区','江宁区','六合区','溧水区','高淳区'],
-      array2:['全部','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
       area:'',
       type:'',
       index1:0,
@@ -337,21 +323,7 @@
       userinfo:''
     }
     methods={
-      async selected(){
-        this.noone=true,
-          this.notwo=false,
-          this.nothree=false,
-          this.nofour=false,
-          this.page1=1,
-          wx.setNavigationBarTitle({
-            title: '阿姨'
-          })
-        this.area='',
-          this.type=0,
-          this.fblist= await this.myList()
-        console.log(this.zwlist);
-        this.$apply()
-      },
+      
       godetail(e){
         console.log(e)
         // if(this.identification==1){
@@ -374,49 +346,28 @@
           url:'ayydetails'
         })
       },
-      async resetPublish(e){
-        let resetPub=await this.resetPublish(e)
+      async delfollow(e){
+        let resetPub=await this.followto(e)
         console.log(resetPub)
         if(resetPub.code=="10001"){
           wx.showToast({
-            title:'刷新成功',
+            title:'取消关注成功',
             icon: 'none',
           })
         }
       }
     }
-    async onLoad(){
+    async onLoad(opt){
       var that=this
-      wx.getStorage({
-        key:'userInfo',
-        success(res) {
-          that.userthings=res.data;
-          that.$apply()
-          wx.getStorage({
-            key:'userdetails',
-            success(rq) {
-              that.userinfo=rq.data;
-              console.log(rq.data,111)
-              that.identification=rq.data.identification
-              wx.getStorage({
-                key:'session_key',
-                success(ra){
-                  that.session_key='ob2ZrTtLx9zst0Eg1198lQ'
-                }
-              })
-              that.$apply()
-            }
-          })
-        }
-      })
-      if(that.noone){
-        that.fblist= await that.myList()
-        that.$apply()
-      }
+      let sess=opt.sess
+      that.session_key=opt.sess
+      that.fblist= await that.followList(sess)
+      console.log(that.fblist)
+      that.$apply()
     }
     async onReachBottom(){
         ++ this.page2
-        let result = await this.myList()
+        let result = await this.followList()
         if(result==''){
           this.page2--
           wx.showToast({
@@ -431,14 +382,15 @@
           this.$apply()
         }
     }
-    
-    async myList(){
+
+    async followList(e){
+      console.log(e)
       try{
         wx.showLoading({
           title:'加载中'
         });
-        let res= await myList({
-          sessionkey:'ob2ZrTtLx9zst0Eg1198lQ',
+        let res= await followList({
+          sessionkey:e?e:this.session_key,
           pagenum:'9',
           pages:this.page2
         });
@@ -447,12 +399,12 @@
         console.log(e)
       }
     }
-    async resetPublish(e){
+    async followto(e){
       try{
         wx.showLoading({
           title:'加载中'
         });
-        let res = await resetPublish({
+        let res = await follow({
           sessionkey:this.session_key,
           publish_id:e
         })

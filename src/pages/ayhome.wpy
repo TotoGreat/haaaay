@@ -53,9 +53,17 @@
         .p-top{
             display:flex;
             justify-content:space-around;
-            font-size: 34rpx;
+            font-size: 32rpx;
+            line-height:80rpx;
+            border-bottom:1px solid #eee;
             .p-all{
                 color: #FF6702
+            }
+            .picker{
+                image{
+                    width: 16rpx;
+                    height: 14rpx;
+                }
             }
         }
         .p-box{
@@ -283,11 +291,12 @@
           <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
         <view class="picker">
       {{array1[index1]}}
+      <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
     </view>
   </picker></view>
          <view><picker bindchange="changelx" value="{{index2}}" range="{{array2}}">
         <view class="picker">
-      {{array2[index2]}}
+      {{array2[index2]}}<image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
     </view>
   </picker></view>
       </view>

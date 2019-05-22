@@ -263,25 +263,27 @@
         <view  wx:key="index" wx:for="{{zwlist}}" class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-right">
             <view class='r-one'>
-              <image src="/img/a6.png" style="width:50rpx;height:50rpx"/>
-              <text class="fb-type">老人陪护</text><text>南京市龙乡小区</text></view>
-            <view class="fb-time">发布时间:123123123</view>
+              <image src="/img/a{{item.type}}.png" style="width:50rpx;height:50rpx"/>
+              <text class="fb-type">{{item.typeName}}</text><text>{{item.village}}</text></view>
+            <view class="fb-time">发布时间:   {{item.publish_time}}</view>
             <view class='fb-cz'>
               <view>编辑</view>
-              <view @tap="resetPublish({{item.publish_id}})">刷新</view>
+              <view @tap.stop="reset({{item.publish_id}})">刷新</view>
             </view>
             <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>12</text></view>
           </view>
         </view>
         <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
-          <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
-            <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
-            <view class="fb-time">发布时间:{{item.publish_time}}</view>
+            <view class='r-one'>
+              <image src="/img/a{{item.type}}.png" style="width:50rpx;height:50rpx"/>
+              <text class="fb-type">{{item.typeName}}</text><text>{{item.village}}</text></view>
+            <view class="fb-time">发布时间:   {{item.publish_time}}</view>
             <view class='fb-cz'>
               <view>编辑</view>
-              <view>刷新</view>
+              <view >刷新</view>
             </view>
+            <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>12</text></view>
           </view>
         </view>
       </block>
@@ -299,7 +301,8 @@
     }
     data={
       zwlist:'',
-      page1:1
+      page1:1,
+      sessionkey:''
     }
     methods={
       godetail(e){
@@ -321,7 +324,7 @@
           })
         }
       },
-      async resetPublish(e){
+      async reset(e){
         let resetPub=await this.resetPublish(e)
         console.log(resetPub)
         if(resetPub.code=="10001"){
@@ -341,6 +344,7 @@
     async onLoad(e){
       var that=this
       let ses= e.sessionkey
+        that.sessionkey=e.sessionkey
         that.zwlist= await that.fbmyList(ses)
         that.$apply()
     }
@@ -378,6 +382,20 @@
       }catch(error){
         
       }
+    }
+    async resetPublish(e){
+        try{
+            wx.showLoading({
+          title:'加载中'
+        });
+        let res = await resetPublish({
+            sessionkey:this.sessionkey,
+            publish_id:e
+        })
+        return res.data;
+        }catch(el){
+            console.log(el)
+        }
     }
   }
 </script>

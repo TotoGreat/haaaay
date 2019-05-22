@@ -53,8 +53,8 @@
         .p-top{
             display:flex;
             justify-content:space-around;
-            font-size: 34rpx;
-            line-height:80rpx;
+            font-size: 32rpx;
+            line-height:68rpx;
             border-bottom:1px solid #f1f1f1;
 
             .p-all{
@@ -309,7 +309,7 @@
     <view>
     <view class='tabbar'>
     <view class="{{!noone?'default':'default1'}}" bindtap="selected">
-         <image class="imga" src='../img/tab1.png'  mode="widthFix"  wx:if='{{noone}}' ></image>
+         <image class="imga" src='../img/tab1-b.png'  mode="widthFix"  wx:if='{{noone}}' ></image>
          <image class="imga" src='../img/tab1.png'  mode="widthFix" wx:if='{{!noone}}' ></image>
           <text >业主需求</text>
     </view>
@@ -324,7 +324,7 @@
       <text >共享业务</text>
     </view>
     <view class="{{!notfive?'default':'default1'}}"  bindtap="selected4">
-        <image class="imgc" src='../img/tab4.png'  mode="widthFix" wx:if='{{nofive}}' ></image>
+        <image class="imgc" src='../img/tab4-b.png'  mode="widthFix" wx:if='{{nofive}}' ></image>
         <image class="imgc" src='../img/tab4.png'  mode="widthFix" wx:if='{{!nofive}}' ></image>
       <text >发布招聘</text>
     </view>

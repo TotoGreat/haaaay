@@ -80,13 +80,13 @@
         bindinput="inputText"
         data-index="{{index}}"
       >
-      <button
+      <!-- <button
         open-type="getPhoneNumber"
         wx:if="{{item.type==='tel'}}"
         bindgetphonenumber="getPhoneNumber"
         data-index="{{index}}"
         class="phonebtn"
-      >微信获取</button>
+      >微信获取</button> -->
       <input
         type="text"
         class="priceinput"

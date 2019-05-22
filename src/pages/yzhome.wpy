@@ -109,7 +109,9 @@
     .p-top{
       display:flex;
       justify-content:space-around;
-      font-size: 34rpx;
+      font-size: 32rpx;
+      line-height:80rpx;
+      border-bottom:1px solid #eee;
       .p-all{
         color: #FF6702
       }
@@ -537,7 +539,7 @@
       gofollow(){
         console.log('is公司');
         wx.navigateTo({
-          url:'myfollow'
+          url:'myfollow?sess='+this.session_key
         })
       },
       gocenter(){

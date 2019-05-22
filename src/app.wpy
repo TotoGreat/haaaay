@@ -32,6 +32,7 @@ export default class extends wepy.app {
       'pages/fbdetails',//我的发布详情
       'pages/zwdetails',//职位详情
       'pages/jzgsdetails',//家政公司详情
+      'pages/mapchoose',//选择地图
     ],
     window: {
       backgroundTextStyle: 'light',

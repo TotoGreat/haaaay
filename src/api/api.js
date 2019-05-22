@@ -3,7 +3,7 @@ import wepy from 'wepy'
 import G from './global'
 
 //封装request方法
-function request(data, tryagain) {
+function request(data) {
     return new Promise((resolve, reject) => {
       wepy.request(data).then(res => {
         wepy.hideLoading()
@@ -23,7 +23,28 @@ function request(data, tryagain) {
       })
     })
   }
-
+  function uploadFile(data) {
+    return new Promise(function(resolve, reject) {
+      wepy.uploadFile(data).then(function(res) {
+        resolve(res,100001)
+      }).catch(function (res) {
+        reject(res);
+      })
+    });
+  }
+//上传附件
+export function uploadimg(tempFilePath){
+  let req={
+      url:G.apiUrl+'/user/uploadPic',
+      filePath: tempFilePath,
+      name: 'file',
+      header:{
+        'content-type': 'multipart/form-data',
+        'X-Request-ID-WFY':new Date().getTime()
+      }
+  }
+  return uploadFile(req)
+}
 //获取短信验证码
 export function sendCode(data){
         let req={
@@ -225,6 +246,18 @@ export function fbmyList(data){
       'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
     },
     data:data
+  }
+  return request(req)
+}
+//获取小区列表
+export function getarea(){
+  let req={
+    url:G.apiUrl+'/user/area',
+    method:'GET',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:{}
   }
   return request(req)
 }
