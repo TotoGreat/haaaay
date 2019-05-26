@@ -115,6 +115,12 @@
       .p-all{
         color: #FF6702
       }
+      .picker{
+                image{
+                    width: 16rpx;
+                    height: 14rpx;
+                }
+            }
     }
     .fb-list{
       display: flex;
@@ -201,7 +207,7 @@
       flex-wrap: wrap;
       align-content: flex-start;
       .option{
-        width: 373rpx;
+        width: 374rpx;
         margin: 0;
         display: flex;
         height: 180rpx;
@@ -261,7 +267,7 @@
       flex-wrap: wrap;
       .v-md{
         text-align: center;
-        width: 373rpx;
+        width: 374rpx;
         height: 204rpx;
         font-size: 26rpx;
         padding-top: 50rpx;
@@ -274,6 +280,20 @@
       }
     }
   }
+  .v-share{
+    width:375rpx;border-bottom:1px solid #E6E6E6;color:#999999
+  }
+  .v-active{
+    width:375rpx;border-bottom:2px solid #FE9901;color:#FE9901
+  }
+  .nothing{
+        text-align: center;
+        image{
+            width:300rpx;
+            height:300rpx;
+            margin-top:300rpx;
+        }
+    }
 </style>
 <template>
   <view>
@@ -301,19 +321,19 @@
     </view>
     <view wx:if="{{notwo}}" class="taba">
       <view style="display: flex;width:750rpx;text-align:center;font-size:32rpx;height:90rpx;line-height:90rpx">
-        <view style="width:375rpx;border-bottom:2px solid #FE9901;color:#FE9901">业主分享</view>
-        <view style="width:375rpx;border-bottom:1px solid #E6E6E6;color:#999999">我的分享</view>
+        <view class="v-share {{share!=0?'':'v-active'}}"  @tap="gosharelist(0)">业主分享</view>
+        <view class="v-share {{share==0?'':'v-active'}}"  @tap="gosharelist(1)">我的分享</view>
       </view>
       <view class="p-box">
-        <view class="p-line" wx:for="{{zwlist}}" wx:key="index" @tap="gopub">
+        <view class="p-line" wx:for="{{zwlist}}" wx:if="{{zwlist.length!=0}}" wx:key="index" @tap="gopub({{item.publish_id}})">
 
           <view class="p-right">
             <view class="p-info">
               <image src="../img/a{{item.type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
-              <text class="p-type">{{item.typeName}}</text><text class="p-vil">{{item.village}}</text>
-              <text class='p-wag'>{{item.userWagesLow}}-{{item.userWagesHigh}}元/月</text>
+              <text class="p-type">{{item.typeName}}</text><text class="p-vil">{{item.name}}</text>
+              <text class='p-wag'>{{item.userWagesLow}}元/月</text>
             </view>
-            <view class="p-time">女 | 50岁 | 江苏南京 | 2年经验</view>
+            <view class="p-time">{{item.sex}} | {{item.age}}岁 | {{item.place}} | {{item.workYear}}年经验</view>
             <view class="p-tag">
               <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
                 <view>{{item}}</view>
@@ -324,6 +344,9 @@
             <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="call({{item.userPhone}})">拨打</view>
           </view>
         </view>
+        <view class='nothing' wx:if="{{zwlist.length==0}}">
+              <image src="../img/nothing.png" />
+          </view>
       </view>
       <view style="width:750rpx;height:130rpx;"></view>
     </view>
@@ -334,15 +357,17 @@
         <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
           <view class="picker">
             {{array1[index1]}}
+            <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
           </view>
         </picker></view>
         <view><picker bindchange="changelx" value="{{index2}}" range="{{array2}}">
           <view class="picker">
             {{array2[index2]}}
+            <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
           </view>
         </picker></view>
       </view>
-      <block wx:for="{{fblist}}">
+      <block wx:for="{{fblist}}" wx:if="{{fblist.length!=0}}">
         <view  wx:key="index" wx:if="{{item.state!==2}}" class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
@@ -350,15 +375,14 @@
               <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
               <text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text>
             </view>
-            <view class="fb-time">女 | 50岁 | 江苏南京 | 2年经验</view>
-            <view class='fb-cg'>
-              <view>洗衣做饭</view>
-              <view>洗衣做饭</view>
+            <view class="fb-time">{{item.sex}} | {{item.age}}岁 | {{item.place}} | {{item.workYear}}年经验</view>
+            <view class='fb-cg' >
+              <view wx:for="{{item.tips}}" wx:key="index">{{item}}</view>
             </view>
-            <view class="v-watch">4500元/月</view>
+            <view class="v-watch">{{item.userWagesLow}}元/月</view>
           </view>
           <view style-="display:flex;margin-bottom:10rpx">
-            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901">经验丰富技艺超群，热情好客</view>
+            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901;padding-left:20rpx;">经验丰富技艺超群，热情好客</view>
             <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">关注</view>
           </view>
         </view>
@@ -374,6 +398,9 @@
           </view>
         </view>
       </block>
+      <view class='nothing' wx:if="{{fblist.length==0}}">
+              <image src="../img/nothing.png" />
+          </view>
       <view style="width:750rpx;height:130rpx;"></view>
     </view>
     <view wx:if="{{nothree}}" class="tabc">
@@ -422,7 +449,7 @@
 </template>
 <script>
   import wepy from 'wepy'
-  import {fbmyList,ownerList,resetPublish,follow} from '../api/api'
+  import {ownerList,resetPublish,follow,getshare} from '../api/api'
   export default class chooseuer extends wepy.page{
     config = {
       navigationBarTitleText: '业主需求',
@@ -446,7 +473,9 @@
       page2:1,
       fblist:'',
       zwlist:"",
-      userinfo:''
+      share:0,
+      userinfo:'',
+      myshare:false
     }
     methods={
       async selected(){
@@ -473,7 +502,7 @@
           wx.setNavigationBarTitle({
             title: '分享'
           })
-        this.zwlist= await this.fbmyList(),
+        this.zwlist= await this.getshare(),
         this.$apply()
       },
       async selected2(){
@@ -520,7 +549,7 @@
         //   })
         // }
         wx.navigateTo({
-          url:'ayydetails'
+          url:'ayydetails?sessionkey='+this.session_key+'&id='+e
         })
       },
       async follows(e){
@@ -552,12 +581,16 @@
           url:'mypub?sessionkey='+this.session_key
         })
       },
-      gopub(){
+      gopub(e){
         wx.navigateTo({
-          url:'yzpublish'
+          url:'yzfxxq?sessionkey='+this.session_key+'&id='+e
         })
       },
-
+     async gosharelist(e){
+        this.share=e
+        this.zwlist= await this.getshare(),
+        this.$apply()
+      },
       async resetPublish(e){
         let resetPub=await this.resetPublish(e)
         console.log(resetPub)
@@ -627,7 +660,7 @@
     async onReachBottom(){
       if(this.notwo){
         ++ this.page1
-        let result = await this.fbmyList()
+        let result = await this.getshare()
         if(result==''){
           this.page1--
           wx.showToast({
@@ -660,15 +693,17 @@
         }
       }
     }
-    async fbmyList(){
+    async getshare(){
       try {
         wx.showLoading({
           title:'加载中'
         });
-        let res= await fbmyList({
+        let res= await getshare({
           sessionkey:this.session_key,
           //   sessionkey:'cewbEHuWrMeA4WdcQ/AnVg==',
           area:this.area,
+          share:this.share,
+          type:0,
           pagenum:'9',
           pages:this.page1
         });

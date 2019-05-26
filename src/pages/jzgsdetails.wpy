@@ -96,6 +96,7 @@
             <view class="v-det"><text>公司名称: \t</text><text>{{company_name}}</text></view>
             <view class="v-det"><text>公司电话: \t</text><text>{{company_telephone}}</text></view>
             <view class="v-det"><text>公司地址: \t</text><text>{{company_address}}</text></view>
+            <view class="v-det"><text>公司介绍: \t</text><text>{{company_introduce}}</text></view>
         </view>
     </view>
     <view class='v-box'>

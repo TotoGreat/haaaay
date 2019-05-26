@@ -515,7 +515,7 @@
         publishSave(data).then(res => {
           if(res.data.code=="10001"){
             wx.showToast({
-              title:'发布已提交',
+              title:'发布已提交,上架时长为一个月',
               icon: 'none',
             })
             setTimeout(() => {

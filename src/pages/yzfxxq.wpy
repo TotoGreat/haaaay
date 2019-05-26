@@ -1,55 +1,57 @@
 <style lang="less">
     .p-line{
-        display: flex;
-        border-bottom:1px solid #e6e6e6;
-        flex-wrap: wrap;
-        .p-right{
-          width: 448rpx;
-          padding:0 20rpx;
-          .p-info{
-            line-height: 100rpx;
-            .p-type{
-              font-size: 34rpx;
-              margin-left:20rpx;
-            }
-            .p-vil{
-              font-size: 26rpx;
-              color: #666666;
-            }
-            .p-wag{
-              font-size: 30rpx;
-              color: #FF6702;
-              float: right;
-            }
-          }
-          .p-time{
-            font-size:26rpx
-          }
-          .p-tag{
-            padding:20rpx 0;
-            .tag-box{
-              margin-right: 10rpx;
-              display: inline-block;
-              view{
-                padding: 5rpx 10rpx;
-                font-size: 26rpx;
-                background: #f2f2f2;
-                color: #999999;
-              }
-            }
-          }
-        }
-        .fb-left{
-                width: 216rpx;
-                text-align: center;
-                image{
-                    width: 168rpx;
-                    height: 194rpx;
-                    margin-top: 12rpx;
-                    border-radius: 10rpx;
+                display: flex;
+                border-bottom:1px solid #e6e6e6;
+                padding-bottom:40rpx;
+                .p-left{
+                    width: 100rpx;
+                    text-align: center;
+                    image{
+                        width: 56rpx;
+                        height: 56rpx;
+                        position: relative;
+                        top: 20rpx;
+                    }
+                }
+                .p-right{
+                    width: 650rpx;
+                    .p-info{
+                        line-height: 100rpx;
+                        .p-type{
+                            font-size: 34rpx;
+                        }
+                        .p-vil{
+                            font-size: 26rpx;
+                            color: #666666;
+                        }
+                        .p-wag{
+                            font-size: 30rpx;
+                            color: #FF6702;
+                            float: right;
+                            margin-right: 24rpx;
+                        }
+                        .p-tag{
+                            margin-bottom: 40rpx;
+                        }
+                    }
+                    .p-time{
+                        font-size:26rpx
+                    }
+                    .p-tag{
+                        .tag-box{
+                            margin-left: 10rpx;
+                            display: inline-block;
+                        view{ 
+                            padding: 5rpx 10rpx;
+                            font-size: 26rpx;
+                            background: #f2f2f2;
+                            color: #999999;
+                            margin-left: 10rpx;
+                        }
+                        }
+                    }
                 }
             }
-      }
             .v-box{
                 width: 680rpx;
                 padding: 20rpx 35rpx;
@@ -91,42 +93,34 @@
 </style>
 <template>
 <block>
-    <view class="p-line">
-        <view class="fb-left"><image src="{{info.headimg}}" /></view>
-          <view class="p-right">
-            <view class="p-info">
-              <image src="../img/a{{type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
-              <text class="p-type">{{info.typeName}}</text><text class="p-vil">{{info.name}}</text>
-              <text class='p-wag'>{{info.userWagesHigh}}元/月</text>
-            </view>
-            <view class="p-time">{{info.sex}}|{{info.age}}岁 | {{info.place}} |{{info.workYear}}年经验</view>
-            <view class="p-tag">
-              <view class='tag-box' wx:for="{{info.tips}}" wx:key="index">
-                <view >{{item}}</view>
+    <view class="p-line"  wx:key="index">
+              <view class="p-left">
+                  <image src="../img/a{{type}}.png" />
               </view>
-              
+              <view class="p-right">
+              <view class="p-info">
+                  <text class="p-type">{{typeName}}</text><text class="p-vil">{{info.name}}</text>
+                  <text class='p-wag'>{{userWagesLow}}-{{userWagesHigh}}元/月</text>
+              </view>
+               <view class="p-time">{{info.sex}}|{{info.age}}岁 | {{info.place}} |{{info.workYear}}年经验</view>
+                <view class="p-tag">
+                    <view class='tag-box' wx:for="{{tips}}" wx:key="index">
+                        <view>{{item}}</view>
+                    </view>
+                </view>
               </view>
           </view>
-        </view>
     <view class='v-box'>
         <view class='v-tit'>职位描述</view>
         <view class="v-det"><text>{{serviceContent}}</text></view>
     </view>
-    <view class='v-box'>
-        <view class='v-tit'>家政公司</view>
-        <view class="v-gdt" @tap="gogsdetail({{company_id}})"> 查看详情
-            <image src="../img/gr.png" />
-        </view>
-        <view class="v-det"><text>公司名称: \t</text><text>{{company_name}}</text></view>
-        <view class="v-det"><text>公司电话: \t</text><text>{{company_telephone}}</text></view>
-        <view class="v-det"><text>公司地址: \t</text><text>{{company_address}}</text></view>
-    </view>
-    <button @tap="makecall({{company_telephone}})"><image src="../img/call.png" />拨打</button>
+   
+    <button @tap="makecall({{info.userPhone}})"><image src="../img/call.png" />拨打</button>
 </block>
 </template>
 <script>
 import wepy from 'wepy'
-import {ownerDetail} from '../api/api'
+import {fxdetail} from '../api/api'
 export default class zwpage extends wepy.page{
 config = {
       navigationBarTitleText: '职位'
@@ -159,8 +153,7 @@ config = {
       }
     }
     onLoad(opt){
-        
-        ownerDetail({sessionkey:opt.sessionkey,publish_id:opt.id}).then(res=>{
+        fxdetail({sessionkey:opt.sessionkey,publish_id:opt.id}).then(res=>{
             this.sessionkey=opt.sessionkey
             if(res.data.code=='10001'){
             this.info=res.data.data

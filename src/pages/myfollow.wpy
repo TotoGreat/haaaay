@@ -272,11 +272,20 @@
       }
     }
   }
+  .nothing{
+        text-align: center;
+        image{
+            width:300rpx;
+height:300rpx;
+margin-top:300rpx;
+
+        }
+    }
 </style>
 <template>
   <view>
     <view class="tabb">
-      <block wx:for="{{fblist}}">
+      <block wx:for="{{fblist}}" wx:if="{{fblist.length==0}}">
         <view  wx:key="index" wx:if="{{item.state!==2}}" class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
@@ -296,6 +305,9 @@
           </view>
         </view>
       </block>
+      <view class='nothing' wx:if="{{fblist.length==0}}">
+              <image src="../img/nothing.png" />
+          </view>
       <view style="width:750rpx;height:130rpx;"></view>
     </view>
   </view>
@@ -343,7 +355,7 @@
         //   })
         // }
         wx.navigateTo({
-          url:'ayydetails'
+          url:'ayydetails?sessionkey='+this.session_key+'&id='+e
         })
       },
       async delfollow(e){
@@ -354,6 +366,8 @@
             title:'取消关注成功',
             icon: 'none',
           })
+          this.fblist= await this.followList(this.session_key)
+          this.$apply()
         }
       }
     }

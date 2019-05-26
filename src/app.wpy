@@ -33,6 +33,9 @@ export default class extends wepy.app {
       'pages/zwdetails',//职位详情
       'pages/jzgsdetails',//家政公司详情
       'pages/mapchoose',//选择地图
+      'pages/provepage',//资质证明上传
+      'pages/yzfxxq',//业主分享详情
+      'pages/yzfbdetails',//业主发布详情
     ],
     window: {
       backgroundTextStyle: 'light',

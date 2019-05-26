@@ -261,3 +261,51 @@ export function getarea(){
   }
   return request(req)
 }
+//分享列表
+export function getshare(data){
+  let req={
+    url:G.apiUrl+'/share/shareList',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//上传资质证明
+export function proveImg(data){
+  let req={
+    url:G.apiUrl+'/user/insertImg',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//分享详情
+export function fxdetail(data){
+  let req={
+    url:G.apiUrl+'/share/shareDetail',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//作废
+export function delPublish(data){
+  let req={
+    url:G.apiUrl+'/aunt/mine/delPublish',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}

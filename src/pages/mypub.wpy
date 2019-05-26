@@ -255,19 +255,28 @@
       }
     }
   }
+  .nothing{
+        text-align: center;
+        image{
+            width:300rpx;
+height:300rpx;
+margin-top:300rpx;
+
+        }
+    }
 </style>
 <template>
   <view>
     <view class="tabb">
-      <block >
-        <view  wx:key="index" wx:for="{{zwlist}}" class='fb-list' @tap="godetail({{item.publish_id}})">
+      <block wx:if="{{zwlist.length!=0}}">
+        <view  wx:key="index" wx:for="{{zwlist}}"  class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-right">
             <view class='r-one'>
               <image src="/img/a{{item.type}}.png" style="width:50rpx;height:50rpx"/>
               <text class="fb-type">{{item.typeName}}</text><text>{{item.village}}</text></view>
             <view class="fb-time">发布时间:   {{item.publish_time}}</view>
             <view class='fb-cz'>
-              <view>编辑</view>
+              <view @tap.stop="goform({{item.type}})">编辑</view>
               <view @tap.stop="reset({{item.publish_id}})">刷新</view>
             </view>
             <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>12</text></view>
@@ -287,6 +296,9 @@
           </view>
         </view>
       </block>
+      <view class='nothing' wx:if="{{zwlist.length==0}}">
+              <image src="../img/nothing.png" />
+          </view>
       <view style="width:750rpx;height:130rpx;"></view>
     </view>
   </view>
@@ -306,23 +318,17 @@
     }
     methods={
       godetail(e){
-        console.log(e)
-        if(this.identification==1){
-          if(this.noone==true){
             wx.navigateTo({
-              url:'zwdetails?id='+e+'&sessionkey='+this.session_key
+              url:'yzfbdetails?id='+e+'&sessionkey='+this.sessionkey
             })
-          }else{
-            wx.navigateTo({
-              url:'errorpage?type=1'
-              //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
-            })
-          }
-        }else{
-          wx.navigateTo({
-            url:'index?type=1'
-          })
-        }
+
+        
+      },
+      goform(e){
+        console.log(e);
+        wx.navigateTo({
+          url:"yzpublish?form="+e
+        })
       },
       async reset(e){
         let resetPub=await this.resetPublish(e)

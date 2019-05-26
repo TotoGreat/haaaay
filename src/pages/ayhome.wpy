@@ -260,6 +260,15 @@
                 }
             }
     }
+    .nothing{
+        text-align: center;
+        image{
+            width:300rpx;
+height:300rpx;
+margin-top:300rpx;
+
+        }
+    }
 </style>
 <template>
     <view>
@@ -301,7 +310,7 @@
   </picker></view>
       </view>
       <view class="p-box">
-          <view class="p-line" wx:for="{{zwlist}}" wx:key="index" @tap="godetail({{item.publish_id}})">
+          <view class="p-line" wx:for="{{zwlist}}" wx:if="{{zwlist.length!=0}}" wx:key="index" @tap="godetail({{item.publish_id}})">
               <view class="p-left">
                   <image src="../img/a{{item.type}}.png" />
               </view>
@@ -316,19 +325,22 @@
                     </view></view>
               </view>
           </view>
+          <view class='nothing' wx:if="{{zwlist.length==0}}">
+              <image src="../img/nothing.png" />
+          </view>
       </view>
       <view style="width:750rpx;height:130rpx;"></view>
   </view>
   <view wx:if="{{notwo}}" class="tabb">
-      <block wx:for="{{fblist}}">
+      <block wx:for="{{fblist}}" wx:if="{{fblist.length!=0}}">
       <view  wx:key="index" wx:if="{{item.state!==2}}" class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
               <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
               <view class="fb-time">发布时间:{{item.publish_time}}</view>
               <view class='fb-cz'>
-                  <view>编辑</view>
-                  <view @tap="resetPublish({{item.publish_id}})">刷新</view>
+                  <view @tap.stop="goform({{item.type}})">编辑</view>
+                  <view @tap.stop="resetPublish({{item.publish_id}})">刷新</view>
               </view>
               <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>{{item.readCount}}</text></view>
           </view>
@@ -345,6 +357,9 @@
           </view>
       </view>
       </block>
+      <view class='nothing' wx:if="{{fblist.length==0}}">
+              <image src="../img/nothing.png" />
+          </view>
       <view style="width:750rpx;height:130rpx;"></view>
   </view>
   <view wx:if="{{nothree}}" class="tabc">
@@ -376,7 +391,7 @@
             <image src="../img/ay01.png" />
             <view>基本信息</view>
         </view>
-        <view class="v-md" @tap="isgs">
+        <view class="v-md" @tap="goprev">
             <image src="../img/ay02.png" />
             <view>资质证明</view>
         </view>
@@ -420,7 +435,7 @@ config = {
             this.nofour=false,
             this.page1=1,
             wx.setNavigationBarTitle({
-      title: '职位' 
+      title: '职位信息' 
     })
             this.area='',
             this.type=0,
@@ -446,7 +461,7 @@ config = {
             this.nothree=true,
             this.nofour=false,
             wx.setNavigationBarTitle({
-      title: '发布' 
+      title: '发布求职' 
     })
             this.$apply()
         },
@@ -456,7 +471,7 @@ config = {
             this.nothree=false,
             this.nofour=true,
             wx.setNavigationBarTitle({
-      title: '我的' 
+      title: '我的主页' 
     })
             this.$apply()
         },
@@ -466,6 +481,10 @@ config = {
                 if(this.noone==true){
                     wx.navigateTo({
                     url:'zwdetails?id='+e+'&sessionkey='+this.session_key
+                    })
+                }else if(this.notwo==true){
+                    wx.navigateTo({
+                    url:'fbdetails?id='+e+'&sessionkey='+this.session_key
                     })
                 }else{
                     wx.navigateTo({
@@ -479,10 +498,10 @@ config = {
             })
             }
         },
-        isgs(){
+        goprev(){
             console.log('is公司');
             wx.navigateTo({
-                url:'errorpage?type=3'
+                url:'provepage?sessionkey='+this.sessionkey
             })
         },
         gocenter(){

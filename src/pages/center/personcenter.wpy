@@ -62,17 +62,21 @@
     </view>
     <view class="v-line">
       <view class="line-left">性别</view>
-      <input type="text" @input="s2" value="{{userInfo.sex==1?'男':'女'}}" />
+      <picker  value=""  range="{{sexlist}}" @change="changesex">
+        <view class="picker" style="text-align:right;">
+      {{sexlist[index2]}}
+    </view>
+  </picker>
     </view>
     <view class="v-line">
-      <view class="line-left">手机号</view>
-      <input type="number" @input="s3" value="{{userInfo.phone}}" />
+      <view class="line-left">联系电话</view>
+      <input type="number" @input="s3" value="{{userInfo.contact}}" />
     </view>
     <view class="v-line">
       <view class="line-left">服务地址</view>
-      <picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
-        <view class="picker">
-      {{array1[index1]}}
+      <picker bindchange="changeqy" value="{{arealist[index1].areaname}}"  range="{{arealist}}" range-key="{{'areaname'}}" @change="changexq">
+        <view class="picker" style="text-align:right;">
+      {{arealist[index1].areaname}}
     </view>
   </picker>
     </view>
@@ -82,18 +86,21 @@
 <script>
 import wepy from 'wepy';
 import { information,uploadimg,getarea} from '../../api/api';
-export default class errorpage extends wepy.page {
+export default class personnalcenter extends wepy.page {
   config = {
     navigationBarTitleText: '个人信息'
   };
   data = {
     userInfo: '',
     name: '',
-    sex: '',
+    sex: '女',
     contact: '',
     village: '',
-    area: '南京',
-    arealist:''
+    area: '',
+    arealist:'',
+    index1:0,
+    index2:0,
+    sexlist:['女','男']
   };
   methods = {
     sub(e) {
@@ -112,6 +119,15 @@ export default class errorpage extends wepy.page {
             title: '更新成功',
             icon: 'none'
           });
+          
+          var pages = getCurrentPages();
+          var prevPage = pages[pages.length - 2];  //上一个页面
+          var info = prevPage.data.userinfo//取上页data里的数据也可以修改
+          prevPage.setData({
+            'userinfo.headimg':this.userInfo.photo,
+            'userinfo.name':this.name,
+            'userinfo.phone':this.contact
+          })
           setTimeout(() => {
             wx.navigateBack({
               delta: 1
@@ -119,6 +135,16 @@ export default class errorpage extends wepy.page {
           }, 1000);
         }
       });
+    },
+    changexq(e){
+      // console.log(this.arealist)
+      this.index1=e.detail.value
+      this.area = this.arealist[e.detail.value].id
+      this.$apply()
+    },
+    changesex(e){
+      this.index2=e.detail.value
+      this.sex = this.sexlist[e.detail.value]
     },
     s1(e) {
       this.name = e.detail.value;
@@ -190,7 +216,9 @@ export default class errorpage extends wepy.page {
     let options = JSON.parse(opt.case);
     this.userInfo = options;
     getarea().then(res=>{
-      this.arealist=res.data
+      this.arealist=res.data.data
+      this.area=this.arealist[0].id
+      this.$apply()
     })
     this.$apply();
   }

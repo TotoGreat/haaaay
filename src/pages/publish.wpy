@@ -76,7 +76,14 @@
       <input
         type="text"
         placeholder="请输入"
-        wx:if="{{item.type!=='range'}}"
+        wx:if="{{item.type!=='range'&&item.type!=='num'}}"
+        bindinput="inputText"
+        data-index="{{index}}"
+      >
+      <input
+        type="text"
+        placeholder="请输入"
+        wx:if="{{item.type=='num'}}"
         bindinput="inputText"
         data-index="{{index}}"
       >
@@ -88,7 +95,7 @@
         class="phonebtn"
       >微信获取</button> -->
       <input
-        type="text"
+        type="digit"
         class="priceinput"
         wx:if="{{item.type==='range'}}"
         bindinput="inputPriceLow"
@@ -96,7 +103,7 @@
       >
       <view wx:if="{{item.type==='range'}}">-</view>
       <input
-        type="text"
+        type="digit"
         class="priceinput"
         wx:if="{{item.type==='range'}}"
         bindinput="inputPriceHigh"
@@ -344,7 +351,7 @@ export default class publish extends wepy.page {
       },
       {
         que: '您的年龄',
-        type: 'normal',
+        type: 'num',
         value: '',
         key: 'age'
       },
@@ -355,8 +362,8 @@ export default class publish extends wepy.page {
         key: 'place'
       },
       {
-        que: '您的工作经验',
-        type: 'normal',
+        que: '您的工作年限',
+        type: 'num',
         value: '',
         key: 'workYear'
       },
@@ -486,7 +493,7 @@ export default class publish extends wepy.page {
       publishSave(data).then(res => {
         if(res.data.code=="10001"){
                    wx.showToast({
-                     title:'发布已提交',
+                     title:'发布已提交,上架时长为一个月',
                      icon: 'none',
                  })
             setTimeout(() => {
@@ -1066,9 +1073,9 @@ export default class publish extends wepy.page {
         }
       ];
       wx.setNavigationBarTitle({
-        title: '病人维护'
+        title: '病人陪护'
       });
-      this.formtitle = '病人维护';
+      this.formtitle = '病人陪护';
     }
   }
 }

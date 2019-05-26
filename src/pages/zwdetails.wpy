@@ -2,6 +2,7 @@
     .p-line{
                 display: flex;
                 border-bottom:1px solid #e6e6e6;
+                padding-bottom:40rpx;
                 .p-left{
                     width: 100rpx;
                     text-align: center;
@@ -28,6 +29,9 @@
                             color: #FF6702;
                             float: right;
                             margin-right: 24rpx;
+                        }
+                        .p-tag{
+                            margin-bottom: 40rpx;
                         }
                     }
                     .p-tag{
@@ -96,10 +100,10 @@
                   <text class='p-wag'>{{userWagesLow}}-{{userWagesHigh}}元/月</text>
               </view>
                 <view class="p-tag">
-                    <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
+                    <view class='tag-box' wx:for="{{tips}}" wx:key="index">
                         <view>{{item}}</view>
                     </view>
-                    </view>
+                </view>
               </view>
           </view>
     <view class='v-box'>
@@ -137,7 +141,8 @@ config = {
        company_name:'',
        company_telephone:'',
        company_id:'',
-       sessionkey:''
+       sessionkey:'',
+       tips:[]
     }
     methods={
       makecall(e){
@@ -157,18 +162,19 @@ config = {
             this.sessionkey=opt.sessionkey
             if(res.data.code=='10001'){
             this.info=res.data.data
-            let a=res.data.data
+            let aaa=res.data.data
             let cont=res.data.data.serviceContent.replace(/\\n/g,"\n")
             this.serviceContent=cont
-            this.type=a.type
-            this.typeName=a.typeName
-            this.village=a.village
-            this.userWagesLow=a.userWagesLow
-            this.userWagesHigh=a.userWagesHigh
-            this.company_address=a.company_address
-            this.company_name=a.company_name
-            this.company_telephone=a.company_telephone
-            this.company_id=a.company_id
+            this.tips=aaa.tips
+            this.type=aaa.type
+            this.typeName=aaa.typeName
+            this.village=aaa.village
+            this.userWagesLow=aaa.userWagesLow
+            this.userWagesHigh=aaa.userWagesHigh
+            this.company_address=aaa.company_address
+            this.company_name=aaa.company_name
+            this.company_telephone=aaa.company_telephone
+            this.company_id=aaa.company_id
             this.$apply()
             }else{
                 wx.showModal({

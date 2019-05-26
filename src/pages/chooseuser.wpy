@@ -87,6 +87,10 @@ config = {
             })
         },
         isgs(){
+            wx.navigateTo({
+                url:'errorpage'
+            })
+            return
             loginb({
                 openid:this.openid,
                 type:3,
@@ -119,7 +123,7 @@ config = {
                 wx.setStorageSync('userdetails',res.data.data.userinfo)
                 console.log(res)
                 if(res.data.code=="10001"){
-                wx.navigateTo({
+                wx.reLaunch({
                 url:'ayhome?type=1'
             })
             }
