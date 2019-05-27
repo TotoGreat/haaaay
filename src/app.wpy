@@ -26,6 +26,7 @@ export default class extends wepy.app {
       'pages/myfollow',//我的管制-业主
       'pages/ayydetails',//阿姨详情-业主
       'pages/center/personcenter',//个人信息
+      'pages/center/gscenter',//公司信息
       'pages/errorpage',//跳转失败指向页面
       'pages/publish',//发布表单
       'pages/yzpublish',//发布表单-业主
@@ -34,8 +35,11 @@ export default class extends wepy.app {
       'pages/jzgsdetails',//家政公司详情
       'pages/mapchoose',//选择地图
       'pages/provepage',//资质证明上传
+      'pages/provepagegs',//公司资质证明上传
       'pages/yzfxxq',//业主分享详情
       'pages/yzfbdetails',//业主发布详情
+      'pages/myorder',//我的接单
+      'pages/myemploy'//我的录用
     ],
     window: {
       backgroundTextStyle: 'light',

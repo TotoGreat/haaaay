@@ -87,10 +87,10 @@ config = {
             })
         },
         isgs(){
-            wx.navigateTo({
-                url:'errorpage'
-            })
-            return
+            // wx.navigateTo({
+            //     url:'errorpage'
+            // })
+            // return
             loginb({
                 openid:this.openid,
                 type:3,
@@ -134,7 +134,7 @@ config = {
     onLoad(opt){
         this.openid=opt.openid,
         this.name=opt.name,
-        this.sex=opt.sex,
+        this.sex= opt.sex==1?'男':'女',
         this.headimg=opt.headimg,
         this.sessionkey=opt.sessionkey
         this.$apply()

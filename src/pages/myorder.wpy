@@ -1,112 +1,36 @@
-<style lang="less">
-.v-box{
-    .v-tit{
-        border-left: 6rpx solid #FF6702;
-        font-size: 28rpx;
-        width: 670rpx;
-        margin: 20rpx auto;
-        padding-left: 30rpx;
-    }
-.v-line {
-  width: 700rpx;
-  margin: 0 auto;
-  overflow: hidden;
-  display: flex;
-  justify-content: space-between;
-  view {
-    width: 340rpx;
-    image{
-        width: 100%;
-        height: 220rpx;
-    }
-    .vv{
-        width: 100%;
-        text-align: center;
-        position:absolute;
-        margin-top:-180rpx;
-        color: #666666;
-        .va{
-            font-size: 76rpx;
-        }
-        .vb{
-            font-size: 20rpx;
-        }
-    }
-  }
-}
-}
-.sub {
-  position: fixed;
-  bottom: 100rpx;
-  width: 570rpx;
-  left: 90rpx;
-  background: #ff6702;
-  color: #ffffff;
-  text-align: center;
-  font-size: 30rpx;
-  line-height: 88rpx;
-  border-radius: 10rpx;
-}
+<style lang="less" scoped>
+
 </style>
+
 <template>
-  <block>
-    <view class="v-box">
-        <view class="v-tit">上传身份证</view>
-        <view class="v-line">
-            <view @tap="upload(1)">
-                <image src="{{img1?img1:'../img/card-a.png'}}"  />
-                <view class="vv" wx:if="{{!img1}}">
-                    <view class="va">+</view>
-                    <view class="vb">身份证正面</view>
-                </view>
-            </view>
-            <view  @tap="upload(2)">
-                <image src="{{img2?img2:'../img/card-b.png'}}" />
-                <view class="vv" wx:if="{{!img2}}">
-                    <view class="va">+</view>
-                    <view class="vb">身份证反面</view>
-                </view>
-            </view>
-        </view>
-        <view class="v-tit">上传健康证</view>
-        <view class="v-line">
-            <view @tap="upload(5)">
-                <image src="{{img5?img5:'../img/card-a.png'}}" />
-                <view class="vv" wx:if="{{!img5}}">
-                    <view class="va">+</view>
-                    <view class="vb">健康证正面</view>
-                </view>
-            </view>
-            <view @tap="upload(6)">
-                <image src="{{img6?img6:'../img/card-b.png'}}"  />
-                <view class="vv" wx:if="{{!img6}}">
-                    <view class="va">+</view>
-                    <view class="vb">健康证反面</view>
-                </view>
-            </view>
-        </view>
-        <view class="v-tit">其他证件</view>
-        <view class="v-line">
-            <view @tap="upload(4)">
-                <image src="{{img4?img4:'../img/card-b.png'}}"  />
-                <view class="vv" wx:if="{{!img4}}">
-                    <view class="va">+</view>
-                    <view class="vb">上传</view>
-                </view>
-            </view>
-            <view>
-               
-            </view>
-        </view>
-    </view>
-  </block>
+    <view class="p-box">
+          <view class="p-line" wx:for="{{gxlist}}" wx:if="{{zwlist.length!=0}}" wx:key="index" @tap="godetail({{item.publish_id}})">
+              <view class="p-left">
+                  <image src="../img/a{{item.type}}.png" />
+              </view>
+              <view class="p-right">
+              <view class="p-info">
+                  <text class="p-type">{{item.typeName}}</text><text class="p-vil">{{item.village}}</text>
+                  <text class='p-wag'>{{item.userWagesLow}}-{{item.userWagesHigh}}元/月</text>
+              </view>
+                <view class="p-tag">
+                    <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
+                        <view>{{item}}</view>
+                    </view></view>
+              </view>
+          </view>
+      </view>
+          <view class='nothing' wx:if="{{gxlist.length==0}}">
+              <image src="../img/nothing.png" />
+<view style="text-align:center">暂无相关数据</view>
+          </view>
 </template>
 <script>
 import wepy from 'wepy';
 import { proveImg,uploadimg,getarea} from '../api/api';
-export default class provepage extends wepy.page {
+export default class myorder extends wepy.page {
   config = {
-    navigationBarTitleText: '资质证明'
+    navigationBarTitleText: '我的接单'
   };
   data = {
     img1:'',

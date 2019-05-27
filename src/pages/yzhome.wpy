@@ -346,6 +346,7 @@
         </view>
         <view class='nothing' wx:if="{{zwlist.length==0}}">
               <image src="../img/nothing.png" />
+<view style="text-align:center">暂无相关数据</view>
           </view>
       </view>
       <view style="width:750rpx;height:130rpx;"></view>
@@ -383,7 +384,8 @@
           </view>
           <view style-="display:flex;margin-bottom:10rpx">
             <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901;padding-left:20rpx;">经验丰富技艺超群，热情好客</view>
-            <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">关注</view>
+            <view wx:if="{{item.status!=0}}" style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">关注</view>
+            <view wx:if="{{item.status==0}}" style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">取消关注</view>
           </view>
         </view>
         <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
@@ -393,13 +395,14 @@
             <view class="fb-time">发布时间:{{item.publish_time}}</view>
             <view class='fb-cz'>
               <view>编辑</view>
-              <view>刷新</view>
+              <view>重新上架</view>
             </view>
           </view>
         </view>
       </block>
       <view class='nothing' wx:if="{{fblist.length==0}}">
               <image src="../img/nothing.png" />
+<view style="text-align:center">暂无相关数据</view>
           </view>
       <view style="width:750rpx;height:130rpx;"></view>
     </view>
@@ -424,7 +427,7 @@
         <view class="v-center">
           <view><image src="{{userinfo.headimg?userinfo.headimg:userthings.avatarUrl}}"/></view>
           <view class="v-name">{{userinfo.name?userinfo.name:userthings.nickName}}</view>
-          <view class="v-phone">{{userinfo.phone}}</view>
+          <view class="v-phone">{{userinfo.contact}}</view>
         </view>
       </view>
       <view class="v-menu">
@@ -450,7 +453,7 @@
 <script>
   import wepy from 'wepy'
   import {ownerList,resetPublish,follow,getshare} from '../api/api'
-  export default class chooseuer extends wepy.page{
+  export default class yzhome extends wepy.page{
     config = {
       navigationBarTitleText: '业主需求',
       onReachBottomDistance: 50
@@ -530,8 +533,10 @@
             phoneNumber: e
         })
       },
+      
       godetail(e){
         console.log(e)
+        this.yzdl()
         // if(this.identification==1){
         //   if(this.noone==true){
         //     wx.navigateTo({
@@ -554,6 +559,7 @@
       },
       async follows(e){
         var that =this
+            that.yzdl()
         let fow = await that.follow(e)
         console.log(fow)
         if(fow.data.code="10001"){
@@ -566,22 +572,26 @@
         that.$apply()
       },
       gofollow(){
+        this.yzdl()
         console.log('is公司');
         wx.navigateTo({
           url:'myfollow?sess='+this.session_key
         })
       },
       gocenter(){
+        this.yzdl()
         wx.navigateTo({
           url:'center/personcenter?case='+JSON.stringify(this.userinfo)
         })
       },
       goMypub() {
+        this.yzdl()
         wx.navigateTo({
           url:'mypub?sessionkey='+this.session_key
         })
       },
       gopub(e){
+        this.yzdl()
         wx.navigateTo({
           url:'yzfxxq?sessionkey='+this.session_key+'&id='+e
         })
@@ -596,7 +606,7 @@
         console.log(resetPub)
         if(resetPub.code=="10001"){
           wx.showToast({
-            title:'刷新成功',
+            title:'重新上架成功',
             icon: 'none',
           })
         }
@@ -621,12 +631,23 @@
           this.$apply()
       },
       goform(e){
+        this.yzdl()
         console.log(e);
         wx.navigateTo({
           url:"yzpublish?form="+e
         })
       }
     }
+    yzdl(){
+            if(this.identification==0){
+               wx.navigateTo({
+                   url:'index?type=2'
+               })
+               return false
+            }else if(this.identification==1){
+               
+            }
+        }
     async onLoad(){
       var that=this
       wx.getStorage({

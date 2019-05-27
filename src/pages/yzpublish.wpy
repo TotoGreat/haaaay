@@ -94,17 +94,24 @@
       <input
         type="text"
         placeholder="请输入"
-        wx:if="{{item.type!=='range'}}"
+        wx:if="{{item.type!=='range'&&item.type!=='num'}}"
         bindinput="inputText"
         data-index="{{index}}"
       >
-      <button
+      <input
+        type="number"
+        placeholder="请输入"
+        wx:if="{{item.type=='num'}}"
+        bindinput="inputText"
+        data-index="{{index}}"
+      >
+      <!-- <button
         open-type="getPhoneNumber"
         wx:if="{{item.type==='tel'}}"
         bindgetphonenumber="getPhoneNumber"
         data-index="{{index}}"
         class="phonebtn"
-      >微信获取</button>
+      >微信获取</button> -->
       <input
         type="text"
         class="priceinput"
@@ -373,8 +380,8 @@
           key: 'place'
         },
         {
-          que: '您的联系方式',
-          type: 'tel',
+          que: '您的联系电话',
+          type: 'number',
           value: '',
           key: 'userPhone'
         },
@@ -386,7 +393,7 @@
         },
         {
           que: '您的心理价位',
-          type: 'range',
+          type: 'number',
           value: ['', ''],
           key: 'userWages'
         }
@@ -1095,9 +1102,9 @@
           }
         ];
         wx.setNavigationBarTitle({
-          title: '病人维护'
+          title: '病人陪护'
         });
-        this.formtitle = '病人维护';
+        this.formtitle = '病人陪护';
       }
     }
   }

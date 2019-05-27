@@ -64,7 +64,7 @@
       <view class="line-left">性别</view>
       <picker  value=""  range="{{sexlist}}" @change="changesex">
         <view class="picker" style="text-align:right;">
-      {{sexlist[index2]}}
+      {{sexlist[index2]?sexlist[index2]:sex}}
     </view>
   </picker>
     </view>
@@ -93,14 +93,15 @@ export default class personnalcenter extends wepy.page {
   data = {
     userInfo: '',
     name: '',
-    sex: '女',
+    sex: '',
     contact: '',
     village: '',
     area: '',
     arealist:'',
     index1:0,
-    index2:0,
-    sexlist:['女','男']
+    index2:'',
+    sexlist:['女','男'],
+    headimg:''
   };
   methods = {
     sub(e) {
@@ -111,7 +112,7 @@ export default class personnalcenter extends wepy.page {
         contact: this.contact,
         village: this.village,
         area: '',
-        headimg:this.userInfo.photo
+        headimg:this.headimg
       }).then(res => {
         console.log(res);
         if (res.data.code == '10001') {
@@ -158,10 +159,6 @@ export default class personnalcenter extends wepy.page {
       this.contact = e.detail.value;
       this.$apply();
     },
-    s4(e) {
-      this.village = e.detail.value;
-      this.$apply();
-    },
     upload(){
       var that=this
       wx.showActionSheet({
@@ -179,6 +176,7 @@ export default class personnalcenter extends wepy.page {
                     // console.log(res2.data)
                     let imginfo=JSON.parse(res2.data)
                     console.log(imginfo.data.url)
+                    that.headimg=imginfo.data.url
                     that.userInfo.photo=imginfo.data.url
                     that.$apply()
                   })
@@ -196,6 +194,7 @@ export default class personnalcenter extends wepy.page {
                   uploadimg(tempFilePath).then(res2 => {
                     let imginfo=JSON.parse(res2.data)
                     console.log(imginfo.data.url)
+                    that.headimg=imginfo.data.url
                     that.userInfo.photo=imginfo.data.url
                     that.$apply()
                   })
@@ -212,9 +211,15 @@ export default class personnalcenter extends wepy.page {
     }
   };
   onLoad(opt) {
-    console.log(opt);
+    
     let options = JSON.parse(opt.case);
     this.userInfo = options;
+    // console.log(options);
+    this.headimg=options.headimg;
+    this.contact=options.contact;
+    this.village=options.area_id;
+    this.name=options.name;
+    this.sex=options.sex;
     getarea().then(res=>{
       this.arealist=res.data.data
       this.area=this.arealist[0].id

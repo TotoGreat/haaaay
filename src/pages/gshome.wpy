@@ -58,9 +58,16 @@
             border-bottom:1px solid #f1f1f1;
 
             .p-all{
-                color: #FF6702
+                color: #FF6702;
+                
             }
         }
+        .picker{
+                image{
+                    width: 16rpx;
+                    height: 14rpx;
+                }
+            }
         .p-box{
             .p-line{
                 display: flex;
@@ -304,6 +311,88 @@
                 }
             }
     }
+    .tabe{
+        .p-top{
+            display:flex;
+            justify-content:space-around;
+            font-size: 32rpx;
+            line-height:80rpx;
+            border-bottom:1px solid #eee;
+            .p-all{
+                color: #FF6702
+            }
+            .picker{
+                image{
+                    width: 16rpx;
+                    height: 14rpx;
+                }
+            }
+        }
+        .p-box{
+            .p-line{
+                display: flex;
+                height:180rpx;
+                border-bottom:1px solid #e6e6e6;
+                .p-left{
+                    width: 100rpx;
+                    text-align: center;
+                    image{
+                        width: 56rpx;
+                        height: 56rpx;
+                        position: relative;
+                        top: 20rpx;
+                    }
+                }
+                .p-right{
+                    width: 650rpx;
+                    .p-info{
+                        line-height: 100rpx;
+                        .p-type{
+                            font-size: 34rpx;
+                        }
+                        .p-vil{
+                            font-size: 26rpx;
+                            color: #666666;
+                        }
+                        .p-wag{
+                            font-size: 30rpx;
+                            color: #FF6702;
+                            float: right;
+                            margin-right: 24rpx;
+                        }
+                    }
+                    .p-tag{
+                        .tag-box{
+                            margin-left: 10rpx;
+                            display: inline-block;
+                        view{ 
+                            padding: 5rpx 10rpx;
+                            font-size: 26rpx;
+                            background: #f2f2f2;
+                            color: #999999;
+                            margin-left: 10rpx;
+                        }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .v-share{
+    width:375rpx;border-bottom:1px solid #E6E6E6;color:#999999
+  }
+  .v-active{
+    width:375rpx;border-bottom:2px solid #FE9901;color:#FE9901
+  }
+    .nothing{
+        text-align: center;
+        image{
+            width:300rpx;
+height:300rpx;
+margin-top:300rpx;
+
+        }
+    }
 </style>
 <template>
     <view>
@@ -345,6 +434,7 @@
          <view><picker bindchange="changelx" value="{{index2}}" range="{{array2}}">
         <view class="picker">
       {{array2[index2]}}
+       <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
     </view>
   </picker></view>
       </view>
@@ -366,6 +456,10 @@
                 <view class="p-btn">接单</view>
               </view>
           </view>
+          <view class='nothing' wx:if="{{zwlist.length==0}}">
+              <image src="../img/nothing.png" />
+<view style="text-align:center">暂无相关数据</view>
+          </view>
       </view>
       <view style="width:750rpx;height:130rpx;"></view>
   </view>
@@ -376,23 +470,17 @@
           <view class="fb-right">
               <view class='r-one'>
                   <image src="../img/a{{item.type}}.png" /><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
-              <view class="fb-time"><text>{{item.sex}}</text>|<text>{{item.age}}岁</text>|<text>{{item.village}}</text>|<text>{{item.workYear}}经验</text></view>
+              <view class="fb-time"><text>{{item.sex}}</text>|<text>{{item.age}}岁</text>|<text>{{item.place}}</text>|<text>{{item.workYear}}经验</text></view>
               <view class='p-tag'>
                     <!-- <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
                         <view>{{item}}</view>
                     </view> -->
-                    <view class='tag-box' wx:key="index">
-                        <view>洗衣做饭</view>
-                    </view>
-                    <view class='tag-box'  wx:key="index">
-                        <view>照顾小孩</view>
-                    </view>
-                    <view class='tag-box' wx:key="index">
-                        <view>照顾宠物</view>
+                    <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
+                        <view>{{item}}</view>
                     </view>
               </view>
               <view class="v-watch"><text>{{item.userWagesHigh}}元/月</text></view>
-              <view class="v-down" @tap="gofollow({{item.publish_id}})"><text>关注</text></view>
+              <view class="v-down" @tap.stop="gofollow({{item.publish_id}})"><text>录用</text></view>
           </view>
       </view>
       <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
@@ -402,14 +490,44 @@
               <view class="fb-time">发布时间:{{item.publish_time}}</view>
               <view class='fb-cz'>
                   <view>编辑</view>
-                  <view>刷新</view>
+                  <view>重新上架</view>
               </view>
           </view>
       </view>
       </block>
+      <view class='nothing' wx:if="{{fblist.length==0}}">
+              <image src="../img/nothing.png" />
+<view style="text-align:center">暂无相关数据</view>
+          </view>
       <view style="width:750rpx;height:130rpx;"></view>
   </view>
-  <view wx:if="{{nothree}}" class="tabe"></view>
+  <view wx:if="{{nothree}}" class="tabe">
+      <view style="display: flex;width:750rpx;text-align:center;font-size:32rpx;height:90rpx;line-height:90rpx">
+        <view class="v-share {{mine!=0?'':'v-active'}}"  @tap="gosharelist(0)">共享需求</view>
+        <view class="v-share {{mine==0?'':'v-active'}}"  @tap="gosharelist(1)">我的分享</view>
+      </view>
+      <view class="p-box">
+          <view class="p-line" wx:for="{{gxlist}}" wx:if="{{zwlist.length!=0}}" wx:key="index" @tap="godetail({{item.publish_id}})">
+              <view class="p-left">
+                  <image src="../img/a{{item.type}}.png" />
+              </view>
+              <view class="p-right">
+              <view class="p-info">
+                  <text class="p-type">{{item.typeName}}</text><text class="p-vil">{{item.village}}</text>
+                  <text class='p-wag'>{{item.userWagesLow}}-{{item.userWagesHigh}}元/月</text>
+              </view>
+                <view class="p-tag">
+                    <view class='tag-box' wx:for="{{item.tips}}" wx:key="index">
+                        <view>{{item}}</view>
+                    </view></view>
+              </view>
+          </view>
+      </view>
+          <view class='nothing' wx:if="{{gxlist.length==0}}">
+              <image src="../img/nothing.png" />
+<view style="text-align:center">暂无相关数据</view>
+          </view>
+      </view>
   <view wx:if="{{nofive}}" class="tabc">
       <view class='topbanner'>
           <image src="../img/banner1.png" mode="widthFix"/>
@@ -431,31 +549,31 @@
          <view class="v-center">
          <view><image src="{{userinfo.headimg?userinfo.headimg:userthings.avatarUrl}}"/></view>
          <view class="v-name">{{userinfo.name?userinfo.name:userthings.nickName}}</view>
-         <view class="v-phone">{{userinfo.phone}}</view>
+         <view class="v-phone">{{userinfo.contact}}</view>
          </view>
      </view>
     <view class="v-menu">
-        <view class="v-md" @tap="gocenter">
+        <view class="v-md" @tap="gocenter(1)">
             <image src="../img/gsc01.png" />
             <view>我的接单</view>
         </view>
-        <view class="v-md" @tap="isgs">
+        <view class="v-md" @tap="gocenter(2)">
             <image src="../img/gsc02.png" />
             <view>我的招聘发布</view>
         </view>
     </view>
     <view class="v-menu">
-        <view class="v-md" @tap="gocenter">
+        <view class="v-md" @tap="gocenter(3)">
             <image src="../img/gsc03.png" />
             <view>我的录用</view>
         </view>
-        <view class="v-md" @tap="isgs">
+        <view class="v-md" @tap="gocenter(4)">
             <image src="../img/gsc04.png" />
             <view>基本信息</view>
         </view>
     </view>
     <view class="v-menu">
-        <view class="v-md" @tap="gocenter">
+        <view class="v-md" @tap="gocenter(5)">
             <image src="../img/gsc05.png" />
             <view>资质证明</view>
         </view>
@@ -468,7 +586,7 @@
 </template>
 <script>
 import wepy from 'wepy'
-import {auntList,myList,resetPublish} from '../api/api'
+import {ownerList,houseList,employ,gssharelist} from '../api/api'
 export default class chooseuer extends wepy.page{
 config = {
       navigationBarTitleText: '职位',
@@ -492,7 +610,9 @@ config = {
         page2:1,
         fblist:'',
         zwlist:"",
-        userinfo:''
+        userinfo:'',
+        gxlist:'',
+        mine:0
     }
     methods={
        async selected(){
@@ -507,7 +627,7 @@ config = {
     })
             this.area='',
             // this.type=0,
-            this.zwlist= await this.auntList(),
+            this.zwlist= await this.ownerList(),
             console.log(this.zwlist);
             this.$apply()
         },
@@ -521,7 +641,7 @@ config = {
             wx.setNavigationBarTitle({
       title: '阿姨求职' 
     })
-            this.fblist= await this.myList()
+            this.fblist= await this.houseList()
             this.$apply()
         },
        async selected2(){
@@ -533,6 +653,8 @@ config = {
             wx.setNavigationBarTitle({
       title: '共享业务' 
     })
+    this.gxlist= await this.gssharelist()
+            this.$apply()
             this.$apply()
         },
         async selected3(){
@@ -557,9 +679,26 @@ config = {
     })
             this.$apply()
         },
+       async gofollow(e){
+            employ({sessionkey:this.session_key,publish_id:e}).then(res=>{
+                if(res.data.code=='10001'){
+                    wx.showToast({
+                        title:'成功录用',
+                        icon: 'none'
+                    })
+               
+                }else{
+                     wx.showToast({
+                        title:res.data.msg,
+                        icon: 'none'
+                    })
+                }
+            })
+             this.fblist= await this.houseList()
+        },
         godetail(e){
-            console.log(e)
-            if(this.identification==1){
+            // console.log(e)
+            if(this.identification==2){
                 if(this.noone==true){
                     wx.navigateTo({
                     url:'zwdetails?id='+e+'&sessionkey='+this.session_key
@@ -570,7 +709,17 @@ config = {
                     //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
                     })
                 }
-            }else{
+            }else if(this.identification==1){
+                    wx.showModal({
+          content: '请完成资质认证',
+          showCancel: false,
+          success: function(res) {
+            if (res.confirm) {
+              
+            }
+          }
+        })
+                }else{
                 wx.navigateTo({
                 url:'index?type=1'
             })
@@ -582,21 +731,53 @@ config = {
                 url:'errorpage?type=3'
             })
         },
-        gocenter(){
-            wx.navigateTo({
-                url:'center/personcenter?case='+JSON.stringify(this.userinfo)
+        async gosharelist(e){
+        this.mine=e
+        this.zwlist= await this.gssharelist(),
+        this.$apply()
+      },
+        gocenter(e){
+            if(this.identification==0){
+                wx.navigateTo({
+              url:'index??type=1'
             })
+            }else if(this.identification==1){
+                wx.showModal({
+          content: '请完成资质认证',
+          showCancel: false,
+          success: function(res) {
+            if (res.confirm) {
+              
+            }
+          }
+        })
+            }else{
+            if(e==1){
+                wx.navigateTo({
+                url:'myorder?case='+JSON.stringify(this.userinfo)
+            })
+            }
+            if(e==2){
+
+            }
+            if(e==3){
+                 wx.navigateTo({
+                url:'myemploy?case='+this.session_key
+            })
+            }
+            if(e==4){
+                wx.navigateTo({
+                url:'center/gscenter?case='+JSON.stringify(this.userinfo)
+            })
+            }
+            if(e==5){
+                wx.navigateTo({
+                url:'provepagegs?sessionkey='+this.session_key
+            })
+            }
+            }
         },
-         async resetPublish(e){
-             let resetPub=await this.resetPublish(e)
-             console.log(resetPub)
-             if(resetPub.code=="10001"){
-                 wx.showToast({
-                     title:'刷新成功',
-                     icon: 'none',
-                 })
-             }
-         },
+        
          async changeqy(e) {
             console.log( this.array1[e.detail.value])
             if(e.detail.value==0){
@@ -605,7 +786,7 @@ config = {
             this.area=this.array1[e.detail.value]
             }
             this.index1=e.detail.value
-            this.zwlist= await this.auntList(),
+            this.zwlist= await this.ownerList(),
             this.$apply()
             },
           async changelx(e) {
@@ -613,16 +794,53 @@ config = {
             this.lx= e.detail.value
             this.index2= e.detail.value
             this.type=e.detail.value
-            this.zwlist= await this.auntList(),
+            this.zwlist= await this.ownerList(),
             this.$apply()
             },
         goform(e){
             console.log(e);
+            if(this.identification==0){
+                wx.navigateTo({
+              url:'index??type=1'
+            })
+            }else if(this.identification==1){
+                wx.showModal({
+          content: '请完成资质认证',
+          showCancel: false,
+          success: function(res) {
+            if (res.confirm) {
+              
+            }
+          }
+        })
+            }else{
             wx.navigateTo({
               url:`publish?form=${e}`
             })
+            }
         }
     }
+    yzdl(){
+            if(this.identification==0){
+               wx.navigateTo({
+                   url:'index?type=1'
+               })
+               return
+            }else if(this.identification==1){
+               wx.showModal({
+          content: '请完成资质认证',
+          showCancel: false,
+          success: function(res) {
+            if (res.confirm) {
+              
+            }
+          }
+        })
+        return
+            }else{
+
+            }
+        }
    async onLoad(e){
         var that=this
         that.type=e.type
@@ -650,14 +868,14 @@ config = {
         }
         })
         if(that.noone){
-            that.zwlist= await that.auntList()
+            that.zwlist= await that.ownerList()
             that.$apply()
         }
     }
     async onReachBottom(){
         if(this.noone){
             ++ this.page1 
-            let result = await this.auntList()
+            let result = await this.ownerList()
             if(result==''){
                 this.page1--
                 wx.showToast({
@@ -674,7 +892,7 @@ config = {
             
         }else if(this.notwo){
             ++ this.page2
-            let result = await this.myList()
+            let result = await this.houseList()
             if(result==''){
                 this.page2--
                 wx.showToast({
@@ -690,12 +908,12 @@ config = {
             }
         }
     }
-    async auntList(){
+    async ownerList(){
         try {
         wx.showLoading({
           title:'加载中'
         });
-        let res= await auntList({
+        let res= await ownerList({
           sessionkey:this.session_key,
         //   sessionkey:'cewbEHuWrMeA4WdcQ/AnVg==',
           area:this.area,
@@ -709,12 +927,12 @@ config = {
             
         }
     }
-    async myList(){
+    async houseList(){
         try{
         wx.showLoading({
           title:'加载中'
         });
-        let res= await myList({
+        let res= await houseList({
           sessionkey:this.session_key,
           pagenum:'9',
           pages:this.page2
@@ -724,18 +942,22 @@ config = {
             console.log(e)
         }
     }
-    async resetPublish(e){
+    async gssharelist(){
         try{
-            wx.showLoading({
+        wx.showLoading({
           title:'加载中'
         });
-        let res = await resetPublish({
-            sessionkey:this.session_key,
-            publish_id:e
-        })
-        return res.data;
-        }catch(el){
-            console.log(el)
+        let res= await gssharelist({
+          sessionkey:this.session_key,
+          pagenum:'9',
+          area:'',
+          type:'',
+          pages:this.page2,
+          mine:this.mine
+        });
+      return res.data.data;
+        }catch(e){
+            console.log(e)
         }
     }
     }

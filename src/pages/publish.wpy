@@ -42,6 +42,7 @@
           value="{{item.value}}"
           data-index="{{index}}"
           class="selectitem selectitem3"
+          placeholder="请输入周期时长"
         >
       </view>
       <view class="contentBox" wx:if="{{item.range}}">
@@ -81,7 +82,7 @@
         data-index="{{index}}"
       >
       <input
-        type="text"
+        type="number"
         placeholder="请输入"
         wx:if="{{item.type=='num'}}"
         bindinput="inputText"
@@ -368,8 +369,8 @@ export default class publish extends wepy.page {
         key: 'workYear'
       },
       {
-        que: '您的联系方式',
-        type: 'tel',
+        que: '您的联系电话',
+        type: 'num',
         value: '',
         key: 'userPhone'
       },

@@ -192,7 +192,7 @@ export function resetPublish(data){
 //业主 阿姨列表
 export function ownerList(data){
   let req={
-    url:G.apiUrl+'/owner/ownerList  ',
+    url:G.apiUrl+'/owner/ownerList',
     method:'POST',
     header:{
       'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
@@ -301,6 +301,66 @@ export function fxdetail(data){
 export function delPublish(data){
   let req={
     url:G.apiUrl+'/aunt/mine/delPublish',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//公司端 阿姨求职列表
+export function houseList(data){
+  let req={
+    url:G.apiUrl+'/house/houseList',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//公司端 录用
+export function employ(data){
+  let req={
+    url:G.apiUrl+'/house/employ',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//公司端 分享
+export function gssharelist(data){
+  let req={
+    url:G.apiUrl+'/house/shareList',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//公司端 录用列表
+export function employlist(data){
+  let req={
+    url:G.apiUrl+'/house/employList',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//公司端 发布阿姨
+export function publish(data){
+  let req={
+    url:G.apiUrl+'/house/publish',
     method:'POST',
     header:{
       'content-type':'application/x-www-form-urlencoded;charset=UTF-8'

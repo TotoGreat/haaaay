@@ -51,51 +51,27 @@
 <template>
   <block>
     <view class="v-box">
-        <view class="v-tit">上传身份证</view>
+        <view class="v-tit">上传营业执照</view>
         <view class="v-line">
-            <view @tap="upload(1)">
+            <view @tap="upload(3)">
                 <image src="{{img1?img1:'../img/card-a.png'}}"  />
                 <view class="vv" wx:if="{{!img1}}">
                     <view class="va">+</view>
-                    <view class="vb">身份证正面</view>
+                    <view class="vb">营业执照</view>
                 </view>
             </view>
-            <view  @tap="upload(2)">
-                <image src="{{img2?img2:'../img/card-b.png'}}" />
-                <view class="vv" wx:if="{{!img2}}">
-                    <view class="va">+</view>
-                    <view class="vb">身份证反面</view>
-                </view>
-            </view>
-        </view>
-        <view class="v-tit">上传健康证</view>
-        <view class="v-line">
-            <view @tap="upload(5)">
-                <image src="{{img5?img5:'../img/card-a.png'}}" />
-                <view class="vv" wx:if="{{!img5}}">
-                    <view class="va">+</view>
-                    <view class="vb">健康证正面</view>
-                </view>
-            </view>
-            <view @tap="upload(6)">
-                <image src="{{img6?img6:'../img/card-b.png'}}"  />
-                <view class="vv" wx:if="{{!img6}}">
-                    <view class="va">+</view>
-                    <view class="vb">健康证反面</view>
-                </view>
+            <view >
+                
             </view>
         </view>
         <view class="v-tit">其他证件</view>
         <view class="v-line">
             <view @tap="upload(4)">
-                <image src="{{img4?img4:'../img/card-b.png'}}"  />
-                <view class="vv" wx:if="{{!img4}}">
+                <image src="{{img2?img2:'../img/card-a.png'}}" />
+                <view class="vv" wx:if="{{!img2}}">
                     <view class="va">+</view>
                     <view class="vb">上传</view>
                 </view>
-            </view>
-            <view>
-               
             </view>
         </view>
     </view>
@@ -111,9 +87,6 @@ export default class provepage extends wepy.page {
   data = {
     img1:'',
     img2:'',
-    img4:'',
-    img5:'',
-    img6:'',
     village: '',
     sessionkey: '',
     arealist:''
@@ -152,21 +125,12 @@ export default class provepage extends wepy.page {
                   var tempFilePath = res.tempFilePaths[0];
                   uploadimg(tempFilePath).then(res2 => {
                     let imginfo=JSON.parse(res2.data)
-                    if(exx==1){
+                    if(exx==3){
                         console.log(exx,1111)
                         that.img1=imginfo.data.url
                         that.$apply()
-                    }else if(exx==2){
-                        that.img2=imginfo.data.url
-                        that.$apply()
-                    }else if(exx==5){
-                        that.img5=imginfo.data.url
-                        that.$apply()
-                    }else if(exx==6){
-                        that.img6=imginfo.data.url
-                        that.$apply()
                     }else if(exx==4){
-                        that.img4=imginfo.data.url
+                        that.img2=imginfo.data.url
                         that.$apply()
                     }
                     proveImg({sessionkey:that.sessionkey,image:imginfo.data.url,type:exx}).then(res=>{
@@ -196,21 +160,11 @@ export default class provepage extends wepy.page {
                  var tempFilePath = res.tempFilePaths[0];
                   uploadimg(tempFilePath).then(res2 => {
                     let imginfo=JSON.parse(res2.data)
-                    if(exx==1){
-                        console.log(exx,1111)
+                    if(exx==3){
                         that.img1=imginfo.data.url
                         that.$apply()
-                    }else if(exx==2){
-                        that.img2=imginfo.data.url
-                        that.$apply()
-                    }else if(exx==5){
-                        that.img5=imginfo.data.url
-                        that.$apply()
-                    }else if(exx==6){
-                        that.img6=imginfo.data.url
-                        that.$apply()
                     }else if(exx==4){
-                        that.img4=imginfo.data.url
+                        that.img2=imginfo.data.url
                         that.$apply()
                     }
                     proveImg({sessionkey:that.sessionkey,image:imginfo.data.url,type:exx}).then(res=>{
