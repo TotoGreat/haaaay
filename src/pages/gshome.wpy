@@ -720,32 +720,35 @@ config = {
         },
         godetail(e){
             // console.log(e)
-            if(this.identification==2){
-                if(this.noone==true){
-                    wx.navigateTo({
-                    url:'zwdetails?id='+e+'&sessionkey='+this.session_key
-                    })
-                }else{
-                    wx.navigateTo({
-                        url:'errorpage?type=1'
-                    //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
-                    })
-                }
-            }else if(this.identification==1){
-                    wx.showModal({
-          content: '请完成资质认证',
-          showCancel: false,
-          success: function(res) {
-            if (res.confirm) {
-              
-            }
-          }
-        })
-                }else{
-                wx.navigateTo({
-                url:'index?type=1'
+          wx.navigateTo({
+            url:'fxfb'
             })
-            }
+        //     if(this.identification==2){
+        //         if(this.noone==true){
+        //             wx.navigateTo({
+        //             url:'zwdetails?id='+e+'&sessionkey='+this.session_key
+        //             })
+        //         }else{
+        //             wx.navigateTo({
+        //                 url:'errorpage?type=1'
+        //             //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
+        //             })
+        //         }
+        //     }else if(this.identification==1){
+        //             wx.showModal({
+        //   content: '请完成资质认证',
+        //   showCancel: false,
+        //   success: function(res) {
+        //     if (res.confirm) {
+        //
+        //     }
+        //   }
+        // })
+        //         }else{
+        //         wx.navigateTo({
+        //         url:'index?type=1'
+        //     })
+        //     }
         },
         isgs(){
             console.log('is公司');
@@ -883,7 +886,8 @@ config = {
                         wx.getStorage({
                             key:'session_key',
                             success(ra){
-                                that.session_key=ra.data
+                                that.session_key='616464oC8wh0S7N9ghd2ZolYD9tL5QlXTI'
+                                // that.session_key=ra.data
                             }
                         })
                         that.$apply()
