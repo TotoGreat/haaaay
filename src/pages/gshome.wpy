@@ -506,6 +506,10 @@ margin-top:300rpx;
         <view class="v-share {{mine!=0?'':'v-active'}}"  @tap="gosharelist(0)">共享需求</view>
         <view class="v-share {{mine==0?'':'v-active'}}"  @tap="gosharelist(1)">我的分享</view>
       </view>
+      <view style="position:fixed;bottom:160rpx;right:24rpx;width:142rpx;height:142rpx;background:#FE9901;border-radius:142rpx" @tap.stop='gofx'>
+          <image style="width:50rpx;height:50rpx;position:relative;left:50rpx;top:28rpx;" src="../img/share.png" />
+          <view style="color:#fff;position:relative;font-size:24rpx;text-align:center;top:28rpx;">发布分享</view>
+      </view>
       <view class="p-box">
           <view class="p-line" wx:for="{{gxlist}}" wx:if="{{zwlist.length!=0}}" wx:key="index" @tap="godetail({{item.publish_id}})">
               <view class="p-left">
@@ -715,9 +719,14 @@ config = {
                 this.gethouse()
             }, 1000);
         },
-        
+        gofx(){
+        wx.navigateTo({
+            url:'fxfb?come=gs'
+            })
+        },
         godetail(e){
             // console.log(e)
+            
             if(this.identification==2){
                 if(this.noone==true){
                     wx.navigateTo({

@@ -324,6 +324,10 @@
         <view class="v-share {{share!=0?'':'v-active'}}"  @tap="gosharelist(0)">业主分享</view>
         <view class="v-share {{share==0?'':'v-active'}}"  @tap="gosharelist(1)">我的分享</view>
       </view>
+      <view style="position:fixed;bottom:160rpx;right:24rpx;width:142rpx;height:142rpx;background:#FE9901;border-radius:142rpx" @tap.stop='gofx'>
+          <image style="width:50rpx;height:50rpx;position:relative;left:50rpx;top:28rpx;" src="../img/share.png" />
+          <view style="color:#fff;position:relative;font-size:24rpx;text-align:center;top:28rpx;">发布分享</view>
+      </view>
       <view class="p-box">
         <view class="p-line" wx:for="{{zwlist}}" wx:if="{{zwlist.length!=0}}" wx:key="index" @tap="gopub({{item.publish_id}})">
 
@@ -528,6 +532,11 @@
           })
         this.$apply()
       },
+      gofx(){
+        wx.navigateTo({
+            url:'fxfb?come=yz'
+            })
+        },
       call(e){
         wx.makePhoneCall({
             phoneNumber: e
