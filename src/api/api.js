@@ -393,3 +393,15 @@ export function minePublishList(data){
   }
   return request(req)
 }
+//公司端 阿姨详情
+export function houseDetail(data){
+  let req={
+    url:G.apiUrl+'/house/houseDetail',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}

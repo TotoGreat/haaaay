@@ -1,0 +1,189 @@
+<style lang="less">
+    .p-line{
+                display: flex;
+                border-bottom:1px solid #e6e6e6;
+                padding-bottom:40rpx;
+                .p-left{
+                    width: 100rpx;
+                    text-align: center;
+                    image{
+                        width: 56rpx;
+                        height: 56rpx;
+                        position: relative;
+                        top: 20rpx;
+                    }
+                }
+                .p-right{
+                    width: 650rpx;
+                    .p-info{
+                        line-height: 100rpx;
+                        .p-type{
+                            font-size: 34rpx;
+                        }
+                        .p-vil{
+                            font-size: 26rpx;
+                            color: #666666;
+                        }
+                        .p-wag{
+                            font-size: 30rpx;
+                            color: #FF6702;
+                            float: right;
+                            margin-right: 24rpx;
+                        }
+                        .p-tag{
+                            margin-bottom: 40rpx;
+                        }
+                    }
+                    .p-time{
+                        font-size:26rpx
+                    }
+                    .p-tag{
+                        .tag-box{
+                            margin-left: 10rpx;
+                            display: inline-block;
+                        view{ 
+                            padding: 5rpx 10rpx;
+                            font-size: 26rpx;
+                            background: #f2f2f2;
+                            color: #999999;
+                            margin-left: 10rpx;
+                        }
+                        }
+                    }
+                }
+            }
+            .v-box{
+                width: 680rpx;
+                padding: 20rpx 35rpx;
+                margin: 10rpx auto;
+                border-bottom: 1px solid #f1f1f1;
+                .v-tit{
+                    font-size: 34rpx;
+                    margin: 20rpx 0;
+                }
+                .v-det{
+                    font-size: 28rpx;
+                    color: #666666;
+                }
+                .v-gdt{
+                    position: absolute;
+                    right: 50rpx;
+                    color: #666666;
+                    font-size: 26rpx;
+                    margin-top:-60rpx;
+                    image{
+                        width: 10rpx;
+                        height: 18rpx;
+                    }
+                }
+            }
+            button{
+                width: 600rpx;
+                position: fixed;
+                bottom: 100rpx;
+                left: 75rpx;
+                background: #FF6702;
+                color: #fff;
+                image{
+                    width: 28rpx;
+                    height: 28rpx;
+                    margin-right:20rpx;
+                }
+            }
+</style>
+<template>
+<block>
+    <view class="p-line"  wx:key="index">
+              <view class="p-left">
+                  <image src="../img/a{{type}}.png" />
+              </view>
+              <view class="p-right">
+              <view class="p-info">
+                  <text class="p-type">{{typeName}}</text><text class="p-vil">{{info.name}}</text>
+                  <text class='p-wag'>{{userWagesLow}}-{{userWagesHigh}}元/月</text>
+              </view>
+               <view class="p-time">{{info.sex}}|{{info.age}}岁 | {{info.place}} |{{info.workYear}}年经验</view>
+                <view class="p-tag">
+                    <view class='tag-box' wx:for="{{tips}}" wx:key="index">
+                        <view>{{item}}</view>
+                    </view>
+                </view>
+              </view>
+          </view>
+    <view class='v-box'>
+        <view class='v-tit'>职位描述</view>
+        <view class="v-det"><text>{{serviceContent}}</text></view>
+    </view>
+   
+    <button @tap="makecall({{info.userPhone}})"><image src="../img/call.png" />拨打</button>
+</block>
+</template>
+<script>
+import wepy from 'wepy'
+import {fxdetail} from '../api/api'
+export default class gsfxxq extends wepy.page{
+config = {
+      navigationBarTitleText: '职位'
+    }
+    data={
+       info:'',
+       serviceContent:'',
+       type:'',
+       typeName:'',
+       village:'',
+       userWagesLow:'',
+       userWagesHigh:'',
+       company_address:'',
+       company_name:'',
+       company_telephone:'',
+       company_id:'',
+       sessionkey:'',
+       tips:[]
+    }
+    methods={
+      makecall(e){
+          wx.makePhoneCall({
+            phoneNumber: e
+        })
+      },
+      gogsdetail(e){
+          wx.navigateTo({
+                    url:'jzgsdetails?id='+e+'&sessionkey='+this.sessionkey
+                    })
+      }
+    }
+    onLoad(opt){
+        fxdetail({sessionkey:opt.sessionkey,publish_id:opt.id}).then(res=>{
+            this.sessionkey=opt.sessionkey
+            if(res.data.code=='10001'){
+            this.info=res.data.data
+            let aaa=res.data.data
+            let cont=res.data.data.serviceContent.replace(/\\n/g,"\n")
+            this.serviceContent=cont
+            this.tips=aaa.tips
+            this.type=aaa.type
+            this.typeName=aaa.typeName
+            this.village=aaa.village
+            this.userWagesLow=aaa.userWagesLow
+            this.userWagesHigh=aaa.userWagesHigh
+            this.company_address=aaa.company_address
+            this.company_name=aaa.company_name
+            this.company_telephone=aaa.company_telephone
+            this.company_id=aaa.company_id
+            this.$apply()
+            }else{
+                wx.showModal({
+                content: '网络出问题啦',
+                showCancel: false,
+                success: function(res) {
+                if (res.confirm) {
+              
+            }
+          }
+        })
+            }
+        })
+    }
+    
+    }
+</script>

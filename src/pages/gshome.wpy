@@ -712,12 +712,10 @@ config = {
                 }
             })
             setTimeout(() => {
-                gethouse()
-            }, 500);
+                this.gethouse()
+            }, 1000);
         },
-        async gethouse(){
-            this.fblist= await this.houseList()
-        },
+        
         godetail(e){
             // console.log(e)
             if(this.identification==2){
@@ -725,11 +723,14 @@ config = {
                     wx.navigateTo({
                     url:'zwdetails?id='+e+'&sessionkey='+this.session_key
                     })
-                }else{
+                }else if(this.notwo==true){
                     wx.navigateTo({
-                        url:'errorpage?type=1'
-                    //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
+                    url:'gsaydetails?id='+e+'&sessionkey='+this.session_key
                     })
+                }else{
+                   wx.navigateTo({
+          url:'gsfxxq?sessionkey='+this.session_key+'&id='+e
+        })
                 }
             }else if(this.identification==1){
                     wx.showModal({
@@ -844,6 +845,10 @@ config = {
             }
         }
     }
+    async gethouse(){
+            this.fblist= await this.houseList()
+            this.$apply()
+        }
     yzdl(){
             if(this.identification==0){
                wx.navigateTo({
