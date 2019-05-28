@@ -39,7 +39,8 @@ export default class extends wepy.app {
       'pages/yzfxxq',//业主分享详情
       'pages/yzfbdetails',//业主发布详情
       'pages/myorder',//我的接单
-      'pages/myemploy'//我的录用
+      'pages/myemploy',//我的录用
+      'pages/wdzpfb',//我的招聘发布
     ],
     window: {
       backgroundTextStyle: 'light',

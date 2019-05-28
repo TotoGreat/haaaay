@@ -1,17 +1,47 @@
 <style lang="less">
-
+.line-left{
+  float: left;
+  font-size: 32rpx;
+  color: #999999;
+  margin-left: 25rpx;
+}
+.picker{
+  font-size: 32rpx;
+  color: #333333;
+  margin-left: 20rpx;
+  float: left;
+}
+.v-line{
+  border-bottom: 2rpx solid #E6E6E6;
+  overflow: hidden;
+  line-height: 80rpx;
+}
+.sub {
+  position: fixed;
+  bottom: 100rpx;
+  width: 570rpx;
+  left: 90rpx;
+  background: #ff6702;
+  color: #ffffff;
+  text-align: center;
+  font-size: 30rpx;
+  line-height: 88rpx;
+  border-radius: 10rpx;
+}
 </style>
 <template>
   <block>
     <view class="v-line">
-      <view class="line-left">服务地址</view>
-      <picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
+      <view class="line-left">地址</view>
+      <picker value="{{index1}}" range="{{array1}}" range-key="{{'areaname'}}" @change="changexq">
         <view class="picker">
-      {{array1[index1]}}
+      {{array1[index1].areaname}}
     </view>
   </picker>
-    </view>
-    <view class="sub" @tap="sub">保存</view>
+  </view>
+  <map id="map" longitude="{{markers[0].longitude}}" latitude="{{markers[0].latitude}}" scale="16" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap"  bindregionchange="regionchange" show-location style="width: 700rpx; height: 300px;margin:20rpx auto;"></map>
+    
+    <view class="sub" @tap="sub">确认</view>
   </block>
 </template>
 <script>
@@ -22,9 +52,54 @@ export default class mapchoose extends wepy.page {
     navigationBarTitleText: '地址选择'
   };
   data = {
-    
+    array1:'',
+    index1:0,
+    latitude:'',
+    longitude:'',
+    markers: [{
+      iconPath: "../img/other.png",
+      id: 0,
+      latitude: 32.050678,
+      longitude: 118.792198,
+      width: 30,
+      height: 30,
+      areaid:'659004505',
+      village:'玄武小区1'
+    }]
   };
   methods = {
+    changexq(e){
+      // console.log(this.arealist)
+      this.index1=e.detail.value
+      this.area = this.array1[e.detail.value].id
+      this.markers[0].latitude=this.array1[e.detail.value].lat
+      this.markers[0].longitude=this.array1[e.detail.value].lng
+      this.markers[0].areaid=this.array1[e.detail.value].id
+      this.markers[0].village=this.array1[e.detail.value].areaname
+      this.$apply()
+    },
+    sub(){
+          var pages = getCurrentPages();
+          var prevPage = pages[pages.length - 2];  //上一个页面
+          var info = prevPage.data//取上页data里的数据也可以修改
+          prevPage.setData({
+            xq:this.markers[0].village,
+            xqid:this.markers[0].areaid,
+            'formItem[6].value':this.markers[0].areaid
+          })
+          setTimeout(() => {
+            wx.navigateBack({
+              delta: 1
+            });
+          }, 500);
+    }
+  }
+  onLoad(){
+    getarea({}).then(res=>{
+      console.log(res)
+      this.array1=res.data.data
+      this.$apply()
+    })
   }
   }
 </script>

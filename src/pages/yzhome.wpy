@@ -299,23 +299,23 @@
   <view>
     <view class='tabbar'>
       <view class="{{!noone?'default':'default1'}}" bindtap="selected">
-        <image class="imga" src='../img/tab2-b.png' style="height:40rpx;width:36rpx"  wx:if='{{noone}}' ></image>
-        <image class="imga" src='../img/tab2.png' style="height:40rpx;width:36rpx" wx:if='{{!noone}}' ></image>
+        <image class="imga" src='../img/tab2-b.png' style="height:40rpx;width:36rpx"  wx:if='{{noone}}' />
+        <image class="imga" src='../img/tab2.png' style="height:40rpx;width:36rpx" wx:if='{{!noone}}' />
         <text >阿姨</text>
       </view>
       <view class="{{!notwo?'default':'default1'}}"  bindtap="selected1">
-        <image class="imgb" src='../img/tab3-b.png' style="height:40rpx;width:36rpx" wx:if='{{notwo}}' ></image>
-        <image class="imgb" src='../img/tab3.png' style="height:40rpx;width:36rpx" wx:if='{{!notwo}}' ></image>
+        <image class="imgb" src='../img/tab3-b.png' style="height:40rpx;width:36rpx" wx:if='{{notwo}}' />
+        <image class="imgb" src='../img/tab3.png' style="height:40rpx;width:36rpx" wx:if='{{!notwo}}' />
         <text >分享</text>
       </view>
       <view class="{{!nothree?'default':'default1'}}"  bindtap="selected2">
-        <image class="imgc" src='../img/tabbar-fabu-b.png'  mode="widthFix" wx:if='{{nothree}}' ></image>
-        <image class="imgc" src='../img/tabbar-fabu.png'  mode="widthFix" wx:if='{{!nothree}}' ></image>
+        <image class="imgc" src='../img/tabbar-fabu-b.png'  mode="widthFix" wx:if='{{nothree}}' />
+        <image class="imgc" src='../img/tabbar-fabu.png'  mode="widthFix" wx:if='{{!nothree}}' />
         <text >发布</text>
       </view>
       <view class="{{!nofour?'default':'default1'}}"  bindtap="selected3">
-        <image class="imgd" src='../img/tabbar-user-b.png'  mode="widthFix"  wx:if='{{nofour}}'></image>
-        <image class="imgd" src='../img/tabbar-user.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
+        <image class="imgd" src='../img/tabbar-user-b.png'  mode="widthFix"  wx:if='{{nofour}}'/>
+        <image class="imgd" src='../img/tabbar-user.png'  mode="widthFix"  wx:if='{{!nofour}}' />
         <text>我的</text>
       </view>
     </view>
@@ -358,13 +358,13 @@
         <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
           <view class="picker">
             {{array1[index1]}}
-            <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
+            <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' />
           </view>
         </picker></view>
         <view><picker bindchange="changelx" value="{{index2}}" range="{{array2}}">
           <view class="picker">
             {{array2[index2]}}
-            <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
+            <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' />
           </view>
         </picker></view>
       </view>

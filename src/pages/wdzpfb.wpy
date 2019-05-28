@@ -128,7 +128,6 @@
           </view>
           <view style="display:flex;margin-bottom:10rpx">
             <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901;padding-left:20rpx;">经验丰富技艺超群，热情好客</view>
-            <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">发布</view>
           </view>
         </view>
       </block>
@@ -140,10 +139,10 @@
 </template>
 <script>
   import wepy from 'wepy'
-  import {employlist,publish,follow,getshare} from '../api/api'
-  export default class myemloy extends wepy.page{
+  import {minePublishList,publish,follow,getshare} from '../api/api'
+  export default class zpfb extends wepy.page{
     config = {
-      navigationBarTitleText: '我的录用',
+      navigationBarTitleText: '我的招聘发布',
       onReachBottomDistance: 50
     }
     data={
@@ -177,7 +176,7 @@
           this.page1=1,
           this.area='',
           this.type=0,
-          this.fblist= await this.employlist()
+          this.fblist= await this.minePublishList()
           console.log(this.zwlist);
         this.$apply()
       },
@@ -216,7 +215,7 @@
           wx.showToast({
             title:'已发布',
           })
-          that.fblist= await that.employlist()
+          that.fblist= await that.minePublishList()
         }
         
         that.$apply()
@@ -265,7 +264,7 @@
           this.area=this.array1[e.detail.value]
         }
         this.index1=e.detail.value
-        this.fblist= await this.employlist(),
+        this.fblist= await this.minePublishList(),
           this.$apply()
       },
       async changelx(e) {
@@ -273,7 +272,7 @@
         this.lx= e.detail.value
         this.index2= e.detail.value
         this.type=e.detail.value
-        this.fblist= await this.employlist(),
+        this.fblist= await this.minePublishList(),
           this.$apply()
       },
       goform(e){
@@ -286,7 +285,7 @@
     async onLoad(opt){
       var that=this
         that.session_key=opt.case
-        that.fblist= await that.employlist()
+        that.fblist= await that.minePublishList()
         that.$apply()
     }
     async publish(e){
@@ -306,7 +305,7 @@
     }
     async onReachBottom(){
         ++ this.page2
-        let result = await this.employlist()
+        let result = await this.minePublishList()
         if(result==''){
           this.page2--
           wx.showToast({
@@ -342,12 +341,12 @@
 
       }
     }
-    async employlist(){
+    async minePublishList(){
       try{
         wx.showLoading({
           title:'加载中'
         });
-        let res= await employlist({
+        let res= await minePublishList({
           sessionkey:this.session_key,
           pagenum:'9',
           area:this.area,

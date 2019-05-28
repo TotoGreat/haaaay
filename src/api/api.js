@@ -369,3 +369,27 @@ export function publish(data){
   }
   return request(req)
 }
+//公司端 接单
+export function ownerChoose(data){
+  let req={
+    url:G.apiUrl+'/house/ownerChoose',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//公司端 我发布的招聘列表
+export function minePublishList(data){
+  let req={
+    url:G.apiUrl+'/house/minePublishList',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}

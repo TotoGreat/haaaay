@@ -133,6 +133,18 @@
           wx.navigateTo({
           url:'ayhome'
         })
+        }else if(
+          this.lx=='2'
+        ){
+          wx.navigateTo({
+          url:'yzhome'
+        })
+        }else if(
+          this.lx=='2'
+        ){
+          wx.navigateTo({
+          url:'gshome'
+        })
         }
         }else{
           console.log(pass)

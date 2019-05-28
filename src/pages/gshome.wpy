@@ -398,28 +398,28 @@ margin-top:300rpx;
     <view>
     <view class='tabbar'>
     <view class="{{!noone?'default':'default1'}}" bindtap="selected">
-         <image class="imga" src='../img/tab1-b.png'  mode="widthFix"  wx:if='{{noone}}' ></image>
-         <image class="imga" src='../img/tab1.png'  mode="widthFix" wx:if='{{!noone}}' ></image>
+         <image class="imga" src='../img/tab1-b.png'  mode="widthFix"  wx:if='{{noone}}' />
+         <image class="imga" src='../img/tab1.png'  mode="widthFix" wx:if='{{!noone}}' />
           <text >业主需求</text>
     </view>
     <view class="{{!notwo?'default':'default1'}}"  bindtap="selected1">
-        <image class="imgb" src='../img/tab2-b.png'  mode="widthFix" wx:if='{{notwo}}' ></image>
-        <image class="imgb" src='../img/tab2.png'  mode="widthFix" wx:if='{{!notwo}}' ></image>
+        <image class="imgb" src='../img/tab2-b.png'  mode="widthFix" wx:if='{{notwo}}' />
+        <image class="imgb" src='../img/tab2.png'  mode="widthFix" wx:if='{{!notwo}}' />
       <text >阿姨求职</text>
     </view>
      <view class="{{!nothree?'default':'default1'}}"  bindtap="selected2">
-        <image class="imgc" src='../img/tab3-b.png'  mode="widthFix" wx:if='{{nothree}}' ></image>
-        <image class="imgc" src='../img/tab3.png'  mode="widthFix" wx:if='{{!nothree}}' ></image>
+        <image class="imgc" src='../img/tab3-b.png'  mode="widthFix" wx:if='{{nothree}}' />
+        <image class="imgc" src='../img/tab3.png'  mode="widthFix" wx:if='{{!nothree}}' />
       <text >共享业务</text>
     </view>
     <view class="{{!notfive?'default':'default1'}}"  bindtap="selected4">
-        <image class="imgc" src='../img/tab4-b.png'  mode="widthFix" wx:if='{{nofive}}' ></image>
-        <image class="imgc" src='../img/tab4.png'  mode="widthFix" wx:if='{{!nofive}}' ></image>
+        <image class="imgc" src='../img/tab4-b.png'  mode="widthFix" wx:if='{{nofive}}' />
+        <image class="imgc" src='../img/tab4.png'  mode="widthFix" wx:if='{{!nofive}}' />
       <text >发布招聘</text>
     </view>
      <view class="{{!nofour?'default':'default1'}}"  bindtap="selected3">
-     <image class="imgd" src='../img/tabbar-user-b.png'  mode="widthFix"  wx:if='{{nofour}}'></image>
-    <image class="imgd" src='../img/tabbar-user.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
+     <image class="imgd" src='../img/tabbar-user-b.png'  mode="widthFix"  wx:if='{{nofour}}'/>
+    <image class="imgd" src='../img/tabbar-user.png'  mode="widthFix"  wx:if='{{!nofour}}' />
     <text>我的主页</text>
     </view>
   </view>
@@ -434,7 +434,7 @@ margin-top:300rpx;
          <view><picker bindchange="changelx" value="{{index2}}" range="{{array2}}">
         <view class="picker">
       {{array2[index2]}}
-       <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' ></image>
+       <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' />
     </view>
   </picker></view>
       </view>
@@ -453,7 +453,7 @@ margin-top:300rpx;
                         <view>{{item}}</view>
                     </view>
                 </view>
-                <view class="p-btn">接单</view>
+                <view class="p-btn" @tap.stop="ownerChoose({{item.publish_id}})">接单</view>
               </view>
           </view>
           <view class='nothing' wx:if="{{zwlist.length==0}}">
@@ -586,7 +586,7 @@ margin-top:300rpx;
 </template>
 <script>
 import wepy from 'wepy'
-import {ownerList,houseList,employ,gssharelist} from '../api/api'
+import {ownerList,houseList,employ,gssharelist,ownerChoose} from '../api/api'
 export default class chooseuer extends wepy.page{
 config = {
       navigationBarTitleText: '职位',
@@ -679,6 +679,23 @@ config = {
     })
             this.$apply()
         },
+        async ownerChoose(e){
+            ownerChoose({sessionkey:this.session_key,publish_id:e}).then(res=>{
+                if(res.data.code=='10001'){
+                    wx.showToast({
+                        title:'成功接单',
+                        icon: 'none'
+                    })
+               
+                }else{
+                     wx.showToast({
+                        title:res.data.msg,
+                        icon: 'none'
+                    })
+                }
+            })
+             this.fblist= await this.ownerList()
+        },
        async gofollow(e){
             employ({sessionkey:this.session_key,publish_id:e}).then(res=>{
                 if(res.data.code=='10001'){
@@ -694,7 +711,12 @@ config = {
                     })
                 }
             })
-             this.fblist= await this.houseList()
+            setTimeout(() => {
+                gethouse()
+            }, 500);
+        },
+        async gethouse(){
+            this.fblist= await this.houseList()
         },
         godetail(e){
             // console.log(e)
@@ -758,7 +780,9 @@ config = {
             })
             }
             if(e==2){
-
+                wx.navigateTo({
+                    url:'wdzpfb?case='+this.session_key
+                })
             }
             if(e==3){
                  wx.navigateTo({
@@ -815,7 +839,7 @@ config = {
         })
             }else{
             wx.navigateTo({
-              url:`publish?form=${e}`
+              url:`yzpublish?form=${e}`
             })
             }
         }

@@ -77,9 +77,10 @@
       <input
         type="text"
         placeholder="请输入"
-        wx:if="{{item.type!=='range'&&item.type!=='num'}}"
+        wx:if="{{item.type!=='range'&&item.type!=='num'&&item.type!='xq'}}"
         bindinput="inputText"
         data-index="{{index}}"
+        
       >
       <input
         type="number"
@@ -87,6 +88,16 @@
         wx:if="{{item.type=='num'}}"
         bindinput="inputText"
         data-index="{{index}}"
+      >
+      <input
+        type="text"
+        readonly
+        value="{{xq}}"
+        wx:if="{{item.type==='xq'}}"
+        placeholder="请选择"
+        data-index="{{index}}"
+        data-id="{{xqid}}"
+        @tap="gomap"
       >
       <!-- <button
         open-type="getPhoneNumber"
@@ -117,12 +128,12 @@
     <!--      <view>-</view>-->
     <!--      <input type="text" class="priceinput">-->
     <!--    </view>-->
-    <view class="accept" @tap="accept">发布</view>
+    <view class="accept" @tap="accept({{xqid}})">发布</view>
   </view>
 </template>
 <style lang="less" scoped>
 .container {
-  diaply: flex;
+  display: flex;
   flex-direction: column;
   width: 750rpx;
   .title {
@@ -134,7 +145,7 @@
     align-items: center;
   }
   .content {
-    diaply: flex;
+    display: flex;
     border-bottom: 1px solid #e6e6e6;
     flex-direction: column;
     .contentTitle {
@@ -243,6 +254,8 @@ export default class publish extends wepy.page {
     tip: '',
     type: 1,
     session_key:'',
+    xq:'',
+    xqid:'',
     contentItem: [
       {
         title: '请选择您会的服务技能',
@@ -376,7 +389,7 @@ export default class publish extends wepy.page {
       },
       {
         que: '获取您所在的小区',
-        type: 'normal',
+        type: 'xq',
         value: '',
         key: 'village'
       },
@@ -451,9 +464,16 @@ export default class publish extends wepy.page {
       this.tip = n.detail.value;
       console.log(this.tip);
     },
-    accept() {
+    gomap(){
+      wx.navigateTo({
+                   url:'mapchoose'
+               })
+    },
+    accept(e) {
       console.log(this.contentItem);
-      console.log(this.formItem);
+      this.formItem[6].value=e
+      this.$apply()
+      console.log(this.formItem)
       var data = { type: this.type, serviceContent: {} };
       this.formItem.forEach(item => {
         if (item.key != 'userWages') {
