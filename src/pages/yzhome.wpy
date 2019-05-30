@@ -149,7 +149,7 @@
         .fb-type{
           font-size: 34rpx;
           display: inline-block;
-          margin-right: 6rpx;
+          margin:0 14rpx;
         }
         .fb-time{
           margin-top: 20rpx;
@@ -172,11 +172,13 @@
         .fb-cg{
           width: 500rpx;
           display: flex;
+          flex-wrap: wrap;
           margin-top: 20rpx;
           font-size: 28rpx;
           view{
             padding:0 5rpx;
             margin-right:10rpx;
+            margin-bottom: 10rpx;
             height:36rpx;background:#F2F2F2;line-height:36rpx;color:#999;font-size:24rpx;
           }
         }
@@ -374,7 +376,7 @@
       </view>
       <block wx:for="{{fblist}}" wx:if="{{fblist.length!=0}}">
         <view  wx:key="index" wx:if="{{item.state!==2}}" class='fb-list' @tap="godetail({{item.publish_id}})">
-          <view class="fb-left"><image src="{{item.headimg}}" /></view>
+          <view class="fb-left"><image src="{{item.headimg?item.headimg:'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTK1IeREheZ6BOJ2wllh5Au7XEISUtic1RLppWVZWQL5BsWzdvzSDDhUOWZJgHnlvLYibG1d6ataMGdA/132'}}" /></view>
           <view class="fb-right">
             <view class='r-one'>
               <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
@@ -459,7 +461,7 @@
   import {ownerList,resetPublish,follow,getshare} from '../api/api'
   export default class yzhome extends wepy.page{
     config = {
-      navigationBarTitleText: '业主需求',
+      navigationBarTitleText: '阿姨',
       onReachBottomDistance: 50
     }
     data={
@@ -468,7 +470,7 @@
       nothree:false,
       nofour:false,
       array1:['南京','玄武区','秦淮区','鼓楼区','建邺区','栖霞区','雨花台区','浦口区','江宁区','六合区','溧水区','高淳区'],
-      array2:['全部','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
+      array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
       area:'',
       type:'',
       index1:0,
