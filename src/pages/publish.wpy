@@ -35,9 +35,12 @@
           wx:for-item="items"
           wx:for-index="key"
         >{{items.name}}</view>
+        <view class="selectitem selectitem2" :class="{'active':item.isOther}" @tap="showOtherRadio"
+              data-index="{{index}}">其他</view>
         <input
           type="text"
           placeholder="{{item.placeholder}}"
+          wx:if="{{item.isOther}}"
           bindinput="inputRadio"
           value="{{item.value}}"
           data-index="{{index}}"
@@ -435,6 +438,7 @@ export default class publish extends wepy.page {
     },
     chooseRadio2(n, m) {
       console.log(this.contentItem[n]);
+      this.contentItem[n].isOther = false
       this.contentItem[n].radioArr2.map(item => {
         item.value = false;
       });
@@ -442,11 +446,15 @@ export default class publish extends wepy.page {
       console.log(this.contentItem[n].radioArr2[m]);
       this.contentItem[n].radioArr2[m].value = true;
     },
-    inputRadio(n) {
+    showOtherRadio(n){
       var index = n.currentTarget.dataset.index;
       this.contentItem[index].radioArr2.map(item => {
         item.value = false;
       });
+      this.contentItem[index].isOther = true
+    },
+    inputRadio(n) {
+      var index = n.currentTarget.dataset.index;
       this.contentItem[index].value = n.detail.value;
       console.log(n.currentTarget.dataset.index);
     },
@@ -493,8 +501,13 @@ export default class publish extends wepy.page {
             return item.value === true;
           });
         } else if (item.radioArr2) {
-          if (item.value) {
-            data.serviceContent[item.key] = item.value;
+          if (item.isOther) {
+            if(item.value){
+              data.serviceContent[item.key] = item.value;
+
+            }else {
+              data.serviceContent[item.key]='其他'
+            }
           } else {
             data.serviceContent[item.key] = item.radioArr2.filter(item => {
               return item.value === true;
