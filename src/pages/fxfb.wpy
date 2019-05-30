@@ -335,158 +335,29 @@
       zwlist:"",
       share:0,
       userinfo:'',
+      come:'',
       myshare:false
     }
     methods={
 
       goform(e){
-        this.yzdl()
         console.log(e);
-        wx.navigateTo({
-          url:"yzpublish?form="+e
+        if(this.come=='gs'){
+          wx.navigateTo({
+          url:"yzpublish?form="+e+'share=1'
         })
-      }
-    }
-    yzdl(){
-      if(this.identification==0){
-        wx.navigateTo({
-          url:'index?type=2'
-        })
-        return false
-      }else if(this.identification==1){
-
-      }
-    }
-    async onLoad(){
-      var that=this
-      wx.getStorage({
-        key:'userInfo',
-        success(res) {
-          that.userthings=res.data;
-          that.$apply()
-          wx.getStorage({
-            key:'userdetails',
-            success(rq) {
-              that.userinfo=rq.data;
-              console.log(rq.data,111)
-              that.identification=rq.data.identification
-              wx.getStorage({
-                key:'session_key',
-                success(ra){
-                  that.session_key=ra.data
-
-                }
-              })
-              that.$apply()
-            }
-          })
-        }
-      })
-      if(that.noone){
-        that.fblist= await that.ownerList()
-        that.$apply()
-      }
-    }
-    async onReachBottom(){
-      if(this.notwo){
-        ++ this.page1
-        let result = await this.getshare()
-        if(result==''){
-          this.page1--
-          wx.showToast({
-            title: '没有更多数据了',
-            icon: 'none',
-          })
         }else{
-          let c = this.zwlist;
-          let b = result;
-          this.zwlist= c.concat(b)
-          console.log(c.concat(b),111)
-          this.$apply()
-        }
-
-      }else if(this.noone){
-        ++ this.page2
-        let result = await this.ownerList()
-        if(result==''){
-          this.page2--
-          wx.showToast({
-            title: '没有更多数据了',
-            icon: 'none',
-          })
-        }else{
-          let c = this.fblist;
-          let b = result;
-          this.fblist= c.concat(b)
-          console.log(c.concat(b),111)
-          this.$apply()
-        }
-      }
-    }
-    async getshare(){
-      try {
-        wx.showLoading({
-          title:'加载中'
-        });
-        let res= await getshare({
-          sessionkey:this.session_key,
-          //   sessionkey:'cewbEHuWrMeA4WdcQ/AnVg==',
-          area:this.area,
-          share:this.share,
-          type:0,
-          pagenum:'9',
-          pages:this.page1
-        });
-        console.log(res);
-        return res.data.data;
-      } catch (error) {
-
-      }
-    }
-    async ownerList(){
-      try{
-        wx.showLoading({
-          title:'加载中'
-        });
-        let res= await ownerList({
-          sessionkey:this.session_key,
-          pagenum:'9',
-          area:this.area,
-          type:this.type,
-          pages:this.page2
-        });
-        return res.data.data;
-      }catch(e){
-        console.log(e)
-      }
-    }
-    async follow(e){
-      try{
-        wx.showLoading({
-          title:'加载中'
-        });
-        let res= await follow({
-          sessionkey:this.session_key,
-          publish_id:e
-        });
-        return res.data;
-      }catch(e){
-        console.log(e)
-      }
-    }
-    async resetPublish(e){
-      try{
-        wx.showLoading({
-          title:'加载中'
-        });
-        let res = await resetPublish({
-          sessionkey:this.session_key,
-          publish_id:e
+          wx.navigateTo({
+          url:"publish?form="+e+'share=1'
         })
-        return res.data;
-      }catch(el){
-        console.log(el)
+        }
+        
       }
+    }
+    async onLoad(opt){
+      console.log(opt)
+      this.come=opt.come
+      this.$apply()
     }
   }
 </script>

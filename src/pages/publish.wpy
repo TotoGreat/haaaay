@@ -256,6 +256,7 @@ export default class publish extends wepy.page {
     session_key:'',
     xq:'',
     xqid:'',
+    share:'',
     contentItem: [
       {
         title: '请选择您会的服务技能',
@@ -509,6 +510,7 @@ export default class publish extends wepy.page {
         }
       });
       data.sessionkey=this.session_key
+      data.share=this.share
       data.serviceContent= JSON.stringify(data.serviceContent)
       console.log(JSON.stringify(data));
       publishSave(data).then(res => {
@@ -531,6 +533,8 @@ export default class publish extends wepy.page {
   onLoad(option) {
     var that = this;
     console.log(option.form == 3);
+    that.share=opt.share,
+    that.$apply()
     wx.getStorage({
       key: 'session_key',
       success(ra) {
