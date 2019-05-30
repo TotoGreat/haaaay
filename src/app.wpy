@@ -41,6 +41,8 @@ export default class extends wepy.app {
       'pages/myorder',//我的接单
       'pages/myemploy',//我的录用
       'pages/wdzpfb',//我的招聘发布
+      'pages/gsaydetails',//公司 阿姨详情
+      'pages/gsfxxq',//公司 分享详情
       'pages/fxfb',//我的分享发布
     ],
     window: {
