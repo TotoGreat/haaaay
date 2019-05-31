@@ -36,6 +36,12 @@
                 top: 10rpx;
                 left: -10rpx;
             }
+            text{
+                width: 200rpx;
+                text-align: center;
+                display:inline-block;
+
+            }
         }
     }
 </style>
@@ -46,9 +52,9 @@
     </view>
     <view class="center-box">
         <view class="title">选择身份进入好阿姨</view>
-        <view class="line" @tap="isyz"><image src="../img/yzhu01.png" mode="widthFix"/>我是业主</view>
-        <view class="line" @tap="isgs"><image src="../img/gs01.png" mode="widthFix"/>我是家政公司</view>
-        <view class="line" @tap="isay"><image src="../img/ayi01.png" mode="widthFix"/>我是阿姨</view>
+        <view class="line" @tap="isyz"><image src="../img/yzhu01.png" mode="widthFix"/><text>我是业主</text></view>
+        <view class="line" @tap="isgs"><image src="../img/gs01.png" mode="widthFix"/><text>我是家政公司</text></view>
+        <view class="line" @tap="isay"><image src="../img/ayi01.png" mode="widthFix"/><text>我是阿姨</text></view>
     </view>
     </block>
 </template>
@@ -103,9 +109,15 @@ config = {
                 wx.setStorageSync('session_key',res.data.data.userinfo.sessionkey)
                 wx.setStorageSync('userdetails',res.data.data.userinfo)
                 if(res.data.code=="10001"){
+                    if(res.data.data.userinfo.identification==0){
+                        wx.navigateTo({
+                            url:'index?type=3'
+                    })
+                    }else{
                 wx.reLaunch({
                 url:'gshome?type=3'
             })
+            }
             }
             })
         },
@@ -123,9 +135,11 @@ config = {
                 wx.setStorageSync('userdetails',res.data.data.userinfo)
                 console.log(res)
                 if(res.data.code=="10001"){
+                    
                 wx.reLaunch({
                 url:'ayhome?type=1'
             })
+            
             }
             })
             

@@ -546,7 +546,8 @@ export default class publish extends wepy.page {
   onLoad(option) {
     var that = this;
     console.log(option.form == 3);
-    that.share=opt.share,
+    console.log(option)
+    that.share=option.share,
     that.$apply()
     wx.getStorage({
       key: 'session_key',
