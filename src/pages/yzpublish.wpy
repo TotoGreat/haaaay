@@ -53,13 +53,17 @@
           wx:for-item="items"
           wx:for-index="key"
         >{{items.name}}</view>
+        <view class="selectitem selectitem2" :class="{'active':item.isOther}" @tap="showOtherRadio"
+              data-index="{{index}}">其他</view>
         <input
           type="text"
           placeholder="{{item.placeholder}}"
+          wx:if="{{item.isOther}}"
           bindinput="inputRadio"
           value="{{item.value}}"
           data-index="{{index}}"
           class="selectitem selectitem3"
+          placeholder="请输入周期时长"
         >
       </view>
       <view class="contentBox" wx:if="{{item.range}}">
@@ -405,7 +409,7 @@
         },
         {
           que: '您的心理价位',
-          type: 'number',
+          type: 'range',
           value: ['', ''],
           key: 'userWages'
         }
@@ -425,6 +429,7 @@
       inputPriceLow(n) {
         var index = n.currentTarget.dataset.index;
         this.formItem[index].value[0] = n.detail.value;
+        console.log(this.formItem)
       },
       inputPriceHigh(n) {
         var index = n.currentTarget.dataset.index;
@@ -451,12 +456,20 @@
       },
       chooseRadio2(n, m) {
         console.log(this.contentItem[n]);
+        this.contentItem[n].isOther = false
         this.contentItem[n].radioArr2.map(item => {
           item.value = false;
         });
         this.contentItem[n].value = '';
         console.log(this.contentItem[n].radioArr2[m]);
         this.contentItem[n].radioArr2[m].value = true;
+      },
+      showOtherRadio(n){
+        var index = n.currentTarget.dataset.index;
+        this.contentItem[index].radioArr2.map(item => {
+          item.value = false;
+        });
+        this.contentItem[index].isOther = true
       },
       inputRadio(n) {
         var index = n.currentTarget.dataset.index;
@@ -492,7 +505,7 @@
     },
       accept(e) {
         console.log(this.contentItem);
-        this.formItem[6].value=e
+        this.formItem[5].value=e
         this.$apply()
         console.log(this.formItem)
         var data = { type: this.type, serviceContent: {} };
@@ -500,6 +513,7 @@
           if (item.key != 'userWages') {
             data[item.key] = item.value;
           } else {
+            console.log(item)
             data.userWagesLow = item.value[0];
             data.userWagesHigh = item.value[1];
           }
@@ -520,8 +534,13 @@
               return item.value === true;
             });
           } else if (item.radioArr2) {
-            if (item.value) {
-              data.serviceContent[item.key] = item.value;
+            if (item.isOther) {
+              if(item.value){
+                data.serviceContent[item.key] = item.value;
+
+              }else {
+                data.serviceContent[item.key]='其他'
+              }
             } else {
               data.serviceContent[item.key] = item.radioArr2.filter(item => {
                 return item.value === true;
@@ -536,6 +555,7 @@
           }
         });
         data.sessionkey=this.session_key
+        data.serviceContent.tip = this.tip
         data.serviceContent= JSON.stringify(data.serviceContent)
         console.log(JSON.stringify(data));
         publishSave(data).then(res => {

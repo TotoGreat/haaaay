@@ -674,7 +674,6 @@
           this.$apply()
       },
       goform(e){
-        this.yzdl()
         console.log(e);
         wx.navigateTo({
           url:"yzpublish?form="+e

@@ -225,7 +225,7 @@ left:30rpx;
         <view @tap="zf({{info.publish_id}})">
           作废
       </view>
-      <view style="color:#fff;background:#FF6702" @tap.stop="goform({{info.type}})">
+      <view style="color:#fff;background:#FF6702" @tap.stop="goform({{info}})">
           编辑
       </view>  
       </view>
@@ -272,9 +272,11 @@ config = {
       },
       goform(e){
             console.log(e);
-            wx.navigateTo({
-              url:`publish?form=${e}`
-            })
+          wx.navigateTo({
+            url:`publish?form=${e.type}&sex=${e.sex}&uname=${e.name}&age=${e.age}
+            &place=${e.place}&workYear=${e.workYear}&userPhone=${e.userPhone}&village=${e.village}
+            &userWagesLow=${e.userWagesLow}&userWagesHigh=${e.userWagesHigh}`
+          })
         }
     }
     onLoad(opt){
