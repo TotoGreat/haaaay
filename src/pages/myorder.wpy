@@ -122,7 +122,7 @@
 </template>
 <script>
 import wepy from 'wepy';
-import { ownerList } from '../api/api';
+import { yzList } from '../api/api';
 export default class myorder extends wepy.page {
   config = {
     navigationBarTitleText: '我的接单'
@@ -138,7 +138,7 @@ export default class myorder extends wepy.page {
   onLoad(opt) {
     console.log(opt);
     this.sessionkey = opt.sessionkey;
-    ownerList({
+    yzList({
       pages: this.page,
       pagenum: 9,
       sessionkey: opt.sessionkey,
@@ -152,7 +152,7 @@ export default class myorder extends wepy.page {
   }
   onReachBottom() {
     ++this.page;
-    ownerList({
+    yzList({
       pages: this.page,
       pagenum: 9,
       sessionkey: opt.sessionkey,

@@ -480,7 +480,7 @@ export default class publish extends wepy.page {
     },
     accept(e) {
       console.log(this.contentItem);
-      this.formItem[5].value=e
+      this.formItem[6].value=e
       this.$apply()
       console.log(this.formItem)
       var data = { type: this.type, serviceContent: {} };

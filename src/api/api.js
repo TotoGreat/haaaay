@@ -405,3 +405,15 @@ export function houseDetail(data){
   }
   return request(req)
 }
+//公司 业主列表
+export function yzList(data){
+  let req={
+    url:G.apiUrl+'/house/ownerList',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}

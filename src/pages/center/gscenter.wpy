@@ -117,7 +117,7 @@ export default class gscenter extends wepy.page {
           prevPage.setData({
             'userinfo.headimg':this.userInfo.photo,
             'userinfo.name':this.name,
-            'userinfo.phone':this.contact
+            'userinfo.contact':this.contact
           })
           setTimeout(() => {
             wx.navigateBack({
@@ -205,7 +205,7 @@ export default class gscenter extends wepy.page {
     }
   };
   onLoad(opt) {
-    console.log(opt);
+    // console.log(opt);
     let options = JSON.parse(opt.case);
     this.userInfo = options;
     this.contact=options.contact;

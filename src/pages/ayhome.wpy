@@ -341,7 +341,7 @@ margin-top:300rpx;
   </view>
   <view wx:if="{{notwo}}" class="tabb">
       <block wx:for="{{fblist}}" wx:if="{{fblist.length!=0}}">
-      <view  wx:key="index" wx:if="{{item.state!==2}}" class='fb-list' @tap="godetail({{item.publish_id}})">
+      <view  wx:key="index" wx:if="{{item.state!=3}}" class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
               <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
@@ -353,7 +353,7 @@ margin-top:300rpx;
               <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>{{item.readCount}}</text></view>
           </view>
       </view>
-      <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
+      <view wx:if="{{item.state==3}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
               <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
@@ -434,7 +434,7 @@ config = {
         {name:'溧水区',id:320117},
         {name:'高淳区',id:320118},
         ],
-        array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
+        array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','老人陪伴' ,'催乳师','病人陪护'],
         area:'',
         type:'',
         index1:0,
@@ -551,20 +551,10 @@ config = {
             }
         },
         gocenter(){
-        if(this.identification==2){
+        if(this.identification==1||this.identification==2){
             wx.navigateTo({
                 url:'center/personcenter?case='+JSON.stringify(this.userinfo)
             })
-            }else if(this.identification==1){
-                wx.showModal({
-          content: '请完成资质认证',
-          showCancel: false,
-          success: function(res) {
-            if (res.confirm) {
-              
-            }
-          }
-        })
             }else{
                 wx.navigateTo({
                 url:'index?type=1'
