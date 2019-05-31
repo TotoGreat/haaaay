@@ -129,21 +129,24 @@
         }else{
         let pass= await this.register()
         if(pass.code=="10001"){
+          var newuserdetails = wx.getStorageSync('userdetails')
+          newuserdetails.identification=1
+          wx.setStorageSync('userdetails',newuserdetails)
         if(this.lx=='1'){
-          wx.navigateTo({
-          url:'ayhome'
+          wx.reLaunch({
+          url:'ayhome?type=1'
         })
         }else if(
           this.lx=='2'
         ){
-          wx.navigateTo({
-          url:'yzhome'
+          wx.reLaunch({
+          url:'yzhome?type=2'
         })
         }else if(
-          this.lx=='2'
+          this.lx=='3'
         ){
-          wx.navigateTo({
-          url:'gshome'
+          wx.reLaunch({
+          url:'gshome?type=3'
         })
         }
         }else{

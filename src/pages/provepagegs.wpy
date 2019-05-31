@@ -23,7 +23,7 @@
         width: 100%;
         text-align: center;
         position:absolute;
-        margin-top:-180rpx;
+        margin-top:-186rpx;
         color: #666666;
         .va{
             font-size: 76rpx;

@@ -91,6 +91,7 @@
                         .p-vil{
                             font-size: 26rpx;
                             color: #666666;
+                            margin-left: 20rpx;
                         }
                         .p-wag{
                             font-size: 30rpx;
@@ -121,6 +122,7 @@
             display: flex;
             justify-content: space-around;
             border-bottom: 1px solid #E6E6E6;
+            padding-bottom: 20rpx;
             .fb-left{
                 width: 216rpx;
                 text-align: center;
@@ -145,6 +147,9 @@
                 }
                 .fb-time{
                     margin-top: 20rpx;
+                    text{
+                        margin-left: 20rpx;
+                    }
                 }
                 .fb-cz{
                     width: 500rpx;
@@ -170,6 +175,8 @@
                         width: 30rpx;
                         height: 30rpx;
                         margin-right: 6rpx;
+                        position: relative;
+                        top: 5rpx;
                     }
                 }
             }
@@ -297,9 +304,9 @@ margin-top:300rpx;
   <view wx:if="{{noone}}" class="taba">
       <view class="p-top">
           <view class='p-all' bindtap="selected">全部</view>
-          <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
+          <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}" range-key="{{'name'}}">
         <view class="picker">
-      {{array1[index1]}}
+      {{array1[index1].name}}
       <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' />
     </view>
   </picker></view>
@@ -338,7 +345,7 @@ margin-top:300rpx;
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
               <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
-              <view class="fb-time">发布时间:{{item.publish_time}}</view>
+              <view class="fb-time">发布时间:<text>{{item.publish_time}}</text></view>
               <view class='fb-cz'>
                   <view @tap.stop="goform({{item.type}})">编辑</view>
                   <view @tap.stop="resetPublish({{item.publish_id}})">重新上架</view>
@@ -350,7 +357,7 @@ margin-top:300rpx;
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
               <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
-              <view class="fb-time">发布时间:{{item.publish_time}}</view>
+              <view class="fb-time">发布时间:<text>{{item.publish_time}}</text></view>
               <view class='fb-cz'>
                   <view>编辑</view>
                   <view>重新上架</view>
@@ -385,7 +392,7 @@ margin-top:300rpx;
          <view class="v-center">
          <view><image src="{{userinfo.headimg?userinfo.headimg:userthings.avatarUrl}}"/></view>
          <view class="v-name">{{userinfo.name?userinfo.name:userthings.nickName}}</view>
-         <view class="v-phone">{{userinfo.phone}}</view>
+         <view class="v-phone">{{userinfo.contact}}</view>
          </view>
      </view>
     <view class="v-menu">
@@ -414,8 +421,20 @@ config = {
         notwo:false,
         nothree:false,
         nofour:false,
-        array1:['南京','玄武区','秦淮区','鼓楼区','建邺区','栖霞区','雨花台区','浦口区','江宁区','六合区','溧水区','高淳区'],
-        array2:['全部','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
+        array1:[{name:'南京',id:''},
+        {name:'玄武区',id:320102},
+        {name:'秦淮区',id:320104},
+        {name:'建邺区',id:320105},
+        {name:'鼓楼区',id:320106},
+        {name:'浦口区',id:320111},
+        {name:'栖霞区',id:320113},
+        {name:'雨花台区',id:320114},
+        {name:'江宁区',id:320115},
+        {name:'六合区',id:320116},
+        {name:'溧水区',id:320117},
+        {name:'高淳区',id:320118},
+        ],
+        array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
         area:'',
         type:'',
         index1:0,
@@ -511,16 +530,46 @@ config = {
             }
         },
         goprev(){
-            this.yzdl()
+            if(this.identification==1){
             wx.navigateTo({
                 url:'provepage?sessionkey='+this.session_key
             })
+            }else if(this.identification==2){
+                wx.showModal({
+          content: '您已完成认证信息',
+          showCancel: false,
+          success: function(res) {
+            if (res.confirm) {
+              
+            }
+          }
+        })
+            }else{
+                wx.navigateTo({
+                url:'index?type=1'
+            })
+            }
         },
         gocenter(){
-            this.yzdl()
+        if(this.identification==2){
             wx.navigateTo({
                 url:'center/personcenter?case='+JSON.stringify(this.userinfo)
             })
+            }else if(this.identification==1){
+                wx.showModal({
+          content: '请完成资质认证',
+          showCancel: false,
+          success: function(res) {
+            if (res.confirm) {
+              
+            }
+          }
+        })
+            }else{
+                wx.navigateTo({
+                url:'index?type=1'
+            })
+            }
         },
         
          async resetPublish(e){
@@ -538,7 +587,7 @@ config = {
             if(e.detail.value==0){
                 this.area=''
             }else{
-            this.area=this.array1[e.detail.value]
+            this.area=this.array1[e.detail.value].id
             }
             this.index1=e.detail.value
             this.zwlist= await this.auntList(),

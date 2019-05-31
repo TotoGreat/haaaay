@@ -88,7 +88,7 @@ import wepy from 'wepy';
 import { information,uploadimg,getarea} from '../../api/api';
 export default class personnalcenter extends wepy.page {
   config = {
-    navigationBarTitleText: '个人信息'
+    navigationBarTitleText: '基本信息'
   };
   data = {
     userInfo: '',
@@ -127,7 +127,7 @@ export default class personnalcenter extends wepy.page {
           prevPage.setData({
             'userinfo.headimg':this.userInfo.photo,
             'userinfo.name':this.name,
-            'userinfo.phone':this.contact
+            'userinfo.contact':this.contact
           })
           setTimeout(() => {
             wx.navigateBack({
@@ -211,10 +211,10 @@ export default class personnalcenter extends wepy.page {
     }
   };
   onLoad(opt) {
-    
+    // console.log(opt)
     let options = JSON.parse(opt.case);
     this.userInfo = options;
-    // console.log(options);
+    console.log(options);
     this.headimg=options.headimg;
     this.contact=options.contact;
     this.village=options.area_id;

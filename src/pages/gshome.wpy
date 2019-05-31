@@ -786,7 +786,7 @@ config = {
             }else{
             if(e==1){
                 wx.navigateTo({
-                url:'myorder?case='+JSON.stringify(this.userinfo)
+                url:'myorder?sessionkey='+this.session_key
             })
             }
             if(e==2){

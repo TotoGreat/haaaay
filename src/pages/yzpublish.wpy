@@ -490,7 +490,7 @@
                    url:'mapchoose'
                })
     },
-      accept() {
+      accept(e) {
         console.log(this.contentItem);
         this.formItem[6].value=e
         this.$apply()
