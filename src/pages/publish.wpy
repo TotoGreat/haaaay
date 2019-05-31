@@ -547,14 +547,66 @@ export default class publish extends wepy.page {
     var that = this;
     console.log(option.form == 3);
     console.log(option)
-    that.share=option.share,
-    that.$apply()
+    that.share = option.share,
+      that.$apply()
     wx.getStorage({
       key: 'session_key',
       success(ra) {
         that.session_key = ra.data;
       }
     });
+    if (option.name ) {
+      this.formItem = [
+        {
+          que: '我们该如何称呼您',
+          key: 'userName',
+          type: 'normal',
+          value: option.uname
+        },
+        {
+          que: '您的性别',
+          type: 'normal',
+          value: option.sex,
+          key: 'sex'
+        },
+        {
+          que: '您的年龄',
+          type: 'num',
+          value: option.age,
+          key: 'age'
+        },
+        {
+          que: '您的籍贯',
+          type: 'normal',
+          value: option.place,
+          key: 'place'
+        },
+        {
+          que: '您的工作年限',
+          type: 'num',
+          value: option.workYear,
+          key: 'workYear'
+        },
+        {
+          que: '您的联系电话',
+          type: 'num',
+          value: option.userPhone,
+          key: 'userPhone'
+        },
+        {
+          que: '获取您所在的小区',
+          type: 'xq',
+          value: option.village,
+          key: 'village'
+        },
+        {
+          que: '您期望给的工作待遇',
+          type: 'range',
+          value: [option.userWagesLow, option.userWagesHigh],
+          key: 'userWages'
+        }
+      ]
+    }
     this.type = option.form;
     if (option.form == 2) {
       this.contentItem = [

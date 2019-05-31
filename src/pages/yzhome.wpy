@@ -698,6 +698,7 @@
               wx.getStorage({
                 key:'session_key',
                 success(ra){
+                  console.log(ra.data)
                   that.session_key=ra.data
                   
                 }
@@ -773,6 +774,7 @@
         wx.showLoading({
           title:'加载中'
         });
+        console.log(this.session_key)
         let res= await ownerList({
           sessionkey:this.session_key,
           pagenum:'9',

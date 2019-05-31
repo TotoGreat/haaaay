@@ -276,7 +276,7 @@ margin-top:300rpx;
               <text class="fb-type">{{item.typeName}}</text><text>{{item.village}}</text></view>
             <view class="fb-time">发布时间:   {{item.publish_time}}</view>
             <view class='fb-cz'>
-              <view @tap.stop="goform({{item.type}})">编辑</view>
+              <view @tap.stop="goform({{item}})">编辑</view>
               <view @tap.stop="reset({{item.publish_id}})">重新上架</view>
             </view>
             <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>12</text></view>
@@ -325,12 +325,6 @@ margin-top:300rpx;
 
         
       },
-      goform(e){
-        console.log(e);
-        wx.navigateTo({
-          url:"yzpublish?form="+e
-        })
-      },
       async reset(e){
         let resetPub=await this.resetPublish(e)
         console.log(resetPub)
@@ -344,7 +338,9 @@ margin-top:300rpx;
       goform(e){
         console.log(e);
         wx.navigateTo({
-          url:`publish?form=${e}`
+          url:`publish?form=${e.type}&sex=${e.sex}&uname=${e.name}&age=${e.age}
+          &place=${e.place}&workYear=${e.workYear}&userPhone=${e.userPhone}&village=${e.village}
+          &userWagesLow=${e.userWagesLow}&userWagesHigh=${e.userWagesHigh}`
         })
       }
     }
