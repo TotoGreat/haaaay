@@ -240,11 +240,6 @@
           url:'myfollow?sess='+this.session_key
         })
       },
-      gocenter(){
-        wx.navigateTo({
-          url:'center/personcenter?case='+JSON.stringify(this.userinfo)
-        })
-      },
       goMypub() {
         wx.navigateTo({
           url:'mypub?sessionkey='+this.session_key

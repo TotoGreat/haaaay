@@ -83,7 +83,7 @@
         wx:if="{{item.type!=='range'&&item.type!=='num'&&item.type!='xq'}}"
         bindinput="inputText"
         data-index="{{index}}"
-        
+        value="{{item.value}}"
       >
       <input
         type="number"
@@ -91,6 +91,7 @@
         wx:if="{{item.type=='num'}}"
         bindinput="inputText"
         data-index="{{index}}"
+        value="{{item.value}}"
       >
       <input
         type="text"
@@ -115,6 +116,7 @@
         wx:if="{{item.type==='range'}}"
         bindinput="inputPriceLow"
         data-index="{{index}}"
+        value="{{item.value}}"
       >
       <view wx:if="{{item.type==='range'}}">-</view>
       <input
@@ -123,6 +125,7 @@
         wx:if="{{item.type==='range'}}"
         bindinput="inputPriceHigh"
         data-index="{{index}}"
+        value="{{item.value}}"
       >
     </view>
     <!--    <view class="formitem">-->
@@ -547,7 +550,7 @@ export default class publish extends wepy.page {
   onLoad(option) {
     var that = this;
     console.log(option.form == 3);
-    console.log(option)
+    console.log(option,111)
     that.share = option.share,
       that.$apply()
     wx.getStorage({
@@ -556,7 +559,8 @@ export default class publish extends wepy.page {
         that.session_key = ra.data;
       }
     });
-    if (option.name ) {
+    if (option.sex) {
+      console.log('编辑')
       this.formItem = [
         {
           que: '我们该如何称呼您',
@@ -607,6 +611,7 @@ export default class publish extends wepy.page {
           key: 'userWages'
         }
       ]
+      
     }
     this.type = option.form;
     if (option.form == 2) {

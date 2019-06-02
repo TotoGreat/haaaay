@@ -114,9 +114,9 @@
     <view class='v-box'>
         <view class='v-tit'>业主详情</view>
         
-        <view class="v-det"><text>姓名: \t</text><text>{{company_name}}</text></view>
-        <view class="v-det"><text>电话: \t</text><text>{{company_telephone}}</text></view>
-        <view class="v-det"><text>地址: \t</text><text>{{userPhone}}</text></view>
+        <view class="v-det"><text>姓名: \t</text><text>{{user.name}}</text></view>
+        <view class="v-det"><text>电话: \t</text><text>{{user.contact}}</text></view>
+        <view class="v-det"><text>地址: \t</text><text>{{user.areaname}}</text></view>
     </view>
     <button @tap="makecall({{company_telephone}})"><image src="../img/call.png" />拨打</button>
 </block>
@@ -140,6 +140,7 @@ config = {
        company_address:'',
        company_name:'',
        company_telephone:'',
+       user:'',
        company_id:'',
        sessionkey:'',
        tips:[]
@@ -162,6 +163,7 @@ config = {
             this.sessionkey=opt.sessionkey
             if(res.data.code=='10001'){
             this.info=res.data.data
+            this.user=res.data.data.userinfo
             let aaa=res.data.data
             let cont=res.data.data.serviceContent.replace(/\\n/g,"\n")
             this.serviceContent=cont

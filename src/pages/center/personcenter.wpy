@@ -73,7 +73,7 @@
       <input type="number" @input="s3" value="{{userInfo.contact}}" />
     </view>
     <view class="v-line">
-      <view class="line-left">服务地址</view>
+      <view class="line-left">{{isay?'服务小区':'所在的区域'}}</view>
       <picker bindchange="changeqy" value="{{arealist[index1].areaname}}"  range="{{arealist}}" range-key="{{'areaname'}}" @change="changexq">
         <view class="picker" style="text-align:right;">
       {{arealist[index1].areaname}}
@@ -100,6 +100,7 @@ export default class personnalcenter extends wepy.page {
     arealist:'',
     index1:0,
     index2:'',
+    isay:'',
     sexlist:['女','男'],
     headimg:''
   };
@@ -211,8 +212,14 @@ export default class personnalcenter extends wepy.page {
     }
   };
   onLoad(opt) {
-    // console.log(opt)
+    console.log(opt)
     let options = JSON.parse(opt.case);
+    if(opt.type==1){
+      this.isay=true
+    }else{
+      this.isay=false
+    }
+    this.$apply()
     this.userInfo = options;
     console.log(options);
     this.headimg=options.headimg;

@@ -1,25 +1,118 @@
 <style lang="less" scoped>
+    .tabbar{
+    position: fixed;
+    bottom: -22rpx;
+    left: 0;
+    display: flex;
+    width: 750rpx;
+    border-top: 1px solid #f1f1f1;
+    background: #fff;
+    z-index:999;
+
+    .imga{
+      width: 23rpx;
+      height: 40rpx;
+    }
+    .imgb{
+      width: 33rpx;
+      height: 40rpx;
+    }
+    .imgc{
+      width: 40rpx;
+      height: 40rpx;
+    }
+    .imgd{
+      width: 40rpx;
+      height: 40rpx;
+    }
+    .default {
+      font-size: 36rpx;
+      line-height: 100rpx;
+      text-align: center;
+      flex: 1;
+      text {
+        display: block;
+        font-size: 0.6rem;
+        margin-top: -70rpx;
+      }
+    }
+    .default1{
+      font-size: 36rpx;
+      line-height: 100rpx;
+      text-align: center;
+      flex: 1;
+      text {
+        display: block;
+        font-size: 0.6rem;
+        margin-top: -70rpx;
+        color: #FF6702;
+      }
+    }
+  }
+  .taba{
     .p-top{
       display:flex;
       justify-content:space-around;
-      font-size: 32rpx;
-      line-height:80rpx;
-      border-bottom:1px solid #eee;
+      font-size: 34rpx;
       .p-all{
         color: #FF6702
       }
-      .picker{
-                image{
-                    width: 16rpx;
-                    height: 14rpx;
-                }
-            }
     }
+    .p-box{
+      .p-line{
+        display: flex;
+        height:180rpx;
+        border-bottom:1px solid #e6e6e6;
+        .p-left{
+          width: 100rpx;
+          text-align: center;
+          image{
+            width: 56rpx;
+            height: 56rpx;
+            position: relative;
+            top: 20rpx;
+          }
+        }
+        .p-right{
+          width: 650rpx;
+          .p-info{
+            line-height: 100rpx;
+            .p-type{
+              font-size: 34rpx;
+            }
+            .p-vil{
+              font-size: 26rpx;
+              color: #666666;
+            }
+            .p-wag{
+              font-size: 30rpx;
+              color: #FF6702;
+              float: right;
+              margin-right: 24rpx;
+            }
+          }
+          .p-tag{
+            .tag-box{
+              margin-left: 10rpx;
+              display: inline-block;
+              view{
+                padding: 5rpx 10rpx;
+                font-size: 26rpx;
+                background: #f2f2f2;
+                color: #999999;
+                margin-left: 10rpx;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .tabb{
     .fb-list{
       display: flex;
       justify-content: space-around;
       border-bottom: 1px solid #E6E6E6;
-      flex-wrap: wrap;
       .fb-left{
         width: 216rpx;
         text-align: center;
@@ -31,12 +124,13 @@
         }
       }
       .fb-right{
-        width: 500rpx;
+        width: 750rpx;
+        padding:24rpx;
         font-size: 26rpx;
         position: relative;
         .r-one{
           margin-top: 30rpx;
-          display:flex;
+          display: flex;
           align-items: center;
         }
         .fb-type{
@@ -48,35 +142,24 @@
           margin-top: 20rpx;
         }
         .fb-cz{
-          width: 500rpx;
+          width: 710rpx;
           display: flex;
-          margin-top: 20rpx;
           justify-content: space-between;
+          margin-top: 20rpx;
           font-size: 28rpx;
           view{
-            width: 240rpx;
+            width: 340rpx;
             border:1px solid #FF6702;
             color: #FF6702;
             border-radius: 10rpx;
             text-align: center;
-            line-height: 54rpx;
-          }
-        }
-        .fb-cg{
-          width: 500rpx;
-          display: flex;
-          margin-top: 20rpx;
-          font-size: 28rpx;
-          view{
-            padding:0 5rpx;
-            margin-right:10rpx;
-            height:36rpx;background:#F2F2F2;line-height:36rpx;color:#999;font-size:24rpx;
+            line-height: 68rpx;
           }
         }
         .v-watch{
           position:absolute;
           right:30rpx;
-          top:40rpx;
+          top:60rpx;
           color: #FF6702;
           image{
             width: 30rpx;
@@ -86,48 +169,126 @@
         }
       }
     }
-    .nothing{
+  }
+  .tabc{
+    .topbanner{
+      width: 750rpx;
+      image{
+        width: 100%;
+        height: 276rpx;
+      }
+    }
+    .menu{
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      .option{
+        width: 374rpx;
+        margin: 0;
+        display: flex;
+        height: 180rpx;
+        border-bottom: 1px solid #f1f1f1;
+        border-right: 1px solid #f1f1f1;
+        .opt-left{
+          width: 214rpx;
+          padding-left: 26rpx;
+        }
+        .optname{
+          font-size: 28rpx;
+          line-height: 90rpx;
+        }
+        .optnote{
+          font-size: 22rpx;
+          line-height: 60rpx;
+        }
+        image{
+          width: 80rpx;
+          height: 80rpx;
+          margin-top: 50rpx;
+        }
+      }
+    }
+  }
+  .tabd{
+    .v-top{
+      width: 750rpx;
+      height: 354rpx;
+      .v-img{
+        width:100%;
+        height:276rpx;
+        position:absolute;
+        z-index:-1;
+      }
+      .v-center{
+        width: 300rpx;
+        margin: 0rpx auto;
+        text-align: center;
+        color: #fff;
+        padding-top: 50rpx;
+        image{
+          width: 160rpx;
+          height: 160rpx;
+          border-radius: 160rpx;
+        }
+        .v-name{
+          font-size: 36rpx;
+        }
+        .v-phone{
+          font-size: 26rpx;
+        }
+      }
+    }
+    .v-menu{
+      display: flex;
+      border-bottom: 1px solid #f1f1f1;
+      .v-md{
+        text-align: center;
+        width: 374rpx;
+        height: 204rpx;
+        font-size: 26rpx;
+        padding-top: 50rpx;
+        border-left: 1px solid #f1f1f1;
+        image{
+          width: 110rpx;
+          height: 110rpx;
+        }
+      }
+    }
+  }
+  .nothing{
         text-align: center;
         image{
             width:300rpx;
-            height:300rpx;
-            margin-top:300rpx;
+height:300rpx;
+margin-top:300rpx;
 
         }
     }
 </style>
 <template>
-    <view class="p-top">
-        <view class='p-all' bindtap="selected">全部</view>
-        <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
-          <view class="picker">
-            {{array1[index1]}}
-            <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' />
-          </view>
-        </picker></view>
-        <view><picker bindchange="changelx" value="{{index2}}" range="{{array2}}">
-          <view class="picker">
-            {{array2[index2]}}
-            <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' />
-          </view>
-        </picker></view>
-      </view>
-      <block wx:for="{{fblist}}" wx:if="{{fblist.length!=0}}">
-        <view  wx:key="index" wx:if="{{item.state!==2}}" class='fb-list' @tap="godetail({{item.publish_id}})">
-          <view class="fb-left"><image src="{{item.headimg}}" /></view>
+       <view>
+    <view class="tabb">
+      <block wx:if="{{fblist.length!=0}}">
+        <view  wx:key="index" wx:for="{{fblist}}"  class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-right">
             <view class='r-one'>
-              <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
-              <text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text>
+              <image src="/img/a{{item.type}}.png" style="width:50rpx;height:50rpx"/>
+              <text class="fb-type">{{item.typeName}}</text><text>{{item.village}}</text></view>
+            <view class="fb-time">发布时间:   {{item.publish_time}}</view>
+            <view class='fb-cz'>
+              <view @tap.stop="goform({{item}})">编辑</view>
+              <view @tap.stop="reset({{item.publish_id}})">重新上架</view>
             </view>
-            <view class="fb-time">{{item.sex}} | {{item.age}}岁 | {{item.place}} | {{item.workYear}}年经验</view>
-            <view class='fb-cg' >
-              <view wx:for="{{item.tips}}" wx:key="index">{{item}}</view>
-            </view>
-            <view class="v-watch">{{item.userWagesLow}}元/月</view>
+            <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>12</text></view>
           </view>
-          <view style="display:flex;margin-bottom:10rpx">
-            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901;padding-left:20rpx;">经验丰富技艺超群，热情好客</view>
+        </view>
+        <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
+          <view class="fb-right">
+            <view class='r-one'>
+              <image src="/img/a{{item.type}}.png" style="width:50rpx;height:50rpx"/>
+              <text class="fb-type">{{item.typeName}}</text><text>{{item.village}}</text></view>
+            <view class="fb-time">发布时间:   {{item.publish_time}}</view>
+            <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>12</text></view>
           </view>
         </view>
       </block>
@@ -136,6 +297,8 @@
 <view style="text-align:center">暂无相关数据</view>
           </view>
       <view style="width:750rpx;height:130rpx;"></view>
+    </view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
@@ -150,7 +313,6 @@
       notwo:false,
       nothree:false,
       nofour:false,
-      array1:['南京','玄武区','秦淮区','鼓楼区','建邺区','栖霞区','雨花台区','浦口区','江宁区','六合区','溧水区','高淳区'],
       array2:['全部','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','老人陪伴' ,'催乳师','病人陪护'],
       area:'',
       type:'',
@@ -185,28 +347,28 @@
             phoneNumber: e
         })
       },
-      godetail(e){
-        console.log(e)
-        // if(this.identification==1){
-        //   if(this.noone==true){
-        //     wx.navigateTo({
-        //       url:'zwdetails?id='+e+'&sessionkey='+this.session_key
-        //     })
-        //   }else{
-        //     wx.navigateTo({
-        //       url:'errorpage?type=1'
-        //       //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
-        //     })
-        //   }
-        // }else{
-        //   wx.navigateTo({
-        //     url:'index?type=1'
-        //   })
-        // }
-        wx.navigateTo({
-          url:'ayydetails?sessionkey='+this.session_key+'&id='+e
-        })
-      },
+      // godetail(e){
+      //   console.log(e)
+      //   // if(this.identification==1){
+      //   //   if(this.noone==true){
+      //   //     wx.navigateTo({
+      //   //       url:'zwdetails?id='+e+'&sessionkey='+this.session_key
+      //   //     })
+      //   //   }else{
+      //   //     wx.navigateTo({
+      //   //       url:'errorpage?type=1'
+      //   //       //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
+      //   //     })
+      //   //   }
+      //   // }else{
+      //   //   wx.navigateTo({
+      //   //     url:'index?type=1'
+      //   //   })
+      //   // }
+      //   wx.navigateTo({
+      //     url:'ayydetails?sessionkey='+this.session_key+'&id='+e
+      //   })
+      // },
       async follows(e){
         var that =this
         let fow = await that.publish(e)
@@ -224,11 +386,6 @@
         console.log('is公司');
         wx.navigateTo({
           url:'myfollow?sess='+this.session_key
-        })
-      },
-      gocenter(){
-        wx.navigateTo({
-          url:'center/personcenter?case='+JSON.stringify(this.userinfo)
         })
       },
       goMypub() {

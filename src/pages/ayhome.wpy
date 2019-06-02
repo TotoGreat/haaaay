@@ -535,15 +535,9 @@ config = {
                 url:'provepage?sessionkey='+this.session_key
             })
             }else if(this.identification==2){
-                wx.showModal({
-          content: '您已完成认证信息',
-          showCancel: false,
-          success: function(res) {
-            if (res.confirm) {
-              
-            }
-          }
-        })
+                wx.navigateTo({
+                url:'provepage?sessionkey='+this.session_key+'&edit=false'
+            })
             }else{
                 wx.navigateTo({
                 url:'index?type=1'
@@ -553,7 +547,7 @@ config = {
         gocenter(){
         if(this.identification==1||this.identification==2){
             wx.navigateTo({
-                url:'center/personcenter?case='+JSON.stringify(this.userinfo)
+                url:'center/personcenter?case='+JSON.stringify(this.userinfo)+'&type=1'
             })
             }else{
                 wx.navigateTo({

@@ -362,6 +362,9 @@
                         }
                     }
                     .p-tag{
+                        .tag-box:first-child{
+                            margin: 0
+                        }
                         .tag-box{
                             margin-left: 10rpx;
                             display: inline-block;
@@ -370,7 +373,6 @@
                             font-size: 26rpx;
                             background: #f2f2f2;
                             color: #999999;
-                            margin-left: 10rpx;
                         }
                         }
                     }
@@ -829,9 +831,15 @@ config = {
             })
             }
             if(e==5){
+                if(this.identification==2){
+                    wx.navigateTo({
+                url:'provepagegs?sessionkey='+this.session_key+'&edit=false'
+                })
+                }else{
                 wx.navigateTo({
                 url:'provepagegs?sessionkey='+this.session_key
             })
+            }
             }
             }
         },

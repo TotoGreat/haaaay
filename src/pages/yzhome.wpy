@@ -631,7 +631,7 @@
                return false
             }else{
         wx.navigateTo({
-          url:'center/personcenter?case='+JSON.stringify(this.userinfo)
+          url:'center/personcenter?case='+JSON.stringify(this.userinfo)+'&type=2'
         })}
       },
       goMypub() {

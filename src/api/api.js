@@ -417,3 +417,15 @@ export function yzList(data){
   }
   return request(req)
 }
+//公司 业主列表
+export function displayimg(data){
+  let req={
+    url:G.apiUrl+'/house/displayImage',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
