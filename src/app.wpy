@@ -45,6 +45,7 @@ export default class extends wepy.app {
       'pages/zwdetails_gs',//公司 需求阿姨详情
       'pages/gsfxxq',//公司 分享详情
       'pages/fxfb',//我的分享发布
+      'pages/gsfbdetails',//公司发布详情
     ],
     window: {
       backgroundTextStyle: 'light',

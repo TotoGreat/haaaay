@@ -102,7 +102,7 @@
                   <text class="p-type">{{typeName}}</text><text class="p-vil">{{info.name}}</text>
                   <text class='p-wag'>{{userWagesLow}}-{{userWagesHigh}}元/月</text>
               </view>
-               <view class="p-time">{{info.sex}}|{{info.age}}岁 | {{info.place}} |{{info.workYear}}年经验</view>
+               <view class="p-time">{{info.sex}} | {{info.age}}岁 | {{info.place}} | {{info.workYear}}年经验</view>
                 <view class="p-tag">
                     <view class='tag-box' wx:for="{{tips}}" wx:key="index">
                         <view>{{item}}</view>

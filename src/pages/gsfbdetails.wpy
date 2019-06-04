@@ -7,7 +7,7 @@
         border-bottom:1px solid #e6e6e6;
         flex-wrap: wrap;
         .p-right{
-          width: 448rpx;
+          width:100%;
           padding:0 20rpx;
           .p-info{
             line-height: 100rpx;
@@ -182,7 +182,6 @@ left:30rpx;
     <view  class="taba">
       <view class="p-box">
         <view class="p-line">
-        <view class="fb-left"><image src="{{headimg}}" /></view>
           <view class="p-right">
             <view class="p-info">
               <image src="../img/a{{type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle;margin-right:6rpx;"/>
@@ -235,10 +234,10 @@ left:30rpx;
 </template>
 <script>
 import wepy from 'wepy'
-import {fbdetail,delPublish} from '../api/api'
-export default class fbpage extends wepy.page{
+import {mineHouseDetail,delPublish} from '../api/api'
+export default class gsfbdetails extends wepy.page{
 config = {
-      navigationBarTitleText: '阿姨详情'
+      navigationBarTitleText: '我的招聘发布'
     }
     data={
        type:'',
@@ -273,12 +272,12 @@ config = {
       goform(e){
             console.log(e);
           wx.navigateTo({
-            url:`publish?form=${e.type}&sex=${e.sex}&uname=${e.name}&age=${e.age}&place=${e.place}&workYear=${e.workYear}&userPhone=${e.userPhone}&village=${e.village}&userWagesLow=${e.userWagesLow}&userWagesHigh=${e.userWagesHigh}&id=${e.publish_id}`
+            url:`yzpublish?form=${e.type}&sex=${e.sex}&uname=${e.name}&age=${e.age}&place=${e.place}&workYear=${e.workYear}&userPhone=${e.userPhone}&village=${e.village}&userWagesLow=${e.userWagesLow}&userWagesHigh=${e.userWagesHigh}&id=${e.publish_id}`
           })
         }
     }
     onLoad(opt){
-        fbdetail({sessionkey:opt.sessionkey,publish_id:opt.id}).then(res=>{
+        mineHouseDetail({sessionkey:opt.sessionkey,publish_id:opt.id}).then(res=>{
             if(res.data.code=='10001'){
             this.sessionkey=opt.sessionkey
             this.type=res.data.data.type

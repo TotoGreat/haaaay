@@ -90,7 +90,7 @@
 
 <template>
   <view class="p-box">
-    <view class="p-line" wx:for="{{list}}" wx:key="index">
+    <view class="p-line" wx:for="{{list}}" wx:key="index" @tap="godetails({{item.publish_id}})">
       <view class="p-left">
         <image src="../img/a{{item.type}}.png">
       </view>
@@ -134,7 +134,13 @@ export default class myorder extends wepy.page {
     sessionkey: '',
     list: ''
   };
-  methods = {};
+  methods = {
+    godetails(e){
+      wx.navigateTo({
+                    url:'zwdetails_gs?id='+e+'&sessionkey='+this.sessionkey
+                    })
+    }
+  };
   onLoad(opt) {
     console.log(opt);
     this.sessionkey = opt.sessionkey;

@@ -429,3 +429,15 @@ export function displayimg(data){
   }
   return request(req)
 }
+//公司 我的招聘发布详情
+export function mineHouseDetail(data){
+  let req={
+    url:G.apiUrl+'/house/mineHouseDetail',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}

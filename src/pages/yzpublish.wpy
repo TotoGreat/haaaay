@@ -180,7 +180,7 @@
         padding: 26rpx 26rpx;
         height: 28rpx;
         font-size: 28rpx;
-        vertical-align: middle;
+        vertical-align: middle;margin-right:6rpx;;
       }
       .contentBox {
         display: flex;
@@ -279,8 +279,10 @@
       tip: '',
       type: 1,
       session_key:'',
+      share:'',
       xq:'',
       xqid:'',
+      publish_id:'',
       contentItem: [
         {
           title: '您希望获得的服务内容',
@@ -563,7 +565,9 @@
         });
         data.sessionkey=this.session_key
         data.serviceContent.tip = this.tip
+        data.share=this.share
         data.serviceContent= JSON.stringify(data.serviceContent)
+        data.publish_id=this.publish_id
         console.log(JSON.stringify(data));
         publishSave(data).then(res => {
           if(res.data.code=="10001"){
@@ -572,10 +576,13 @@
               icon: 'none',
             })
             setTimeout(() => {
-              // wx.navigateBack({
-              //   delta: 1
+              this.formItem=[]
+              this.contentItem=[]
+              this.$apply()
+              wx.navigateBack({
+                delta: 1
 
-              // })
+              })
             }, 1000);
 
           }
@@ -586,14 +593,18 @@
       var that = this;
       console.log(option)
       console.log(option.form == 3);
+      if(option.share){
+      that.share = option.share
+    }
       wx.getStorage({
         key: 'session_key',
         success(ra) {
           that.session_key = ra.data;
         }
       });
-      if (option.sex) {
+      if (option.id) {
       console.log('编辑')
+      this.publish_id=option.id
       this.formItem = [
         {
           que: '我们该如何称呼您',
@@ -641,9 +652,153 @@
       this.xq=option.village
       this.xqid=option.villageid
       this.$apply()
+    }else{
+      this.formItem =[
+        {
+          que: '我们该如何称呼您',
+          key: 'userName',
+          type: 'normal',
+          value: ''
+        },
+        {
+          que: '您的性别',
+          type: 'normal',
+          value: '',
+          key: 'sex'
+        },
+        {
+          que: '您的年龄',
+          type: 'normal',
+          value: '',
+          key: 'age'
+        },
+        {
+          que: '您的籍贯',
+          type: 'normal',
+          value: '',
+          key: 'place'
+        },
+        {
+          que: '您的联系电话',
+          type: 'number',
+          value: '',
+          key: 'userPhone'
+        },
+        {
+          que: '获取您所在的小区',
+          type: 'xq',
+          value: '',
+          key: 'village'
+        },
+        {
+          que: '您的心理价位',
+          type: 'range',
+          value: ['', ''],
+          key: 'userWages'
+        }
+      ]
     }
       this.type = option.form;
-      if (option.form == 2) {
+      if(option.form==1){
+      this.contentItem=[
+      {
+        title: '请选择您会的服务技能',
+        key: 'a',
+        checkboxArr: [
+          {
+            name: '日常保洁',
+            value: false
+          },
+          {
+            name: '洗衣做饭',
+            value: false
+          },
+          {
+            name: '家有萌娃',
+            value: false
+          },
+          {
+            name: '照顾老人',
+            value: false
+          },
+          {
+            name: '其它服务',
+            value: false
+          }
+        ]
+      },
+      {
+        title: '请选择您能够一周服务几次',
+        key: 'b',
+        radioArr: [
+          {
+            name: '一周一次',
+            value: true
+          },
+          {
+            name: '一周二次',
+            value: false
+          },
+          {
+            name: '一周三次',
+            value: false
+          },
+          {
+            name: '一周四次',
+            value: false
+          },
+          {
+            name: '一周五次',
+            value: false
+          },
+          {
+            name: '一周六次',
+            value: false
+          },
+          {
+            name: '一周七次',
+            value: false
+          }
+        ]
+      },
+      {
+        title: '请选择您能够单次服务几个小时',
+
+        key: 'c',
+        radioArr2: [
+          {
+            name: '1小时',
+            value: true
+          },
+          {
+            name: '2小时',
+            value: false
+          },
+          {
+            name: '3小时',
+            value: false
+          },
+          {
+            name: '4小时',
+            value: false
+          }
+        ],
+        placeholder: '请填写具体时间',
+        value: ''
+      },
+      {
+        title: '请选择您能够单次服务的时间段',
+        key: 'd',
+        range: true,
+        value: true,
+        text: ''
+      }
+    ]
+    wx.setNavigationBarTitle({
+        title: '钟点工'
+      });
+      this.formtitle = '钟点工';
+    }else if (option.form == 2) {
         this.contentItem = [
           {
             title: '您需要的保洁类型为？',
@@ -991,10 +1146,6 @@
                 value: false
               },
               {
-                name: '健康证',
-                value: false
-              },
-              {
                 name: '无',
                 value: false
               },
@@ -1121,7 +1272,7 @@
           },
           {
             title: '病人在什么时间需要陪护？',
-            key: 'd',
+            key: 'e',
             radioArr: [
               {
                 name: '白天',
@@ -1143,7 +1294,7 @@
           },
           {
             title: '您希望陪护是临时还是长期？',
-            key: 'e',
+            key: 'f',
             radioArr2: [
               {
                 name: '长期',
@@ -1159,7 +1310,7 @@
           },
           {
             title: '您希望陪护有几年工作经验？',
-            key: 'f',
+            key: 'g',
             radioArr: [
               {
                 name: '1-3年',
@@ -1181,7 +1332,7 @@
           },
           {
             title: '您是否需要陪护提供相关资格证书？',
-            key: 'g',
+            key: 'h',
             checkboxArr: [
               {
                 name: '健康证',
@@ -1204,5 +1355,12 @@
         this.formtitle = '病人陪护';
       }
     }
+    onUnload() {
+    this.contentItem=[]
+    this.formItem=[]
+    this.tip=''
+    this.publish_id=''
+    this.share=''
+  }
   }
 </script>

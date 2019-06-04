@@ -77,6 +77,7 @@
             .p-vil{
               font-size: 26rpx;
               color: #666666;
+              padding-left:10rpx;
             }
             .p-wag{
               font-size: 30rpx;
@@ -233,6 +234,9 @@
           margin-top: 50rpx;
         }
       }
+      .option:nth-child(even){
+                border-right: none;
+            }
     }
   }
   .tabd{
@@ -280,6 +284,9 @@
           height: 110rpx;
         }
       }
+      .v-md:nth-child(even){
+                border-right: none;
+            }
     }
   }
   .v-share{
@@ -335,9 +342,9 @@
 
           <view class="p-right">
             <view class="p-info">
-              <image src="../img/a{{item.type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
-              <text class="p-type">{{item.typeName}}</text><text class="p-vil">{{item.name}}</text>
-              <text class='p-wag'>{{item.userWagesLow}}元/月</text>
+              <image src="../img/a{{item.type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle;margin-right:6rpx;"/>
+              <text class="p-type">{{item.typeName}} \t </text><text class="p-vil"> \t {{item.name}}</text>
+              <text class='p-wag'>  {{item.userWagesLow}}元/月</text>
             </view>
             <view class="p-time">{{item.sex}} | {{item.age}}岁 | {{item.place}} | {{item.workYear}}年经验</view>
             <view class="p-tag">
@@ -346,7 +353,7 @@
               </view></view>
           </view>
           <view style-="display:flex;margin-bottom:10rpx;">
-            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901">经验丰富技艺超群，热情好客</view>
+            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901">{{item.remarks}}</view>
             <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="call({{item.userPhone}})">拨打</view>
           </view>
         </view>
@@ -379,7 +386,7 @@
           <view class="fb-left"><image src="{{item.headimg?item.headimg:'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTK1IeREheZ6BOJ2wllh5Au7XEISUtic1RLppWVZWQL5BsWzdvzSDDhUOWZJgHnlvLYibG1d6ataMGdA/132'}}" /></view>
           <view class="fb-right">
             <view class='r-one'>
-              <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
+              <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle;margin-right:6rpx;"/>
               <text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text>
             </view>
             <view class="fb-time">{{item.sex}} | {{item.age}}岁 | {{item.place}} | {{item.workYear}}年经验</view>
@@ -389,7 +396,7 @@
             <view class="v-watch">{{item.userWagesLow}}元/月</view>
           </view>
           <view style-="display:flex;margin-bottom:10rpx">
-            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901;padding-left:20rpx;">经验丰富技艺超群，热情好客</view>
+            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901;padding-left:20rpx;">{{item.remarks}}</view>
             <view wx:if="{{item.status!=0}}" style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">关注</view>
             <view wx:if="{{item.status==0}}" style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">取消关注</view>
           </view>

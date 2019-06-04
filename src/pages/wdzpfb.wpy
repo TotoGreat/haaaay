@@ -268,8 +268,8 @@ margin-top:300rpx;
 <template>
        <view>
     <view class="tabb">
-      <block wx:if="{{fblist.length!=0}}">
-        <view  wx:key="index" wx:for="{{fblist}}"  class='fb-list' @tap="godetail({{item.publish_id}})">
+      <block  wx:for="{{fblist}}">
+        <view  wx:key="index" wx:if="{{item.state!=3}}"  class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-right">
             <view class='r-one'>
               <image src="/img/a{{item.type}}.png" style="width:50rpx;height:50rpx"/>
@@ -277,18 +277,18 @@ margin-top:300rpx;
             <view class="fb-time">发布时间:   {{item.publish_time}}</view>
             <view class='fb-cz'>
               <view @tap.stop="goform({{item}})">编辑</view>
-              <view @tap.stop="reset({{item.publish_id}})">重新上架</view>
+              <view @tap.stop="resetPublish({{item.publish_id}})">重新上架</view>
             </view>
-            <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>12</text></view>
+            <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>{{item.readCount}}</text></view>
           </view>
         </view>
-        <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
+        <view wx:if="{{item.state==3}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
           <view class="fb-right">
             <view class='r-one'>
               <image src="/img/a{{item.type}}.png" style="width:50rpx;height:50rpx"/>
               <text class="fb-type">{{item.typeName}}</text><text>{{item.village}}</text></view>
             <view class="fb-time">发布时间:   {{item.publish_time}}</view>
-            <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>12</text></view>
+            <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>{{item.readCount}}</text></view>
           </view>
         </view>
       </block>
@@ -302,7 +302,7 @@ margin-top:300rpx;
 </template>
 <script>
   import wepy from 'wepy'
-  import {minePublishList,publish,follow,getshare} from '../api/api'
+  import {minePublishList,resetPublish,follow,getshare} from '../api/api'
   export default class zpfb extends wepy.page{
     config = {
       navigationBarTitleText: '我的招聘发布',
@@ -347,28 +347,28 @@ margin-top:300rpx;
             phoneNumber: e
         })
       },
-      // godetail(e){
-      //   console.log(e)
-      //   // if(this.identification==1){
-      //   //   if(this.noone==true){
-      //   //     wx.navigateTo({
-      //   //       url:'zwdetails?id='+e+'&sessionkey='+this.session_key
-      //   //     })
-      //   //   }else{
-      //   //     wx.navigateTo({
-      //   //       url:'errorpage?type=1'
-      //   //       //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
-      //   //     })
-      //   //   }
-      //   // }else{
-      //   //   wx.navigateTo({
-      //   //     url:'index?type=1'
-      //   //   })
-      //   // }
-      //   wx.navigateTo({
-      //     url:'ayydetails?sessionkey='+this.session_key+'&id='+e
-      //   })
-      // },
+      godetail(e){
+        console.log(e)
+        // if(this.identification==1){
+        //   if(this.noone==true){
+        //     wx.navigateTo({
+        //       url:'zwdetails?id='+e+'&sessionkey='+this.session_key
+        //     })
+        //   }else{
+        //     wx.navigateTo({
+        //       url:'errorpage?type=1'
+        //       //url:'fbdetails?id='+e+'&sessionkey='+this.session_key
+        //     })
+        //   }
+        // }else{
+        //   wx.navigateTo({
+        //     url:'index?type=1'
+        //   })
+        // }
+        wx.navigateTo({
+          url:'gsfbdetails?sessionkey='+this.session_key+'&id='+e
+        })
+      },
       async follows(e){
         var that =this
         let fow = await that.publish(e)
@@ -403,16 +403,16 @@ margin-top:300rpx;
         this.zwlist= await this.getshare(),
         this.$apply()
       },
-    //   async resetPublish(e){
-    //     let resetPub=await this.resetPublish(e)
-    //     console.log(resetPub)
-    //     if(resetPub.code=="10001"){
-    //       wx.showToast({
-    //         title:'刷新成功',
-    //         icon: 'none',
-    //       })
-    //     }
-    //   },
+      async resetPublish(e){
+        let resetPub=await this.resetPublish(e)
+        console.log(resetPub)
+        if(resetPub.code=="10001"){
+          wx.showToast({
+            title:'重新发布成功',
+            icon: 'none',
+          })
+        }
+      },
       async changeqy(e) {
         console.log( this.array1[e.detail.value])
         if(e.detail.value==0){
@@ -435,15 +435,18 @@ margin-top:300rpx;
       goform(e){
         console.log(e);
         wx.navigateTo({
-          url:"yzpublish?form="+e
+          url:`yzpublish?form=${e.type}&sex=${e.sex}&uname=${e.name}&age=${e.age}&place=${e.place}&workYear=${e.workYear}&userPhone=${e.userPhone}&village=${e.village}&villageid=${e.village_id}&userWagesLow=${e.userWagesLow}&userWagesHigh=${e.userWagesHigh}&id=${e.publish_id}`
         })
       }
     }
     async onLoad(opt){
       var that=this
         that.session_key=opt.case
-        that.fblist= await that.minePublishList()
         that.$apply()
+    }
+    async onShow(){
+      this.fblist= await this.minePublishList()
+        this.$apply()
     }
     async publish(e){
         try {
@@ -515,19 +518,19 @@ margin-top:300rpx;
         console.log(e)
       }
     }
-    // async resetPublish(e){
-    //   try{
-    //     wx.showLoading({
-    //       title:'加载中'
-    //     });
-    //     let res = await publish({
-    //       sessionkey:this.session_key,
-    //       publish_id:e
-    //     })
-    //     return res.data;
-    //   }catch(el){
-    //     console.log(el)
-    //   }
-    // }
+    async resetPublish(e){
+      try{
+        wx.showLoading({
+          title:'加载中'
+        });
+        let res = await resetPublish({
+          sessionkey:this.session_key,
+          publish_id:e
+        })
+        return res.data;
+      }catch(el){
+        console.log(el)
+      }
+    }
   }
 </script>

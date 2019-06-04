@@ -65,7 +65,7 @@
       <input type="number" @input="s3" value="{{userInfo.contact}}" />
     </view>
     <view class="v-line">
-      <view class="line-left">公司地址</view>
+      <view class="line-left">服务地址</view>
       <picker  value="{{arealist[index1].areaname}}"  range="{{arealist}}" range-key="{{'areaname'}}" @change="changexq">
         <view class="picker" style="text-align:right;">
       {{arealist[index1].areaname}}
