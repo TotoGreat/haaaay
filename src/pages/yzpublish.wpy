@@ -93,22 +93,40 @@
         ></textarea>
       </view>
     </view>
+
     <view class="formitem" wx:for="{{formItem}}">
       <view>{{item.que}}</view>
       <input
         type="text"
         placeholder="请输入"
-        wx:if="{{item.type!=='range'&&item.type!=='num'&&item.type!=='xq'}}"
+        wx:if="{{item.type!=='range'&&item.type!=='num'&&item.type!='xq'&&item.type!='date'&&item.type!='sex'&&item.type!='place'}}"
         bindinput="inputText"
         data-index="{{index}}"
+        value="{{item.value}}"
       >
+      <picker bindchange="bindPickerChange"data-index="{{index}}"  wx:if="{{item.type=='sex'}}" value="{{item.value}}" range="{{array}}">
+        <view class="picker">
+          {{array[item.value]}}
+        </view>
+      </picker>
       <input
         type="number"
         placeholder="请输入"
         wx:if="{{item.type=='num'}}"
         bindinput="inputText"
         data-index="{{index}}"
+        value="{{item.value}}"
       >
+      <picker mode="region" data-index="{{index}}" wx:if="{{item.type=='place'}}" value="{{region}}" bindchange="bindRegionChange" custom-item="{{customItem}}">
+        <view class="picker">
+          {{item.value}}
+        </view>
+      </picker>
+      <picker mode="date" data-index="{{index}}" wx:if="{{item.type=='date'}}"value="{{item.value}}" start="1900-01-01" end="{{today}}" bindchange="bindDateChange">
+        <view class="picker">
+          {{item.value}}
+        </view>
+      </picker>
       <input
         type="text"
         readonly
@@ -117,7 +135,7 @@
         placeholder="请选择"
         data-index="{{index}}"
         data-id="{{xqid}}"
-        @tap="gomap({{index}})"
+        @tap="gomap"
       >
       <!-- <button
         open-type="getPhoneNumber"
@@ -127,19 +145,21 @@
         class="phonebtn"
       >微信获取</button> -->
       <input
-        type="text"
+        type="digit"
         class="priceinput"
         wx:if="{{item.type==='range'}}"
         bindinput="inputPriceLow"
         data-index="{{index}}"
+        value="{{item.value[0]}}"
       >
       <view wx:if="{{item.type==='range'}}">-</view>
       <input
-        type="text"
+        type="digit"
         class="priceinput"
         wx:if="{{item.type==='range'}}"
         bindinput="inputPriceHigh"
         data-index="{{index}}"
+        value="{{item.value[1]}}"
       >
     </view>
     <!--    <view class="formitem">-->
@@ -263,6 +283,10 @@
   }
 </style>
 <script>
+  var myDate = new Date();
+  var year=myDate.getFullYear();    //获取完整的年份(4位,1970-????)
+  var month=(myDate.getMonth()+1)>=10?(myDate.getMonth()+1):'0'+(myDate.getMonth()+1);       //获取当前月份(0-11,0代表1月)
+  var tDate = myDate.getDate()>=10?myDate.getDate():"0"+myDate.getDate();
   import wepy from 'wepy';
   import { publishSave } from '../api/api';
   export default class publish extends wepy.page {
@@ -271,11 +295,16 @@
     };
     data = {
       formtitle: '钟点工',
+      region: ['江苏省', '南京市', '玄武区'],
       tip: '',
+      today:year+'-'+month+'-'+tDate,
       type: 1,
       session_key:'',
       xq:'',
       xqid:'',
+      array:['男','女'],
+      share:'',
+      customItem:'全部',
       contentItem: [
         {
           title: '您希望获得的服务内容',
@@ -379,25 +408,31 @@
         },
         {
           que: '您的性别',
-          type: 'normal',
-          value: '',
+          type: 'sex',
+          value: 0,
           key: 'sex'
         },
         {
-          que: '您的年龄',
-          type: 'normal',
-          value: '',
+          que: '您的出生日期',
+          type: 'date',
+          value: year+'-'+month+'-'+tDate,
           key: 'age'
         },
         {
           que: '您的籍贯',
-          type: 'normal',
-          value: '',
+          type: 'place',
+          value: '江苏省南京市玄武区',
           key: 'place'
         },
         {
+          que: '您的工作年限',
+          type: 'num',
+          value: '',
+          key: 'workYear'
+        },
+        {
           que: '您的联系电话',
-          type: 'number',
+          type: 'num',
           value: '',
           key: 'userPhone'
         },
@@ -408,7 +443,7 @@
           key: 'village'
         },
         {
-          que: '您的心理价位',
+          que: '您期望给的工作待遇',
           type: 'range',
           value: ['', ''],
           key: 'userWages'
@@ -416,8 +451,14 @@
       ]
     };
     methods = {
+      bindRegionChange(e){
+        var index = e.currentTarget.dataset.index;
+        console.log(e)
+        this.region = e.detail.value
+        this.formItem[index].value = e.detail.value[0]+e.detail.value[1]+e.detail.value[2]
+      },
       getPhoneNumber(e){
-        var index = n.currentTarget.dataset.index;
+        var index = e.currentTarget.dataset.index;
         console.log(n.currentTarget.dataset.index);
         this.formItem[index].value = n.detail.value;
       },
@@ -429,7 +470,6 @@
       inputPriceLow(n) {
         var index = n.currentTarget.dataset.index;
         this.formItem[index].value[0] = n.detail.value;
-        console.log(this.formItem)
       },
       inputPriceHigh(n) {
         var index = n.currentTarget.dataset.index;
@@ -441,18 +481,20 @@
         this.contentItem[n].checkboxArr[m].value = !this.contentItem[n]
           .checkboxArr[m].value;
       },
-      chooseCheckbox2(n, m) {
-        console.log(n, m);
-        console.log(this.contentItem[n].checkboxArr2[m]);
-        this.contentItem[n].checkboxArr2[m].value = !this.contentItem[n]
-          .checkboxArr2[m].value;
-      },
       chooseRadio(n, m) {
         this.contentItem[n].radioArr.map(item => {
           item.value = false;
         });
         console.log(this.contentItem[n].radioArr[m]);
         this.contentItem[n].radioArr[m].value = true;
+      },
+      bindDateChange(e){
+        console.log(e)
+        this.formItem[e.currentTarget.dataset.index].value = e.detail.value
+      },
+      bindPickerChange(e){
+        console.log(e)
+        this.formItem[e.currentTarget.dataset.index].value = e.detail.value
       },
       chooseRadio2(n, m) {
         console.log(this.contentItem[n]);
@@ -479,6 +521,10 @@
         this.contentItem[index].value = n.detail.value;
         console.log(n.currentTarget.dataset.index);
       },
+      bindDateChange(e){
+        console.log(e)
+        this.formItem[e.currentTarget.dataset.index].value = e.detail.value
+      },
       inputCheckbox(n){
         var index = n.currentTarget.dataset.index;
         this.contentItem[index].value = n.detail.value;
@@ -504,18 +550,20 @@
                })
     },
       accept(e) {
+        var that = this
         console.log(this.contentItem);
         this.formItem[5].value=e
         this.$apply()
         console.log(this.formItem)
         var data = { type: this.type, serviceContent: {} };
         this.formItem.forEach(item => {
-          if (item.key != 'userWages') {
-            data[item.key] = item.value;
-          } else {
-            console.log(item)
+          if (item.key == 'userWages') {
             data.userWagesLow = item.value[0];
             data.userWagesHigh = item.value[1];
+          } else if(item.key=='sex'){
+            data[item.key] = that.array[item.value];
+          }else {
+            data[item.key] = item.value;
           }
         });
         this.contentItem.forEach(item => {
