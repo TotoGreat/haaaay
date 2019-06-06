@@ -69,7 +69,7 @@
       <view class="contentBox" wx:if="{{item.range}}">
         <view
           class="selectitem selectitem3"
-          :class="{'active':item.value==true}"
+          :class="{'active':item.value=='时间可商量'}"
           @tap="chooseTime({{index}})"
         >时间可商量</view>
         <input
@@ -135,7 +135,8 @@
         placeholder="请选择"
         data-index="{{index}}"
         data-id="{{xqid}}"
-        @tap="gomap"
+        @tap="gomap({{index}})"
+
       >
       <!-- <button
         open-type="getPhoneNumber"
@@ -195,7 +196,7 @@
         padding: 26rpx 26rpx;
         height: 28rpx;
         font-size: 28rpx;
-        vertical-align: middle;
+        vertical-align: middle;margin-right:6rpx;;
       }
       .contentBox {
         display: flex;
@@ -300,11 +301,12 @@
       today:year+'-'+month+'-'+tDate,
       type: 1,
       session_key:'',
+      share:'',
       xq:'',
       xqid:'',
       array:['男','女'],
-      share:'',
       customItem:'全部',
+      publish_id:'',
       contentItem: [
         {
           title: '您希望获得的服务内容',
@@ -458,7 +460,7 @@
         this.formItem[index].value = e.detail.value[0]+e.detail.value[1]+e.detail.value[2]
       },
       getPhoneNumber(e){
-        var index = e.currentTarget.dataset.index;
+        var index = n.currentTarget.dataset.index;
         console.log(n.currentTarget.dataset.index);
         this.formItem[index].value = n.detail.value;
       },
@@ -470,6 +472,7 @@
       inputPriceLow(n) {
         var index = n.currentTarget.dataset.index;
         this.formItem[index].value[0] = n.detail.value;
+        console.log(this.formItem)
       },
       inputPriceHigh(n) {
         var index = n.currentTarget.dataset.index;
@@ -480,6 +483,12 @@
         console.log(this.contentItem[n].checkboxArr[m]);
         this.contentItem[n].checkboxArr[m].value = !this.contentItem[n]
           .checkboxArr[m].value;
+      },
+      chooseCheckbox2(n, m) {
+        console.log(n, m);
+        console.log(this.contentItem[n].checkboxArr2[m]);
+        this.contentItem[n].checkboxArr2[m].value = !this.contentItem[n]
+          .checkboxArr2[m].value;
       },
       chooseRadio(n, m) {
         this.contentItem[n].radioArr.map(item => {
@@ -572,7 +581,7 @@
               return item.value === true;
             });
           }else if (item.checkboxArr2) {
-            console.log(item)
+            // console.log(item)
             data.serviceContent[item.key] = item.checkboxArr2.filter(item => {
               return item.value === true;
             });
@@ -596,7 +605,8 @@
             }
           } else {
             if (item.value) {
-              data.serviceContent[item.key] = true;
+              console.log(item)
+              data.serviceContent[item.key] = '可商量';
             } else {
               data.serviceContent[item.key] = item.text;
             }
@@ -604,7 +614,9 @@
         });
         data.sessionkey=this.session_key
         data.serviceContent.tip = this.tip
+        data.share=this.share
         data.serviceContent= JSON.stringify(data.serviceContent)
+        data.publish_id=this.publish_id
         console.log(JSON.stringify(data));
         publishSave(data).then(res => {
           if(res.data.code=="10001"){
@@ -613,6 +625,9 @@
               icon: 'none',
             })
             setTimeout(() => {
+              this.formItem=[]
+              this.contentItem=[]
+              this.$apply()
               wx.navigateBack({
                 delta: 1
 
@@ -625,15 +640,214 @@
     };
     onLoad(option) {
       var that = this;
+      console.log(option)
       console.log(option.form == 3);
+      if(option.share){
+      that.share = option.share
+    }
       wx.getStorage({
         key: 'session_key',
         success(ra) {
           that.session_key = ra.data;
         }
       });
+      if (option.id) {
+      console.log('编辑')
+      this.publish_id=option.id
+      this.formItem = [
+        {
+          que: '我们该如何称呼您',
+          key: 'userName',
+          type: 'normal',
+          value: option.uname
+        },
+        {
+          que: '您的性别',
+          type: 'sex',
+          value: this.array.indexOf(option.sex),
+          key: 'sex'
+        },
+        {
+          que: '您的出生日期',
+          type: 'date',
+          value: option.age,
+          key: 'age'
+        },
+        {
+          que: '您的籍贯',
+          type: 'place',
+          value: option.place,
+          key: 'place'
+        },
+        {
+          que: '您的联系电话',
+          type: 'num',
+          value: option.userPhone,
+          key: 'userPhone'
+        },
+        {
+          que: '获取您所在的小区',
+          type: 'xq',
+          value: option.village,
+          key: 'village'
+        },
+        {
+          que: '您的心理价格',
+          type: 'range',
+          value: [option.userWagesLow, option.userWagesHigh],
+          key: 'userWages'
+        }
+      ]
+      this.xq=option.village
+      this.xqid=option.villageid
+      this.$apply()
+    }else{
+        this.formItem =[
+          {
+            que: '我们该如何称呼您',
+            key: 'userName',
+            type: 'normal',
+            value: ''
+          },
+          {
+            que: '您的性别',
+            type: 'sex',
+            value: 0,
+            key: 'sex'
+          },
+          {
+            que: '您的出生日期',
+            type: 'date',
+            value: year+'-'+month+'-'+tDate,
+            key: 'age'
+          },
+          {
+            que: '您的籍贯',
+            type: 'place',
+            value: '江苏省南京市玄武区',
+            key: 'place'
+          },
+          {
+            que: '您的联系电话',
+            type: 'number',
+            value: '',
+            key: 'userPhone'
+          },
+          {
+            que: '获取您所在的小区',
+            type: 'xq',
+            value: '',
+            key: 'village'
+          },
+          {
+            que: '您的心理价位',
+            type: 'range',
+            value: ['', ''],
+            key: 'userWages'
+          }
+        ]
+      }
       this.type = option.form;
-      if (option.form == 2) {
+      if(option.form==1){
+      this.contentItem=[
+      {
+        title: '请选择您会的服务技能',
+        key: 'a',
+        checkboxArr: [
+          {
+            name: '日常保洁',
+            value: false
+          },
+          {
+            name: '洗衣做饭',
+            value: false
+          },
+          {
+            name: '家有萌娃',
+            value: false
+          },
+          {
+            name: '照顾老人',
+            value: false
+          },
+          {
+            name: '其它服务',
+            value: false
+          }
+        ]
+      },
+      {
+        title: '请选择您能够一周服务几次',
+        key: 'b',
+        radioArr: [
+          {
+            name: '一周一次',
+            value: true
+          },
+          {
+            name: '一周二次',
+            value: false
+          },
+          {
+            name: '一周三次',
+            value: false
+          },
+          {
+            name: '一周四次',
+            value: false
+          },
+          {
+            name: '一周五次',
+            value: false
+          },
+          {
+            name: '一周六次',
+            value: false
+          },
+          {
+            name: '一周七次',
+            value: false
+          }
+        ]
+      },
+      {
+        title: '请选择您能够单次服务几个小时',
+
+        key: 'c',
+        radioArr2: [
+          {
+            name: '1小时',
+            value: true
+          },
+          {
+            name: '2小时',
+            value: false
+          },
+          {
+            name: '3小时',
+            value: false
+          },
+          {
+            name: '4小时',
+            value: false
+          }
+        ],
+        placeholder: '请填写具体时间',
+        value: ''
+      },
+      {
+        title: '请选择您能够单次服务的时间段',
+        key: 'd',
+        range: true,
+        value: true,
+        text: ''
+      }
+    ]
+    wx.setNavigationBarTitle({
+        title: '钟点工'
+      });
+      this.formtitle = '钟点工';
+    }else if (option.form == 2) {
         this.contentItem = [
           {
             title: '您需要的保洁类型为？',
@@ -1194,5 +1408,12 @@
         this.formtitle = '病人陪护';
       }
     }
+    onUnload() {
+    this.contentItem=[]
+    this.formItem=[]
+    this.tip=''
+    this.publish_id=''
+    this.share=''
+  }
   }
 </script>

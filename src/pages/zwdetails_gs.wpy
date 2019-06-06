@@ -2,7 +2,7 @@
     .p-line{
                 display: flex;
                 border-bottom:1px solid #e6e6e6;
-                padding-bottom:40rpx;
+                padding:40rpx 0 60rpx 0;
                 .p-left{
                     width: 100rpx;
                     text-align: center;
@@ -10,19 +10,20 @@
                         width: 56rpx;
                         height: 56rpx;
                         position: relative;
-                        top: 20rpx;
+                        top: 0rpx;
                     }
                 }
                 .p-right{
                     width: 650rpx;
                     .p-info{
-                        line-height: 100rpx;
+                        line-height: 50rpx;
                         .p-type{
                             font-size: 34rpx;
                         }
                         .p-vil{
                             font-size: 26rpx;
                             color: #666666;
+                            margin-left:20rpx;
                         }
                         .p-wag{
                             font-size: 30rpx;
@@ -33,9 +34,6 @@
                         .p-tag{
                             margin-bottom: 40rpx;
                         }
-                    }
-                    .p-time{
-                        font-size:26rpx
                     }
                     .p-tag{
                         .tag-box{
@@ -99,10 +97,9 @@
               </view>
               <view class="p-right">
               <view class="p-info">
-                  <text class="p-type">{{typeName}}</text><text class="p-vil">{{info.name}}</text>
+                  <text class="p-type">{{typeName}}</text><text class="p-vil">{{village}}</text>
                   <text class='p-wag'>{{userWagesLow}}-{{userWagesHigh}}元/月</text>
               </view>
-               <view class="p-time">{{info.sex}} | {{info.age}}岁 | {{info.place}} | {{info.workYear}}年经验</view>
                 <view class="p-tag">
                     <view class='tag-box' wx:for="{{tips}}" wx:key="index">
                         <view>{{item}}</view>
@@ -114,28 +111,36 @@
         <view class='v-tit'>职位描述</view>
         <view class="v-det"><text>{{serviceContent}}</text></view>
     </view>
-   
-    <button @tap="makecall({{info.userPhone}})"><image src="../img/call.png" />拨打</button>
+    <view class='v-box'>
+        <view class='v-tit'>业主详情</view>
+        
+        <view class="v-det"><text>姓名: \t</text><text>{{user.name}}</text></view>
+        <view class="v-det"><text>电话: \t</text><text>{{user.contact}}</text></view>
+        <view class="v-det"><text>地址: \t</text><text>{{user.areaname}}</text></view>
+    </view>
+    <button @tap="makecall({{company_telephone}})"><image src="../img/call.png" />拨打</button>
 </block>
 </template>
 <script>
 import wepy from 'wepy'
-import {fxdetail} from '../api/api'
+import {houseDetail} from '../api/api'
 export default class zwpage extends wepy.page{
 config = {
-      navigationBarTitleText: '职位'
+      navigationBarTitleText: '需求详情'
     }
     data={
        info:'',
        serviceContent:'',
        type:'',
        typeName:'',
+       userPhone:'',
        village:'',
        userWagesLow:'',
        userWagesHigh:'',
        company_address:'',
        company_name:'',
        company_telephone:'',
+       user:'',
        company_id:'',
        sessionkey:'',
        tips:[]
@@ -153,10 +158,12 @@ config = {
       }
     }
     onLoad(opt){
-        fxdetail({sessionkey:opt.sessionkey,publish_id:opt.id}).then(res=>{
+        
+        houseDetail({sessionkey:opt.sessionkey,publish_id:opt.id}).then(res=>{
             this.sessionkey=opt.sessionkey
             if(res.data.code=='10001'){
             this.info=res.data.data
+            this.user=res.data.data.userinfo
             let aaa=res.data.data
             let cont=res.data.data.serviceContent.replace(/\\n/g,"\n")
             this.serviceContent=cont

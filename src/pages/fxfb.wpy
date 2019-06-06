@@ -344,11 +344,11 @@
         console.log(e);
         if(this.come=='gs'){
           wx.navigateTo({
-          url:"yzpublish?form="+e+'share=1'
+          url:"yzpublish?form="+e+'&share=1'
         })
         }else{
           wx.navigateTo({
-          url:"publish?form="+e+'share=1'
+          url:"publish?form="+e+'&share=1'
         })
         }
         

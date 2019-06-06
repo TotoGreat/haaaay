@@ -69,7 +69,8 @@
         .p-box{
             .p-line{
                 display: flex;
-                height:180rpx;
+                min-height:180rpx;
+                padding-bottom: 10rpx;
                 border-bottom:1px solid #e6e6e6;
                 .p-left{
                     width: 100rpx;
@@ -219,6 +220,9 @@
                     margin-top: 50rpx;
                 }
             }
+            .option:nth-child(even){
+                border-right: none;
+            }
         }
     }
     .tabd{
@@ -341,19 +345,19 @@ margin-top:300rpx;
   </view>
   <view wx:if="{{notwo}}" class="tabb">
       <block wx:for="{{fblist}}" wx:if="{{fblist.length!=0}}">
-      <view  wx:key="index" wx:if="{{item.state!==2}}" class='fb-list' @tap="godetail({{item.publish_id}})">
+      <view  wx:key="index" wx:if="{{item.state!=3}}" class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
               <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
               <view class="fb-time">发布时间:<text>{{item.publish_time}}</text></view>
               <view class='fb-cz'>
-                  <view @tap.stop="goform({{item.type}})">编辑</view>
+                  <view @tap.stop="goedit({{item}})">编辑</view>
                   <view @tap.stop="resetPublish({{item.publish_id}})">重新上架</view>
               </view>
               <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>{{item.readCount}}</text></view>
           </view>
       </view>
-      <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
+      <view wx:if="{{item.state==3}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
               <view class='r-one'><text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text></view>
@@ -413,7 +417,7 @@ import wepy from 'wepy'
 import {auntList,myList,resetPublish} from '../api/api'
 export default class chooseuer extends wepy.page{
 config = {
-      navigationBarTitleText: '职位',
+      navigationBarTitleText: '职位信息',
       onReachBottomDistance: 50
     }
     data={
@@ -434,7 +438,7 @@ config = {
         {name:'溧水区',id:320117},
         {name:'高淳区',id:320118},
         ],
-        array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
+        array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','老人陪伴' ,'催乳师','病人陪护'],
         area:'',
         type:'',
         index1:0,
@@ -535,15 +539,9 @@ config = {
                 url:'provepage?sessionkey='+this.session_key
             })
             }else if(this.identification==2){
-                wx.showModal({
-          content: '您已完成认证信息',
-          showCancel: false,
-          success: function(res) {
-            if (res.confirm) {
-              
-            }
-          }
-        })
+                wx.navigateTo({
+                url:'provepage?sessionkey='+this.session_key+'&edit=false'
+            })
             }else{
                 wx.navigateTo({
                 url:'index?type=1'
@@ -551,20 +549,10 @@ config = {
             }
         },
         gocenter(){
-        if(this.identification==2){
+        if(this.identification==1||this.identification==2){
             wx.navigateTo({
-                url:'center/personcenter?case='+JSON.stringify(this.userinfo)
+                url:'center/personcenter?case='+JSON.stringify(this.userinfo)+'&type=1'
             })
-            }else if(this.identification==1){
-                wx.showModal({
-          content: '请完成资质认证',
-          showCancel: false,
-          success: function(res) {
-            if (res.confirm) {
-              
-            }
-          }
-        })
             }else{
                 wx.navigateTo({
                 url:'index?type=1'
@@ -602,7 +590,6 @@ config = {
             this.$apply()
             },
         goform(e){
-            console.log(e);
             if(this.identification==0){
                 wx.navigateTo({
               url:'index??type=1'
@@ -620,6 +607,28 @@ config = {
             }else{
             wx.navigateTo({
               url:`publish?form=${e}`
+            })
+            }
+        },
+        goedit(e){
+            console.log(e);
+            if(this.identification==0){
+                wx.navigateTo({
+              url:'index??type=1'
+            })
+            }else if(this.identification==1){
+                wx.showModal({
+          content: '请完成资质认证',
+          showCancel: false,
+          success: function(res) {
+            if (res.confirm) {
+              
+            }
+          }
+        })
+            }else{
+            wx.navigateTo({
+              url:`publish?form=${e.type}&sex=${e.sex}&uname=${e.name}&age=${e.age}&place=${e.place}&workYear=${e.workYear}&userPhone=${e.userPhone}&village=${e.village}&userWagesLow=${e.userWagesLow}&userWagesHigh=${e.userWagesHigh}&id=${e.publish_id}`
             })
             }
         }

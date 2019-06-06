@@ -79,7 +79,7 @@
 </template>
 <script>
 import wepy from 'wepy';
-import { proveImg,uploadimg,getarea} from '../api/api';
+import { proveImg,uploadimg,getarea,displayimg} from '../api/api';
 export default class provepage extends wepy.page {
   config = {
     navigationBarTitleText: '资质证明'
@@ -89,7 +89,8 @@ export default class provepage extends wepy.page {
     img2:'',
     village: '',
     sessionkey: '',
-    arealist:''
+    arealist:'',
+    edit:true
   };
   methods = {
     sub(){
@@ -112,6 +113,7 @@ export default class provepage extends wepy.page {
     },
     upload(exx){
       var that=this
+      if(this.edit){
       wx.showActionSheet({
           itemList:['拍照','上传图片'],
           success: function(res) {
@@ -192,10 +194,26 @@ export default class provepage extends wepy.page {
           }
         })
     }
+    }
   };
   onLoad(opt) {
-    console.log(opt);
+    if(opt.edit=='false'){
+      this.edit=false
+      this.$apply()
+    }
     this.sessionkey=opt.sessionkey;
+    displayimg({sessionkey:opt.sessionkey}).then(res=>{
+      console.log(res.data.data);
+      let imgarry=res.data.data
+      imgarry.forEach(element => {
+        if(element.type==3){
+          this.img1=element.image
+        }else if(element.type==4){
+          this.img2=element.image
+        }
+      });
+      this.$apply()
+    })
     this.$apply();
   }
 }

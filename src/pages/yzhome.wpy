@@ -77,6 +77,7 @@
             .p-vil{
               font-size: 26rpx;
               color: #666666;
+              padding-left:10rpx;
             }
             .p-wag{
               font-size: 30rpx;
@@ -233,6 +234,9 @@
           margin-top: 50rpx;
         }
       }
+      .option:nth-child(even){
+                border-right: none;
+            }
     }
   }
   .tabd{
@@ -280,6 +284,9 @@
           height: 110rpx;
         }
       }
+      .v-md:nth-child(even){
+                border-right: none;
+            }
     }
   }
   .v-share{
@@ -335,9 +342,9 @@
 
           <view class="p-right">
             <view class="p-info">
-              <image src="../img/a{{item.type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
-              <text class="p-type">{{item.typeName}}</text><text class="p-vil">{{item.name}}</text>
-              <text class='p-wag'>{{item.userWagesLow}}元/月</text>
+              <image src="../img/a{{item.type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle;margin-right:6rpx;"/>
+              <text class="p-type">{{item.typeName}} \t </text><text class="p-vil"> \t {{item.name}}</text>
+              <text class='p-wag'>  {{item.userWagesLow}}元/月</text>
             </view>
             <view class="p-time">{{item.sex}} | {{item.age}}岁 | {{item.place}} | {{item.workYear}}年经验</view>
             <view class="p-tag">
@@ -346,7 +353,7 @@
               </view></view>
           </view>
           <view style-="display:flex;margin-bottom:10rpx;">
-            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901">经验丰富技艺超群，热情好客</view>
+            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901">{{item.remarks}}</view>
             <view style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="call({{item.userPhone}})">拨打</view>
           </view>
         </view>
@@ -361,9 +368,9 @@
 
       <view class="p-top">
         <view class='p-all' bindtap="selected">全部</view>
-        <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
+        <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}" range-key="{{'name'}}">
           <view class="picker">
-            {{array1[index1]}}
+            {{array1[index1].name}}
             <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' />
           </view>
         </picker></view>
@@ -379,7 +386,7 @@
           <view class="fb-left"><image src="{{item.headimg?item.headimg:'https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTK1IeREheZ6BOJ2wllh5Au7XEISUtic1RLppWVZWQL5BsWzdvzSDDhUOWZJgHnlvLYibG1d6ataMGdA/132'}}" /></view>
           <view class="fb-right">
             <view class='r-one'>
-              <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
+              <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle;margin-right:6rpx;"/>
               <text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text>
             </view>
             <view class="fb-time">{{item.sex}} | {{item.age}}岁 | {{item.place}} | {{item.workYear}}年经验</view>
@@ -389,7 +396,7 @@
             <view class="v-watch">{{item.userWagesLow}}元/月</view>
           </view>
           <view style-="display:flex;margin-bottom:10rpx">
-            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901;padding-left:20rpx;">经验丰富技艺超群，热情好客</view>
+            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901;padding-left:20rpx;">{{item.remarks}}</view>
             <view wx:if="{{item.status!=0}}" style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">关注</view>
             <view wx:if="{{item.status==0}}" style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">取消关注</view>
           </view>
@@ -469,8 +476,20 @@
       notwo:false,
       nothree:false,
       nofour:false,
-      array1:['南京','玄武区','秦淮区','鼓楼区','建邺区','栖霞区','雨花台区','浦口区','江宁区','六合区','溧水区','高淳区'],
-      array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
+      array1:[{name:'南京',id:''},
+        {name:'玄武区',id:320102},
+        {name:'秦淮区',id:320104},
+        {name:'建邺区',id:320105},
+        {name:'鼓楼区',id:320106},
+        {name:'浦口区',id:320111},
+        {name:'栖霞区',id:320113},
+        {name:'雨花台区',id:320114},
+        {name:'江宁区',id:320115},
+        {name:'六合区',id:320116},
+        {name:'溧水区',id:320117},
+        {name:'高淳区',id:320118},
+        ],
+      array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','老人陪伴' ,'催乳师','病人陪护'],
       area:'',
       type:'',
       index1:0,
@@ -535,9 +554,16 @@
         this.$apply()
       },
       gofx(){
+        if(this.identification==0){
+               wx.navigateTo({
+                   url:'index?type=2'
+               })
+               return false
+            }else{
         wx.navigateTo({
             url:'fxfb?come=yz'
             })
+            }
         },
       call(e){
         wx.makePhoneCall({
@@ -552,7 +578,7 @@
                    url:'index?type=2'
                })
                return false
-            }else if(this.identification==2){
+            }else{
         // if(this.identification==2){
         //   if(this.noone==true){
         //     wx.navigateTo({
@@ -580,7 +606,7 @@
                    url:'index?type=2'
                })
                return false
-            }else if(this.identification==2){
+            }else{
         let fow = await that.follow(e)
         console.log(fow)
         if(fow.data.code="10001"){
@@ -599,7 +625,7 @@
                    url:'index?type=2'
                })
                return false
-            }else if(this.identification==2){
+            }else{
         wx.navigateTo({
           url:'myfollow?sess='+this.session_key
         })}
@@ -610,9 +636,9 @@
                    url:'index?type=2'
                })
                return false
-            }else if(this.identification==2){
+            }else{
         wx.navigateTo({
-          url:'center/personcenter?case='+JSON.stringify(this.userinfo)
+          url:'center/personcenter?case='+JSON.stringify(this.userinfo)+'&type=2'
         })}
       },
       goMypub() {
@@ -621,7 +647,7 @@
                    url:'index?type=2'
                })
                return false
-            }else if(this.identification==2){
+            }else{
         wx.navigateTo({
           url:'mypub?sessionkey='+this.session_key
         })}
@@ -632,7 +658,7 @@
                    url:'index?type=2'
                })
                return false
-            }else if(this.identification==2){
+            }else{
                wx.navigateTo({
                url:'yzfxxq?sessionkey='+this.session_key+'&id='+e
             })
@@ -659,7 +685,7 @@
         if(e.detail.value==0){
           this.area=''
         }else{
-          this.area=this.array1[e.detail.value]
+          this.area=this.array1[e.detail.value].id
         }
         this.index1=e.detail.value
         this.fblist= await this.ownerList(),
@@ -674,10 +700,16 @@
           this.$apply()
       },
       goform(e){
-        console.log(e);
+        if(this.identification==0){
+               wx.navigateTo({
+                   url:'index?type=2'
+               })
+               return false
+            }else{
         wx.navigateTo({
           url:"yzpublish?form="+e
         })
+        }
       }
     }
 

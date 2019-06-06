@@ -128,7 +128,7 @@ import wepy from 'wepy'
 import {auntdetails} from '../api/api'
 export default class zwpage extends wepy.page{
 config = {
-      navigationBarTitleText: '职位'
+      navigationBarTitleText: '需求详情'
     }
     data={
        info:'',

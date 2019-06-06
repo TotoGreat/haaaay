@@ -405,3 +405,39 @@ export function houseDetail(data){
   }
   return request(req)
 }
+//公司 业主列表
+export function yzList(data){
+  let req={
+    url:G.apiUrl+'/house/ownerList',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//公司 业主列表
+export function displayimg(data){
+  let req={
+    url:G.apiUrl+'/house/displayImage',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}
+//公司 我的招聘发布详情
+export function mineHouseDetail(data){
+  let req={
+    url:G.apiUrl+'/house/mineHouseDetail',
+    method:'POST',
+    header:{
+      'content-type':'application/x-www-form-urlencoded;charset=UTF-8'
+    },
+    data:data
+  }
+  return request(req)
+}

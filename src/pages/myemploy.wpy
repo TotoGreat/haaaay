@@ -99,9 +99,9 @@
 <template>
     <view class="p-top">
         <view class='p-all' bindtap="selected">全部</view>
-        <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}">
+        <view><picker bindchange="changeqy" value="{{index1}}" range="{{array1}}" range-key="{{'name'}}">
           <view class="picker">
-            {{array1[index1]}}
+            {{array1[index1].name}}
             <image src='../img/sjx.png'  mode="widthFix"  wx:if='{{!nofour}}' />
           </view>
         </picker></view>
@@ -117,7 +117,7 @@
           <view class="fb-left"><image src="{{item.headimg}}" /></view>
           <view class="fb-right">
             <view class='r-one'>
-              <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
+              <image src="/img/a5.png" style="width:50rpx;height:50rpx;vertical-align: middle;margin-right:6rpx;;margin-right:6rpx;"/>
               <text class="fb-type">{{item.typeName}}</text><text>{{item.name}}</text>
             </view>
             <view class="fb-time">{{item.sex}} | {{item.age}}岁 | {{item.place}} | {{item.workYear}}年经验</view>
@@ -127,13 +127,13 @@
             <view class="v-watch">{{item.userWagesLow}}元/月</view>
           </view>
           <view style="display:flex;margin-bottom:10rpx">
-            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901;padding-left:20rpx;">经验丰富技艺超群，热情好客</view>
+            <view style="height:68rpx;width:512rpx;font-size:26rpx;line-height: 68rpx;background: #FDF4E7;color:#FE9901;padding-left:20rpx;">{{item.remarks}}</view>
             <view wx:if="{{item.state==0}}" style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx" @tap.stop="follows({{item.publish_id}})">发布  {{item.status}}</view>
             <view wx:if="{{item.state!=0}}" style="width:140rpx;margin-left:30rpx;height:60rpx;font-size:28rpx;text-align:center;line-height:60rpx;border:2rpx solid #FE9901;color:#FE9901;border-radius: 12rpx">已发布</view>
           </view>
         </view>
       </block>
-      <view class='nothing' wx:if="{{fblist.length==0}}">
+      <view class='nothing' wx:if="{{fblist==''}}">
               <image src="../img/nothing.png" />
 <view style="text-align:center">暂无相关数据</view>
           </view>
@@ -152,8 +152,20 @@
       notwo:false,
       nothree:false,
       nofour:false,
-      array1:['南京','玄武区','秦淮区','鼓楼区','建邺区','栖霞区','雨花台区','浦口区','江宁区','六合区','溧水区','高淳区'],
-      array2:['全部','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','.老人陪伴' ,'催乳师','病人陪护'],
+      array1:[{name:'南京',id:''},
+        {name:'玄武区',id:320102},
+        {name:'秦淮区',id:320104},
+        {name:'建邺区',id:320105},
+        {name:'鼓楼区',id:320106},
+        {name:'浦口区',id:320111},
+        {name:'栖霞区',id:320113},
+        {name:'雨花台区',id:320114},
+        {name:'江宁区',id:320115},
+        {name:'六合区',id:320116},
+        {name:'溧水区',id:320117},
+        {name:'高淳区',id:320118},
+        ],
+      array2:['类型','钟点工' ,'单次保洁','月嫂' ,'育婴师','住家保姆','老人陪伴' ,'催乳师','病人陪护'],
       area:'',
       type:'',
       index1:0,
@@ -163,7 +175,7 @@
       identification:'',
       page1:1,
       page2:1,
-      fblist:'',
+      fblist:[],
       zwlist:"",
       share:0,
       userinfo:'',
@@ -206,7 +218,7 @@
         //   })
         // }
         wx.navigateTo({
-          url:'ayydetails?sessionkey='+this.session_key+'&id='+e
+          url:'gsaydetails?sessionkey='+this.session_key+'&id='+e
         })
       },
       async follows(e){
@@ -226,11 +238,6 @@
         console.log('is公司');
         wx.navigateTo({
           url:'myfollow?sess='+this.session_key
-        })
-      },
-      gocenter(){
-        wx.navigateTo({
-          url:'center/personcenter?case='+JSON.stringify(this.userinfo)
         })
       },
       goMypub() {
@@ -263,7 +270,7 @@
         if(e.detail.value==0){
           this.area=''
         }else{
-          this.area=this.array1[e.detail.value]
+          this.area=this.array1[e.detail.value].id
         }
         this.index1=e.detail.value
         this.fblist= await this.employlist(),

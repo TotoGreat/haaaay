@@ -95,7 +95,7 @@
         <view class="fb-left"><image src="{{info.headimg}}" /></view>
           <view class="p-right">
             <view class="p-info">
-              <image src="../img/a{{type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
+              <image src="../img/a{{type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle;margin-right:6rpx;"/>
               <text class="p-type">{{info.typeName}}</text><text class="p-vil">{{info.name}}</text>
               <text class='p-wag'>{{info.userWagesHigh}}元/月</text>
             </view>
@@ -113,7 +113,7 @@
         <view class="v-det"><text>{{serviceContent}}</text></view>
     </view>
 
-    <button @tap="makecall({{company_telephone}})"><image src="../img/call.png" />拨打</button>
+    <button @tap="makecall({{info.userPhone}})"><image src="../img/call.png" />拨打</button>
 </block>
 </template>
 <script>
@@ -121,7 +121,7 @@ import wepy from 'wepy'
 import {houseDetail} from '../api/api'
 export default class gsaydetails extends wepy.page{
 config = {
-      navigationBarTitleText: '职位'
+      navigationBarTitleText: '阿姨详情'
     }
     data={
        info:'',

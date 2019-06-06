@@ -183,7 +183,7 @@ left:30rpx;
         <view class="p-line">
           <view class="p-right">
             <view class="p-info">
-              <image src="../img/a{{type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle"/>
+              <image src="../img/a{{type}}.png" style="width:50rpx;height:50rpx;vertical-align: middle;margin-right:6rpx;"/>
               <text class="p-type">{{info.typeName}}</text><text class="p-vil">{{info.name}}</text>
               <text class='p-wag'>{{info.userWagesHigh}}元/月</text>
             </view>
@@ -271,9 +271,7 @@ config = {
       goform(e){
             console.log(e);
         wx.navigateTo({
-          url:`publish?form=${e.type}&sex=${e.sex}&uname=${e.name}&age=${e.age}
-          &place=${e.place}&workYear=${e.workYear}&userPhone=${e.userPhone}&village=${e.village}
-          &userWagesLow=${e.userWagesLow}&userWagesHigh=${e.userWagesHigh}`
+          url:`yzpublish?form=${e.type}&sex=${e.sex}&uname=${e.name}&age=${e.age}&place=${e.place}&workYear=${e.workYear}&userPhone=${e.userPhone}&village=${e.village}&userWagesLow=${e.userWagesLow}&userWagesHigh=${e.userWagesHigh}&id=${e.publish_id}`
         })
         }
     }

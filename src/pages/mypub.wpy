@@ -268,8 +268,8 @@ margin-top:300rpx;
 <template>
   <view>
     <view class="tabb">
-      <block wx:if="{{zwlist.length!=0}}">
-        <view  wx:key="index" wx:for="{{zwlist}}"  class='fb-list' @tap="godetail({{item.publish_id}})">
+      <block  wx:for="{{zwlist}}" >
+        <view  wx:key="index" wx:if="{{item.state!=3}}" class='fb-list' @tap="godetail({{item.publish_id}})">
           <view class="fb-right">
             <view class='r-one'>
               <image src="/img/a{{item.type}}.png" style="width:50rpx;height:50rpx"/>
@@ -282,7 +282,7 @@ margin-top:300rpx;
             <view class="v-watch"><image src="../img/watch.png" mode="widthFix"/><text>12</text></view>
           </view>
         </view>
-        <view wx:if="{{item.state==2}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
+        <view wx:if="{{item.state==3}}" wx:key="index" class='fb-list' style="filter: grayscale(100%);">
           <view class="fb-right">
             <view class='r-one'>
               <image src="/img/a{{item.type}}.png" style="width:50rpx;height:50rpx"/>
@@ -338,9 +338,7 @@ margin-top:300rpx;
       goform(e){
         console.log(e);
         wx.navigateTo({
-          url:`publish?form=${e.type}&sex=${e.sex}&uname=${e.name}&age=${e.age}
-          &place=${e.place}&workYear=${e.workYear}&userPhone=${e.userPhone}&village=${e.village}
-          &userWagesLow=${e.userWagesLow}&userWagesHigh=${e.userWagesHigh}`
+          url:`yzpublish?form=${e.type}&sex=${e.sex}&uname=${e.name}&age=${e.age}&place=${e.place}&workYear=${e.workYear}&userPhone=${e.userPhone}&village=${e.village}&villageid=${e.village_id}&userWagesLow=${e.userWagesLow}&userWagesHigh=${e.userWagesHigh}&id=${e.publish_id}`
         })
       }
     }

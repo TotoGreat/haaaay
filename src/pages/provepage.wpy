@@ -54,7 +54,7 @@
         <view class="v-tit">上传身份证</view>
         <view class="v-line">
             <view @tap="upload(1)">
-                <image src="{{img1?img1:'../img/card-a.png'}}"  />
+                <image src="{{img1?img1:'../img/card-a.png'}}" />
                 <view class="vv" wx:if="{{!img1}}">
                     <view class="va">+</view>
                     <view class="vb">身份证正面</view>
@@ -103,7 +103,7 @@
 </template>
 <script>
 import wepy from 'wepy';
-import { proveImg,uploadimg,getarea} from '../api/api';
+import { proveImg,uploadimg,getarea,displayimg} from '../api/api';
 export default class provepage extends wepy.page {
   config = {
     navigationBarTitleText: '资质证明'
@@ -114,6 +114,8 @@ export default class provepage extends wepy.page {
     img4:'',
     img5:'',
     img6:'',
+    edit:true,
+    imgarry:'',
     village: '',
     sessionkey: '',
     arealist:''
@@ -139,6 +141,7 @@ export default class provepage extends wepy.page {
     },
     upload(exx){
       var that=this
+      if(this.edit){
       wx.showActionSheet({
           itemList:['拍照','上传图片'],
           success: function(res) {
@@ -238,10 +241,33 @@ export default class provepage extends wepy.page {
           }
         })
     }
+    }
   };
   onLoad(opt) {
-    console.log(opt);
+    // console.log(opt);
+    if(opt.edit=='false'){
+      this.edit=false
+      this.$apply()
+    }
     this.sessionkey=opt.sessionkey;
+    displayimg({sessionkey:opt.sessionkey}).then(res=>{
+      console.log(res.data.data);
+      let imgarry=res.data.data
+      imgarry.forEach(element => {
+        if(element.type==1){
+          this.img1=element.image
+        }else if(element.type==2){
+          this.img2=element.image
+        }else if(element.type==4){
+          this.img4=element.image
+        }else if(element.type==5){
+          this.img5=element.image
+        }else if(element.type==6){
+          this.img6=element.image
+        }
+      });
+      this.$apply()
+    })
     this.$apply();
   }
 }
